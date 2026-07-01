@@ -1,0 +1,88 @@
+export const DEFAULT_QUIZ_QUESTIONS = [
+  {
+    id: 1,
+    question: 'Qual atitude ajuda a economizar energia em casa?',
+    options: [
+      'Deixar lâmpadas acesas o dia todo',
+      'Apagar as luzes ao sair do cômodo',
+      'Deixar a TV ligada sem assistir',
+      'Deixar o carregador sempre na tomada',
+    ],
+    correctIndex: 1,
+    explanation: 'Apagar as luzes ao sair do cômodo evita desperdício de energia.',
+  },
+  {
+    id: 2,
+    question: 'Qual eletrodoméstico costuma pesar mais na conta de luz?',
+    options: ['Carregador de celular', 'Lâmpada LED', 'Chuveiro elétrico', 'Controle remoto'],
+    correctIndex: 2,
+    explanation: 'O chuveiro elétrico usa muita potência, mesmo em banhos curtos.',
+  },
+  {
+    id: 3,
+    question: 'Qual é uma forma segura de lidar com energia elétrica?',
+    options: [
+      'Mexer em fios desencapados',
+      'Sobrecarregar tomadas com vários aparelhos',
+      'Manter instalações revisadas por profissionais',
+      'Usar equipamentos danificados',
+    ],
+    correctIndex: 2,
+    explanation: 'Instalações revisadas por profissionais evitam acidentes e desperdícios.',
+  },
+  {
+    id: 4,
+    question: 'Lâmpadas de LED, comparadas às incandescentes, são:',
+    options: ['Mais econômicas', 'Mais caras para usar', 'Iguais em consumo', 'Não fazem diferença'],
+    correctIndex: 0,
+    explanation: 'As lâmpadas de LED consomem bem menos energia para gerar a mesma luz.',
+  },
+  {
+    id: 5,
+    question: 'O que fazer com aparelhos que ficam em stand-by?',
+    options: [
+      'Deixar sempre ligados na tomada',
+      'Desligar da tomada quando não estiver usando',
+      'Aumentar o volume',
+      'Deixar carregando a noite toda mesmo cheios',
+    ],
+    correctIndex: 1,
+    explanation: 'Desligar da tomada evita o consumo invisível do modo stand-by.',
+  },
+  {
+    id: 6,
+    question: 'Qual atitude ajuda a economizar energia no banho?',
+    options: [
+      'Banhos bem demorados',
+      'Banhos mais curtos',
+      'Deixar a água correndo sempre',
+      'Usar o chuveiro na potência máxima sempre',
+    ],
+    correctIndex: 1,
+    explanation: 'Banhos mais curtos reduzem bastante o consumo do chuveiro elétrico.',
+  },
+  {
+    id: 7,
+    question: 'Como usar o ar-condicionado de forma mais eficiente?',
+    options: [
+      'Com portas e janelas abertas',
+      'Na temperatura mais baixa possível sempre',
+      'Com o ambiente fechado e bem vedado',
+      'Ligado o dia inteiro, mesmo sem ninguém no cômodo',
+    ],
+    correctIndex: 2,
+    explanation: 'Manter o ambiente fechado ajuda o aparelho a resfriar com mais eficiência.',
+  },
+  {
+    id: 8,
+    question: 'Qual prática ajuda a economizar com iluminação?',
+    options: [
+      'Aproveitar a luz natural durante o dia',
+      'Manter as cortinas sempre fechadas',
+      'Usar lâmpadas incandescentes antigas',
+      'Deixar todas as luzes da casa acesas',
+    ],
+    correctIndex: 0,
+    explanation: 'Aproveitar a luz do dia reduz o uso de energia elétrica.',
+  },
+];

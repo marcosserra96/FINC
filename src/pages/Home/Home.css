@@ -1,0 +1,95 @@
+.home-screen {
+  background: var(--gradient-main);
+  color: var(--color-white);
+  align-items: center;
+  justify-content: center;
+  padding: clamp(24px, 4vh, 56px) clamp(24px, 5vw, 80px);
+  gap: clamp(16px, 3vh, 40px);
+  position: relative;
+  overflow: hidden;
+}
+
+.home-screen::before,
+.home-screen::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  pointer-events: none;
+}
+
+.home-screen::before {
+  width: 60vw;
+  height: 60vw;
+  top: -30vw;
+  right: -20vw;
+}
+
+.home-screen::after {
+  width: 40vw;
+  height: 40vw;
+  bottom: -20vw;
+  left: -10vw;
+  background: rgba(243, 112, 33, 0.12);
+}
+
+.home-screen__top {
+  background: var(--color-white);
+  padding: 14px 26px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  z-index: 1;
+}
+
+.home-screen__hero {
+  text-align: center;
+  max-width: 900px;
+  z-index: 1;
+}
+
+.home-screen__title {
+  font-size: clamp(1.8rem, 4vw, 3.4rem);
+  font-weight: 800;
+  margin: 0 0 12px;
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+.home-screen__subtitle {
+  font-size: clamp(1rem, 1.8vw, 1.4rem);
+  margin: 0;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.home-screen__activities {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: clamp(16px, 2vw, 28px);
+  width: min(1100px, 100%);
+  z-index: 1;
+}
+
+.home-screen__activity-button {
+  min-height: 120px;
+  flex-direction: column;
+  font-size: clamp(1rem, 1.4vw, 1.3rem);
+}
+
+.home-screen__activity-button .big-button__icon {
+  font-size: 2.2em;
+}
+
+.home-screen__footer {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+  z-index: 1;
+}
+
+@media (max-height: 560px) {
+  .home-screen__activities {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .home-screen__activity-button {
+    min-height: 96px;
+  }
+}

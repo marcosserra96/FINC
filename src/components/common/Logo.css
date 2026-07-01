@@ -1,0 +1,24 @@
+.logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.logo img {
+  height: 100%;
+  width: auto;
+  object-fit: contain;
+}
+
+.logo--lg {
+  height: 78px;
+}
+
+.logo--md {
+  height: 54px;
+}
+
+.logo--sm {
+  height: 40px;
+}

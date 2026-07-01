@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 90">
+  <rect width="320" height="90" rx="16" fill="none"/>
+  <path d="M46 10 L18 46 H34 L30 80 L62 38 H46 Z" fill="#F37021"/>
+  <text x="78" y="45" font-family="'Segoe UI', Arial, sans-serif" font-size="30" font-weight="700" fill="#005061">energisa</text>
+  <text x="78" y="66" font-family="'Segoe UI', Arial, sans-serif" font-size="13" font-weight="500" fill="#009FC2" letter-spacing="2">GRUPO</text>
+</svg>

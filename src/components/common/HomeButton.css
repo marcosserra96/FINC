@@ -1,0 +1,28 @@
+.home-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 40;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  min-height: 52px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--energisa-blue-dark);
+  font-weight: 600;
+  font-size: 0.95rem;
+  box-shadow: var(--shadow-card);
+  backdrop-filter: blur(6px);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.home-button:active {
+  transform: scale(0.94);
+}
+
+.home-button__icon {
+  font-size: 1.2em;
+}

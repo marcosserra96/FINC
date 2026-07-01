@@ -1,0 +1,121 @@
+.appliance-screen {
+  align-items: center;
+  justify-content: center;
+}
+
+.appliance-screen__body {
+  width: min(900px, 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  text-align: center;
+}
+
+.appliance-screen__title {
+  margin: 0;
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  color: var(--energisa-blue-dark);
+}
+
+.appliance-screen__subtitle {
+  margin: 0;
+  color: var(--color-gray-600);
+  font-size: 1.05rem;
+}
+
+.appliance-screen__note {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--color-gray-400);
+}
+
+.appliance-duel {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  width: 100%;
+  justify-content: center;
+}
+
+.appliance-card {
+  flex: 1;
+  max-width: 320px;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  border-radius: var(--radius-lg);
+  border: none;
+  background: var(--color-white);
+  box-shadow: var(--shadow-soft);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-text);
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.12s ease;
+}
+
+.appliance-card:active {
+  transform: scale(0.96);
+}
+
+.appliance-card__icon {
+  font-size: 4rem;
+}
+
+.appliance-duel__vs {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--energisa-orange);
+}
+
+.appliance-ranking {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.appliance-ranking__row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--color-white);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  padding: 14px 20px;
+}
+
+.appliance-ranking__position {
+  font-weight: 800;
+  color: var(--energisa-blue);
+  width: 34px;
+}
+
+.appliance-ranking__icon {
+  font-size: 1.6rem;
+}
+
+.appliance-ranking__name {
+  flex: 1;
+  text-align: left;
+  font-weight: 600;
+}
+
+.appliance-ranking__value {
+  font-weight: 700;
+  color: var(--energisa-blue-dark);
+}
+
+@media (max-width: 640px) {
+  .appliance-duel {
+    flex-direction: column;
+  }
+  .appliance-card {
+    max-width: 100%;
+    width: 100%;
+  }
+}

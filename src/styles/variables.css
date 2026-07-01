@@ -1,0 +1,31 @@
+:root {
+  --energisa-blue: #009fc2;
+  --energisa-blue-light: #3fc1e0;
+  --energisa-blue-dark: #005061;
+  --energisa-orange: #f37021;
+  --energisa-orange-dark: #d85c11;
+
+  --color-white: #ffffff;
+  --color-gray-100: #f5f8f9;
+  --color-gray-200: #e6edef;
+  --color-gray-400: #b9c8cb;
+  --color-gray-600: #6f8286;
+  --color-text: #0b2b32;
+
+  --color-success: #2fa66a;
+  --color-error: #e0453c;
+
+  --gradient-main: linear-gradient(135deg, var(--energisa-blue-dark) 0%, var(--energisa-blue) 100%);
+  --gradient-orange: linear-gradient(135deg, var(--energisa-orange) 0%, var(--energisa-orange-dark) 100%);
+
+  --radius-lg: 28px;
+  --radius-md: 20px;
+  --radius-sm: 12px;
+
+  --shadow-soft: 0 14px 34px rgba(0, 80, 97, 0.22);
+  --shadow-card: 0 8px 20px rgba(0, 80, 97, 0.12);
+
+  --font-main: -apple-system, 'Segoe UI', Roboto, system-ui, sans-serif;
+
+  --touch-target-min: 88px;
+}

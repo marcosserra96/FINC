@@ -1,0 +1,4 @@
+.screen-shell {
+  background: var(--color-gray-100);
+  padding: 28px clamp(24px, 4vw, 64px);
+}

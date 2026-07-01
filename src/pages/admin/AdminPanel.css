@@ -1,0 +1,74 @@
+.admin-panel {
+  height: 100vh;
+  width: 100vw;
+  overflow-y: auto;
+  background: var(--color-gray-100);
+  padding: 24px clamp(20px, 4vw, 56px) 60px;
+}
+
+.admin-panel,
+.admin-panel * {
+  user-select: text;
+}
+
+.admin-panel__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.admin-panel__title {
+  margin: 0;
+  color: var(--energisa-blue-dark);
+  font-size: 1.6rem;
+}
+
+.admin-panel__subtitle {
+  margin: 4px 0 0;
+  color: var(--color-gray-600);
+  font-size: 0.9rem;
+}
+
+.admin-panel__exit {
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 12px 22px;
+  background: var(--color-white);
+  color: var(--energisa-blue-dark);
+  font-weight: 700;
+  box-shadow: var(--shadow-card);
+  min-height: 52px;
+}
+
+.admin-panel__tabs {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.admin-panel__tab {
+  border: none;
+  border-radius: 999px;
+  padding: 10px 20px;
+  min-height: 48px;
+  background: var(--color-white);
+  color: var(--color-gray-600);
+  font-weight: 700;
+  box-shadow: var(--shadow-card);
+}
+
+.admin-panel__tab--active {
+  background: var(--gradient-main);
+  color: var(--color-white);
+}
+
+.admin-panel__content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 760px;
+}

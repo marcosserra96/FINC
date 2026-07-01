@@ -1,0 +1,77 @@
+.feedback-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(11, 43, 50, 0.55);
+  backdrop-filter: blur(3px);
+  animation: overlay-fade 0.15s ease;
+}
+
+@keyframes overlay-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.feedback-card {
+  width: min(560px, 88vw);
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  padding: 40px clamp(24px, 4vw, 48px);
+  text-align: center;
+  box-shadow: var(--shadow-soft);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  border-top: 8px solid var(--energisa-blue);
+  animation: card-pop 0.22s ease;
+}
+
+@keyframes card-pop {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.feedback-card--correct,
+.feedback-card--success {
+  border-top-color: var(--color-success);
+}
+
+.feedback-card--wrong {
+  border-top-color: var(--color-error);
+}
+
+.feedback-card--info {
+  border-top-color: var(--energisa-orange);
+}
+
+.feedback-card__icon {
+  font-size: 3.4rem;
+  line-height: 1;
+}
+
+.feedback-card__title {
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--energisa-blue-dark);
+}
+
+.feedback-card__message {
+  margin: 0;
+  font-size: 1.1rem;
+  color: var(--color-gray-600);
+  line-height: 1.5;
+}

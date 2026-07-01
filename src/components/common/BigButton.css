@@ -1,0 +1,71 @@
+.big-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  min-height: var(--touch-target-min);
+  padding: 18px 32px;
+  border: none;
+  border-radius: var(--radius-lg);
+  font-size: clamp(1.1rem, 1.6vw, 1.5rem);
+  font-weight: 600;
+  color: var(--color-white);
+  background: var(--gradient-main);
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.big-button:active {
+  transform: scale(0.96);
+  box-shadow: 0 6px 16px rgba(0, 80, 97, 0.22);
+}
+
+.big-button--full {
+  width: 100%;
+}
+
+.big-button__icon {
+  font-size: 1.6em;
+  line-height: 1;
+}
+
+.big-button__label {
+  line-height: 1.2;
+}
+
+.big-button--primary {
+  background: var(--gradient-main);
+}
+
+.big-button--secondary {
+  background: var(--color-white);
+  color: var(--energisa-blue-dark);
+  border: 2px solid var(--color-gray-200);
+  box-shadow: var(--shadow-card);
+}
+
+.big-button--orange {
+  background: var(--gradient-orange);
+}
+
+.big-button--success {
+  background: linear-gradient(135deg, #34b878, var(--color-success));
+}
+
+.big-button--danger {
+  background: linear-gradient(135deg, #ef665d, var(--color-error));
+}
+
+.big-button--ghost {
+  background: transparent;
+  color: var(--energisa-blue-dark);
+  box-shadow: none;
+  border: 2px solid rgba(0, 80, 97, 0.25);
+}
+
+.big-button--disabled {
+  opacity: 0.55;
+  filter: grayscale(0.2);
+  pointer-events: none;
+}

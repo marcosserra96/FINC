@@ -1,0 +1,28 @@
+.numeric-keypad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  width: min(360px, 80vw);
+}
+
+.numeric-keypad__key {
+  min-height: 76px;
+  border: none;
+  border-radius: var(--radius-md);
+  background: var(--color-white);
+  color: var(--energisa-blue-dark);
+  font-size: 1.6rem;
+  font-weight: 700;
+  box-shadow: var(--shadow-card);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.numeric-keypad__key:active {
+  transform: scale(0.94);
+  background: var(--color-gray-200);
+}
+
+.numeric-keypad__key--action {
+  font-size: 1rem;
+  color: var(--color-gray-600);
+}
