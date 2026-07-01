@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import ScreenShell from '../../../components/common/ScreenShell'
 import FeedbackOverlay from '../../../components/common/FeedbackOverlay'
+import Confetti from '../../../components/common/Confetti'
 import { ROOMS } from '../../../data/houseWasteData'
 import './EfficientHouse.css'
 
@@ -133,6 +134,7 @@ export default function EfficientHouse() {
           onContinue={handleRestart}
         />
       )}
+      {allFound && <Confetti />}
     </ScreenShell>
   )
 }

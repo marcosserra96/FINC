@@ -26,8 +26,21 @@
 }
 
 .big-button__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   font-size: 1.6em;
   line-height: 1;
+  width: 1.7em;
+  height: 1.7em;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.22);
+  flex-shrink: 0;
+}
+
+.big-button--secondary .big-button__icon,
+.big-button--ghost .big-button__icon {
+  background: var(--color-gray-100);
 }
 
 .big-button__label {

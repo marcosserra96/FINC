@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import BigButton from '../../../components/common/BigButton'
+import Confetti from '../../../components/common/Confetti'
 import './QuizGame.css'
 
 function getResultMessage(ratio) {
@@ -23,6 +24,7 @@ export default function QuizResult({ score, total, rankingEnabled, onSubmitScore
 
   return (
     <div className="quiz-result">
+      {ratio >= 0.7 && <Confetti />}
       <div className="quiz-result__score">
         {score} / {total}
       </div>

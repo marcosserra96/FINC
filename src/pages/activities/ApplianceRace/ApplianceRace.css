@@ -63,7 +63,14 @@
 }
 
 .appliance-card__icon {
-  font-size: 4rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 6.4rem;
+  height: 6.4rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-gray-100), var(--color-gray-200));
+  font-size: 3.2rem;
 }
 
 .appliance-duel__vs {

@@ -125,13 +125,37 @@
 }
 
 .house-item__icon {
-  font-size: 2.6rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 4.2rem;
+  height: 4.2rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-gray-100), var(--color-gray-200));
+  font-size: 2.2rem;
 }
 
 .house-item--found {
   border-color: var(--color-success);
   background: rgba(47, 166, 106, 0.08);
   opacity: 0.75;
+  animation: found-pop 0.35s ease;
+}
+
+.house-item--found .house-item__icon {
+  background: rgba(47, 166, 106, 0.15);
+}
+
+@keyframes found-pop {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .house-item__check {

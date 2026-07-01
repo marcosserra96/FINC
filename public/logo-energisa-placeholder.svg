@@ -1,6 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 90">
-  <rect width="320" height="90" rx="16" fill="none"/>
-  <path d="M46 10 L18 46 H34 L30 80 L62 38 H46 Z" fill="#F37021"/>
-  <text x="78" y="45" font-family="'Segoe UI', Arial, sans-serif" font-size="30" font-weight="700" fill="#005061">energisa</text>
-  <text x="78" y="66" font-family="'Segoe UI', Arial, sans-serif" font-size="13" font-weight="500" fill="#009FC2" letter-spacing="2">GRUPO</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 100">
+  <defs>
+    <linearGradient id="boltGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F37021"/>
+      <stop offset="100%" stop-color="#D85C11"/>
+    </linearGradient>
+  </defs>
+  <rect width="340" height="100" rx="18" fill="none"/>
+  <circle cx="42" cy="50" r="34" fill="#E6F6FA"/>
+  <path d="M50 16 L22 52 H38 L34 84 L66 42 H50 Z" fill="url(#boltGradient)"/>
+  <text x="90" y="52" font-family="'Nunito', 'Segoe UI', Arial, sans-serif" font-size="34" font-weight="800" fill="#005061">energisa</text>
+  <text x="91" y="74" font-family="'Nunito', 'Segoe UI', Arial, sans-serif" font-size="14" font-weight="700" fill="#009FC2" letter-spacing="3">GRUPO</text>
 </svg>

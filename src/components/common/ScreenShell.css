@@ -1,4 +1,18 @@
 .screen-shell {
-  background: var(--color-gray-100);
+  background-color: var(--color-gray-100);
+  background-image: var(--bg-pattern-dark);
+  background-size: 120px 120px;
   padding: 28px clamp(24px, 4vw, 64px);
+  animation: screen-enter 0.28s ease;
+}
+
+@keyframes screen-enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
