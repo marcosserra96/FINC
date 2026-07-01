@@ -99,10 +99,18 @@ export default function ApplianceRace() {
           <div className="appliance-ranking">
             {ranking.map((item, idx) => (
               <div key={item.id} className="appliance-ranking__row">
-                <span className="appliance-ranking__position">{idx + 1}º</span>
-                <span className="appliance-ranking__icon">{item.icon}</span>
-                <span className="appliance-ranking__name">{item.name}</span>
-                <span className="appliance-ranking__value">{item.kwhMonth} kWh/mês</span>
+                <div className="appliance-ranking__top">
+                  <span className="appliance-ranking__position">{idx + 1}º</span>
+                  <span className="appliance-ranking__icon">{item.icon}</span>
+                  <span className="appliance-ranking__name">{item.name}</span>
+                  <span className="appliance-ranking__value">{item.kwhMonth} kWh/mês</span>
+                </div>
+                <div className="appliance-ranking__track">
+                  <div
+                    className="appliance-ranking__fill"
+                    style={{ width: `${(item.kwhMonth / ranking[0].kwhMonth) * 100}%` }}
+                  />
+                </div>
               </div>
             ))}
           </div>

@@ -1,0 +1,132 @@
+export const HOUSE_ROOMS = [
+  {
+    id: 'sala',
+    name: 'Sala',
+    icon: '🛋️',
+    wallColor: '#dff1f5',
+    floorColor: '#c9e6ec',
+    decorations: [
+      { id: 'sofa', icon: '🛋️', x: 18, y: 74, size: 3.2 },
+      { id: 'janela', icon: '🪟', x: 80, y: 30, size: 2.6 },
+      { id: 'planta', icon: '🪴', x: 92, y: 72, size: 2.4 },
+    ],
+    hotspots: [
+      {
+        id: 'tv-standby',
+        icon: '📺',
+        x: 45,
+        y: 46,
+        tip: 'TV ligada na tomada sem uso continua gastando energia em stand-by. Desligue no interruptor quando não estiver usando.',
+      },
+      {
+        id: 'luz-dia',
+        icon: '💡',
+        x: 12,
+        y: 18,
+        tip: 'Luz acesa durante o dia com sol entrando é desperdício. Aproveite a luz natural!',
+      },
+      {
+        id: 'carregador',
+        icon: '🔌',
+        x: 62,
+        y: 70,
+        tip: 'Carregadores ligados sem o aparelho continuam consumindo energia. Desligue-os da tomada.',
+      },
+    ],
+  },
+  {
+    id: 'cozinha',
+    name: 'Cozinha',
+    icon: '🍳',
+    wallColor: '#fdeee0',
+    floorColor: '#f6dcc4',
+    decorations: [
+      { id: 'panela', icon: '🍲', x: 55, y: 68, size: 2.6 },
+      { id: 'janela', icon: '🪟', x: 85, y: 25, size: 2.6 },
+    ],
+    hotspots: [
+      {
+        id: 'geladeira-aberta',
+        icon: '🧊',
+        x: 16,
+        y: 50,
+        tip: 'Geladeira aberta por muito tempo aumenta o consumo. Feche assim que pegar o que precisa.',
+      },
+      {
+        id: 'luz-cozinha',
+        icon: '💡',
+        x: 50,
+        y: 16,
+        tip: 'Cômodo vazio com a luz acesa é desperdício de energia.',
+      },
+      {
+        id: 'exaustor',
+        icon: '🌬️',
+        x: 78,
+        y: 55,
+        tip: 'Desligue o exaustor quando terminar de cozinhar.',
+      },
+    ],
+  },
+  {
+    id: 'quarto',
+    name: 'Quarto',
+    icon: '🛏️',
+    wallColor: '#e7e4fb',
+    floorColor: '#d6d1f4',
+    decorations: [
+      { id: 'cama', icon: '🛏️', x: 22, y: 72, size: 3.4 },
+      { id: 'planta', icon: '🪴', x: 88, y: 74, size: 2.2 },
+    ],
+    hotspots: [
+      {
+        id: 'ar-condicionado',
+        icon: '❄️',
+        x: 72,
+        y: 20,
+        tip: 'Ar-condicionado muito frio com a janela aberta desperdiça energia. Feche a janela e ajuste para 23°C.',
+      },
+      {
+        id: 'tv-quarto',
+        icon: '📺',
+        x: 42,
+        y: 48,
+        tip: 'TV ligada sem ninguém assistindo é desperdício. Desligue ao sair do quarto.',
+      },
+      {
+        id: 'carregador-cheio',
+        icon: '🔋',
+        x: 14,
+        y: 55,
+        tip: 'Depois que a bateria enche, desligue o carregador da tomada.',
+      },
+    ],
+  },
+  {
+    id: 'banheiro',
+    name: 'Banheiro',
+    icon: '🚿',
+    wallColor: '#dceef2',
+    floorColor: '#c3dfe6',
+    decorations: [
+      { id: 'espelho', icon: '🪞', x: 72, y: 32, size: 2.4 },
+      { id: 'torneira', icon: '🚰', x: 30, y: 66, size: 2.2 },
+    ],
+    hotspots: [
+      {
+        id: 'banho-longo',
+        icon: '🚿',
+        x: 50,
+        y: 40,
+        tip: 'Banhos muito longos gastam muita energia no chuveiro elétrico. Tente reduzir o tempo.',
+      },
+      {
+        id: 'luz-banheiro',
+        icon: '💡',
+        x: 16,
+        y: 18,
+        tip: 'Lembre-se de apagar a luz ao sair do banheiro.',
+      },
+    ],
+  },
+]

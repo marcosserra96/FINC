@@ -3,7 +3,7 @@ export const DEFAULT_CONFIG = {
     title: 'Aprenda a economizar energia brincando',
     subtitle: 'Toque em uma atividade para começar',
   },
-  inactivityTimeoutSeconds: 60,
+  inactivityTimeoutSeconds: 90,
   activities: {
     quiz: true,
     house: true,

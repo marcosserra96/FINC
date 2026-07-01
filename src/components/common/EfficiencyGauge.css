@@ -1,0 +1,75 @@
+.efficiency-gauge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.efficiency-gauge__bars {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  max-width: 360px;
+}
+
+.efficiency-gauge__bar {
+  display: flex;
+  align-items: center;
+  min-height: 30px;
+  border-radius: 0 8px 8px 0;
+  opacity: 0.35;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  padding-left: 12px;
+}
+
+.efficiency-gauge__bar.is-active {
+  opacity: 1;
+  transform: scaleY(1.1);
+  box-shadow: var(--shadow-card);
+}
+
+.efficiency-gauge__bar-letter {
+  font-weight: 800;
+  color: var(--color-white);
+  font-size: 0.95rem;
+}
+
+.efficiency-gauge__badge {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-white);
+  font-size: 1.8rem;
+  font-weight: 900;
+  box-shadow: var(--shadow-soft);
+}
+
+.efficiency-gauge__label {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--color-gray-600);
+  text-align: center;
+}
+
+.efficiency-gauge--compact {
+  flex-direction: row;
+  gap: 10px;
+  width: auto;
+}
+
+.efficiency-gauge__badge--sm {
+  width: 40px;
+  height: 40px;
+  font-size: 1.1rem;
+}
+
+.efficiency-gauge--compact .efficiency-gauge__label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--energisa-blue-dark);
+}

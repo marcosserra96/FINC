@@ -1,7 +1,10 @@
 import { useState } from 'react'
 import BigButton from '../../../components/common/BigButton'
 import Confetti from '../../../components/common/Confetti'
+import AlphaKeyboard from '../../../components/common/AlphaKeyboard'
 import './QuizGame.css'
+
+const MAX_NAME_LENGTH = 14
 
 function getResultMessage(ratio) {
   if (ratio === 1) return 'Perfeito! Você é um especialista em energia! ⚡'
@@ -15,8 +18,14 @@ export default function QuizResult({ score, total, rankingEnabled, onSubmitScore
   const [submitted, setSubmitted] = useState(false)
   const ratio = total > 0 ? score / total : 0
 
-  const handleSubmit = (event) => {
-    event.preventDefault()
+  const handleKeyPress = ({ type, value }) => {
+    if (type === 'char') setName((n) => (n.length < MAX_NAME_LENGTH ? n + value : n))
+    else if (type === 'space') setName((n) => (n.length < MAX_NAME_LENGTH ? `${n} ` : n))
+    else if (type === 'back') setName((n) => n.slice(0, -1))
+    else if (type === 'clear') setName('')
+  }
+
+  const handleSave = () => {
     if (!name.trim() || submitted) return
     onSubmitScore(name.trim())
     setSubmitted(true)
@@ -31,24 +40,14 @@ export default function QuizResult({ score, total, rankingEnabled, onSubmitScore
       <p className="quiz-result__message">{getResultMessage(ratio)}</p>
 
       {rankingEnabled && !submitted && (
-        <form className="quiz-result__form" onSubmit={handleSubmit}>
-          <label htmlFor="nickname" className="quiz-result__label">
-            Quer entrar no ranking? Digite um apelido:
-          </label>
-          <input
-            id="nickname"
-            className="quiz-result__input"
-            type="text"
-            maxLength={14}
-            placeholder="Seu apelido"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            autoComplete="off"
-          />
-          <BigButton type="submit" variant="orange" disabled={!name.trim()}>
+        <div className="quiz-result__form">
+          <p className="quiz-result__label">Quer entrar no ranking? Digite um apelido:</p>
+          <div className="quiz-result__name-display">{name || 'Seu apelido'}</div>
+          <AlphaKeyboard value={name} maxLength={MAX_NAME_LENGTH} onKeyPress={handleKeyPress} />
+          <BigButton variant="orange" onClick={handleSave} disabled={!name.trim()}>
             Salvar no ranking
           </BigButton>
-        </form>
+        </div>
       )}
 
       {submitted && <p className="quiz-result__saved">Apelido salvo no ranking! 🏆</p>}

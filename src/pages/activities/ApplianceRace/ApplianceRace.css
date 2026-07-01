@@ -88,12 +88,18 @@
 
 .appliance-ranking__row {
   display: flex;
-  align-items: center;
-  gap: 14px;
+  flex-direction: column;
+  gap: 8px;
   background: var(--color-white);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-card);
   padding: 14px 20px;
+}
+
+.appliance-ranking__top {
+  display: flex;
+  align-items: center;
+  gap: 14px;
 }
 
 .appliance-ranking__position {
@@ -115,6 +121,21 @@
 .appliance-ranking__value {
   font-weight: 700;
   color: var(--energisa-blue-dark);
+  font-size: 0.9rem;
+}
+
+.appliance-ranking__track {
+  height: 12px;
+  border-radius: 999px;
+  background: var(--color-gray-200);
+  overflow: hidden;
+}
+
+.appliance-ranking__fill {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--gradient-orange);
+  transition: width 0.4s ease;
 }
 
 @media (max-width: 640px) {

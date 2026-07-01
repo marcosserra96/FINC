@@ -1,140 +1,142 @@
 import { useMemo, useState } from 'react'
 import ScreenShell from '../../../components/common/ScreenShell'
-import FeedbackOverlay from '../../../components/common/FeedbackOverlay'
+import Toast from '../../../components/common/Toast'
 import Confetti from '../../../components/common/Confetti'
-import { ROOMS } from '../../../data/houseWasteData'
+import BigButton from '../../../components/common/BigButton'
+import EfficiencyGauge from '../../../components/common/EfficiencyGauge'
+import { HOUSE_ROOMS } from '../../../data/houseSceneData'
 import './EfficientHouse.css'
 
 function cloneRooms() {
-  return ROOMS.map((room) => ({
+  return HOUSE_ROOMS.map((room) => ({
     ...room,
-    items: room.items.map((item) => ({ ...item, found: false })),
+    hotspots: room.hotspots.map((h) => ({ ...h, fixed: false })),
   }))
 }
 
 export default function EfficientHouse() {
   const [rooms, setRooms] = useState(cloneRooms)
-  const [activeRoomId, setActiveRoomId] = useState(ROOMS[0].id)
-  const [overlay, setOverlay] = useState(null)
-  const [locked, setLocked] = useState(false)
+  const [activeRoomIndex, setActiveRoomIndex] = useState(0)
+  const [toast, setToast] = useState(null)
+  const [finished, setFinished] = useState(false)
 
-  const totalWaste = useMemo(
-    () => rooms.reduce((sum, room) => sum + room.items.filter((i) => i.isWaste).length, 0),
+  const activeRoom = rooms[activeRoomIndex]
+
+  const totalHotspots = useMemo(() => rooms.reduce((sum, r) => sum + r.hotspots.length, 0), [rooms])
+  const fixedCount = useMemo(
+    () => rooms.reduce((sum, r) => sum + r.hotspots.filter((h) => h.fixed).length, 0),
     [rooms]
   )
-  const foundCount = useMemo(
-    () => rooms.reduce((sum, room) => sum + room.items.filter((i) => i.isWaste && i.found).length, 0),
-    [rooms]
-  )
-  const allFound = totalWaste > 0 && foundCount === totalWaste
+  const ratio = totalHotspots ? fixedCount / totalHotspots : 0
 
-  const activeRoom = rooms.find((r) => r.id === activeRoomId)
-
-  const handleItemTap = (item) => {
-    if (locked || allFound) return
-    if (item.isWaste && item.found) return
-
-    setLocked(true)
-
-    if (item.isWaste) {
-      setRooms((prev) =>
-        prev.map((room) =>
-          room.id !== activeRoomId
-            ? room
-            : { ...room, items: room.items.map((i) => (i.id === item.id ? { ...i, found: true } : i)) }
-        )
+  const handleHotspotTap = (hotspot) => {
+    if (hotspot.fixed || toast || finished) return
+    setRooms((prev) =>
+      prev.map((room, idx) =>
+        idx !== activeRoomIndex
+          ? room
+          : { ...room, hotspots: room.hotspots.map((h) => (h.id === hotspot.id ? { ...h, fixed: true } : h)) }
       )
-      setOverlay({ status: 'correct', title: 'Boa! Desperdício encontrado', message: item.tip })
-    } else {
-      setOverlay({ status: 'info', title: 'Isso está certo por aqui', message: item.tip })
-    }
+    )
+    setToast({ message: hotspot.tip })
   }
 
-  const closeOverlay = () => {
-    setOverlay(null)
-    setLocked(false)
+  const handleToastDone = () => {
+    setToast(null)
+    const roomDone = activeRoom.hotspots.every((h) => h.fixed)
+    if (roomDone) {
+      if (activeRoomIndex + 1 < rooms.length) {
+        setActiveRoomIndex(activeRoomIndex + 1)
+      } else {
+        setFinished(true)
+      }
+    }
   }
 
   const handleRestart = () => {
     setRooms(cloneRooms())
-    setActiveRoomId(ROOMS[0].id)
-    setOverlay(null)
-    setLocked(false)
+    setActiveRoomIndex(0)
+    setToast(null)
+    setFinished(false)
+  }
+
+  if (finished) {
+    return (
+      <ScreenShell className="house-screen house-screen--result">
+        <Confetti />
+        <h1 className="house-screen__title">Casa Eficiente</h1>
+        <p className="house-screen__subtitle">Veja o selo de eficiência da sua casa:</p>
+        <EfficiencyGauge ratio={ratio} label="Parabéns por deixar a casa mais eficiente!" />
+        <BigButton variant="primary" onClick={handleRestart}>
+          Jogar novamente
+        </BigButton>
+      </ScreenShell>
+    )
   }
 
   return (
     <ScreenShell className="house-screen">
       <div className="house-screen__header">
         <h1 className="house-screen__title">Casa Eficiente</h1>
-        <p className="house-screen__subtitle">Toque nos pontos de desperdício de energia em cada cômodo</p>
-        <div className="house-progress">
-          <div className="house-progress__bar">
-            <div
-              className="house-progress__fill"
-              style={{ width: totalWaste ? `${(foundCount / totalWaste) * 100}%` : '0%' }}
-            />
-          </div>
-          <span className="house-progress__label">
-            {foundCount} de {totalWaste} desperdícios encontrados
-          </span>
+        <p className="house-screen__subtitle">Toque nos pontos que estão brilhando para corrigir o desperdício</p>
+      </div>
+
+      <div className="house-rooms-nav">
+        {rooms.map((room, idx) => (
+          <button
+            key={room.id}
+            type="button"
+            className={`house-rooms-nav__item ${idx === activeRoomIndex ? 'is-active' : ''} ${
+              room.hotspots.every((h) => h.fixed) ? 'is-done' : ''
+            }`}
+            onClick={() => setActiveRoomIndex(idx)}
+            aria-label={room.name}
+          >
+            {room.icon}
+          </button>
+        ))}
+        <div className="house-rooms-nav__gauge">
+          <EfficiencyGauge ratio={ratio} compact label={`${fixedCount}/${totalHotspots}`} />
         </div>
       </div>
 
-      <div className="house-tabs">
-        {rooms.map((room) => {
-          const roomFound = room.items.filter((i) => i.isWaste && i.found).length
-          const roomTotal = room.items.filter((i) => i.isWaste).length
-          return (
-            <button
-              key={room.id}
-              type="button"
-              className={`house-tab ${room.id === activeRoomId ? 'house-tab--active' : ''}`}
-              onClick={() => setActiveRoomId(room.id)}
-            >
-              <span className="house-tab__icon">{room.icon}</span>
-              <span>{room.name}</span>
-              <span className="house-tab__badge">
-                {roomFound}/{roomTotal}
-              </span>
-            </button>
-          )
-        })}
-      </div>
+      <div
+        key={activeRoom.id}
+        className="house-scene"
+        style={{
+          background: `linear-gradient(180deg, ${activeRoom.wallColor} 0%, ${activeRoom.wallColor} 62%, ${activeRoom.floorColor} 62%, ${activeRoom.floorColor} 100%)`,
+        }}
+      >
+        <span className="house-scene__room-label">
+          {activeRoom.icon} {activeRoom.name}
+        </span>
 
-      <div className="house-grid">
-        {activeRoom.items.map((item) => (
-          <button
-            key={item.id}
-            type="button"
-            className={`house-item ${item.isWaste && item.found ? 'house-item--found' : ''}`}
-            onClick={() => handleItemTap(item)}
+        {activeRoom.decorations.map((deco) => (
+          <span
+            key={deco.id}
+            className="house-scene__decoration"
+            style={{ left: `${deco.x}%`, top: `${deco.y}%`, fontSize: `${deco.size}rem` }}
           >
-            <span className="house-item__icon">{item.icon}</span>
-            <span className="house-item__label">{item.label}</span>
-            {item.isWaste && item.found && <span className="house-item__check">✓</span>}
+            {deco.icon}
+          </span>
+        ))}
+
+        {activeRoom.hotspots.map((hotspot) => (
+          <button
+            key={hotspot.id}
+            type="button"
+            className={`house-scene__hotspot ${hotspot.fixed ? 'is-fixed' : 'is-glowing'}`}
+            style={{ left: `${hotspot.x}%`, top: `${hotspot.y}%` }}
+            onClick={() => handleHotspotTap(hotspot)}
+            disabled={hotspot.fixed}
+          >
+            {hotspot.icon}
+            {hotspot.fixed && <span className="house-scene__hotspot-check">✓</span>}
           </button>
         ))}
       </div>
 
-      {overlay && (
-        <FeedbackOverlay
-          status={overlay.status}
-          title={overlay.title}
-          message={overlay.message}
-          onContinue={closeOverlay}
-        />
-      )}
-
-      {allFound && (
-        <FeedbackOverlay
-          status="success"
-          title="Parabéns!"
-          message="Você encontrou todos os pontos de desperdício de energia da casa."
-          continueLabel="Jogar novamente"
-          onContinue={handleRestart}
-        />
-      )}
-      {allFound && <Confetti />}
+      {toast && <Toast message={toast.message} tone="good" onDone={handleToastDone} />}
     </ScreenShell>
   )
 }

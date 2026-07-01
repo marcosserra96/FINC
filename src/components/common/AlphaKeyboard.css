@@ -1,0 +1,45 @@
+.alpha-keyboard {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: min(560px, 100%);
+}
+
+.alpha-keyboard__row {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.alpha-keyboard__key {
+  flex: 1;
+  min-width: 0;
+  min-height: 52px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: var(--color-white);
+  color: var(--energisa-blue-dark);
+  font-size: 1.1rem;
+  font-weight: 700;
+  box-shadow: var(--shadow-card);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.alpha-keyboard__key:active {
+  transform: scale(0.92);
+  background: var(--color-gray-200);
+}
+
+.alpha-keyboard__row--actions {
+  margin-top: 4px;
+}
+
+.alpha-keyboard__key--wide {
+  flex: 3;
+}
+
+.alpha-keyboard__key--action {
+  flex: 1.4;
+  font-size: 0.95rem;
+  color: var(--color-gray-600);
+}
