@@ -123,15 +123,10 @@
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(170px, 205px));
+  justify-content: center;
   gap: 14px;
   width: 100%;
-}
-
-@media (min-width: 860px) {
-  .home-screen__activities {
-    grid-template-columns: repeat(4, 1fr);
-  }
 }
 
 @media (max-height: 560px) {
