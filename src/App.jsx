@@ -2,7 +2,7 @@ import { HashRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { ConfigProvider } from './context/ConfigContext'
 import Home from './pages/Home/Home'
 import QuizGame from './pages/activities/QuizGame/QuizGame'
-import EfficientHouse from './pages/activities/EfficientHouse/EfficientHouse'
+import MemoryGame from './pages/activities/MemoryGame/MemoryGame'
 import ApplianceRace from './pages/activities/ApplianceRace/ApplianceRace'
 import Ranking from './pages/Ranking/Ranking'
 import AdminGate from './pages/admin/AdminGate'
@@ -15,7 +15,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/quiz" element={<QuizGame />} />
-            <Route path="/casa-eficiente" element={<EfficientHouse />} />
+            <Route path="/jogo-da-memoria" element={<MemoryGame />} />
             <Route path="/consumo" element={<ApplianceRace />} />
             <Route path="/ranking" element={<Ranking />} />
             <Route path="/admin" element={<AdminGate />} />

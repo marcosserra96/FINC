@@ -1,4 +1,10 @@
 const ICONS = {
+  cards: (
+    <>
+      <rect x="3" y="7" width="12" height="15" rx="2" transform="rotate(-8 9 14.5)" />
+      <rect x="9" y="5" width="12" height="15" rx="2" />
+    </>
+  ),
   bulb: (
     <>
       <path d="M12 3a6 6 0 0 0-4 10.4c.6.5 1 1.3 1 2.1V16h6v-.5c0-.8.4-1.6 1-2.1A6 6 0 0 0 12 3Z" />

@@ -1,0 +1,119 @@
+.memory-screen {
+  align-items: center;
+  justify-content: center;
+}
+
+.memory-screen__body {
+  width: min(760px, 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  text-align: center;
+}
+
+.memory-screen__title {
+  margin: 0;
+  font-size: clamp(1.7rem, 3vw, 2.5rem);
+  color: var(--energisa-blue-dark);
+  letter-spacing: -0.02em;
+}
+
+.memory-screen__subtitle {
+  margin: 0;
+  color: var(--gray-600);
+  font-size: 1.05rem;
+}
+
+.memory-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  width: 100%;
+}
+
+.memory-card {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  border: none;
+  background: transparent;
+  padding: 0;
+  perspective: 900px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.memory-card:active .memory-card__inner {
+  transform: scale(0.96) rotateY(var(--flip-deg, 0deg));
+}
+
+.memory-card__inner {
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease;
+  --flip-deg: 0deg;
+  transform: rotateY(var(--flip-deg));
+}
+
+.memory-card.is-revealed .memory-card__inner {
+  --flip-deg: 180deg;
+}
+
+.memory-card__face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border-radius: var(--radius-md);
+  backface-visibility: hidden;
+  padding: 8px;
+}
+
+.memory-card__face--back {
+  background: var(--gradient-ink);
+  color: rgba(255, 255, 255, 0.5);
+  box-shadow: var(--shadow-card);
+}
+
+.memory-card__face--front {
+  background: var(--color-white);
+  color: var(--energisa-blue-dark);
+  border: var(--border-subtle);
+  box-shadow: var(--shadow-elevated);
+  transform: rotateY(180deg);
+}
+
+.memory-card__label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--gray-700);
+  line-height: 1.2;
+}
+
+.memory-card.is-matched .memory-card__face--front {
+  background: var(--color-success-soft);
+  border-color: var(--color-success);
+  color: var(--color-success);
+}
+
+.memory-card.is-matched .memory-card__label {
+  color: var(--color-success);
+}
+
+.memory-screen--result {
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .memory-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

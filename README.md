@@ -8,7 +8,7 @@ Aplicação web interativa para tela touch, criada para estandes e eventos do Gr
 
 - **Tela inicial** com chamada principal, botões grandes de atividades e logo com acesso oculto à área da equipe.
 - **Quiz Rápido**: perguntas de múltipla escolha sobre economia e segurança no uso de energia, com feedback imediato e pontuação final.
-- **Casa Eficiente**: monte uma casa eficiente escolhendo, em etapas, entre duas opções do dia a dia (lâmpada LED ou incandescente, banho curto ou longo, carregador ligado ou desligado etc), com um selo de eficiência A-E ao final.
+- **Jogo da Memória**: encontre os pares de ícones ligados a economia de energia (lâmpada LED, geladeira, ar-condicionado, chuveiro, energia solar, tomada), com um selo de eficiência A-E ao final baseado no número de tentativas.
 - **O Que Mais Consome Energia?**: compare eletrodomésticos e descubra quais pesam mais na conta de luz, com um ranking educativo ao final.
 - **Ranking opcional** (apenas apelido + pontuação, sem dados pessoais).
 - **Área da equipe (admin)** protegida por PIN, oculta atrás de 5 toques no logo da tela inicial.
@@ -33,7 +33,7 @@ src/
   hooks/        -> useIdleRedirect (retorno por inatividade), useSecretTap (toque oculto)
   pages/
     Home/
-    activities/QuizGame, EfficientHouse, ApplianceRace
+    activities/QuizGame, MemoryGame, ApplianceRace
     Ranking/
     admin/      -> AdminGate (PIN) + AdminPanel
   styles/       -> variables.css (cores Energisa) e global.css (regras de kiosk)

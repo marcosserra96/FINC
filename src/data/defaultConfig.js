@@ -6,7 +6,7 @@ export const DEFAULT_CONFIG = {
   inactivityTimeoutSeconds: 90,
   activities: {
     quiz: true,
-    house: true,
+    memory: true,
     appliance: true,
   },
   rankingEnabled: true,

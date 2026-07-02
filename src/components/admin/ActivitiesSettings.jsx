@@ -3,7 +3,7 @@ import AdminSection from './AdminSection'
 
 const ACTIVITIES = [
   { key: 'quiz', label: 'Quiz Rápido', hint: 'Perguntas sobre consumo consciente' },
-  { key: 'house', label: 'Casa Eficiente', hint: 'Encontrar pontos de desperdício de energia' },
+  { key: 'memory', label: 'Jogo da Memória', hint: 'Encontrar os pares de ícones de energia' },
   { key: 'appliance', label: 'O Que Mais Consome?', hint: 'Comparar consumo de eletrodomésticos' },
 ]
 

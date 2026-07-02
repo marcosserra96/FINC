@@ -14,11 +14,11 @@ const ACTIVITY_LINKS = [
     accent: 'blue',
   },
   {
-    key: 'house',
-    to: '/casa-eficiente',
-    label: 'Casa Eficiente',
-    description: 'Monte uma casa mais eficiente',
-    icon: 'house',
+    key: 'memory',
+    to: '/jogo-da-memoria',
+    label: 'Jogo da Memória',
+    description: 'Encontre os pares e ganhe seu selo',
+    icon: 'cards',
     accent: 'orange',
   },
   {
