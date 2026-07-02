@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import Icon from './Icon'
 import './Toast.css'
 
 export default function Toast({ message, tone = 'good', onDone, duration = 2200 }) {
@@ -9,7 +10,9 @@ export default function Toast({ message, tone = 'good', onDone, duration = 2200 
 
   return (
     <div className={`toast toast--${tone}`} role="status">
-      <span className="toast__icon">{tone === 'good' ? '✅' : '💡'}</span>
+      <span className="toast__icon">
+        <Icon name={tone === 'good' ? 'check' : 'bulb'} size={30} />
+      </span>
       <span className="toast__message">{message}</span>
     </div>
   )

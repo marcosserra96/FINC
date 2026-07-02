@@ -1,5 +1,6 @@
 import { useConfig } from '../../context/ConfigContext'
 import ScreenShell from '../../components/common/ScreenShell'
+import Icon from '../../components/common/Icon'
 import './Ranking.css'
 
 export default function Ranking() {
@@ -8,7 +9,9 @@ export default function Ranking() {
 
   return (
     <ScreenShell className="ranking-screen">
-      <h1 className="ranking-screen__title">🏆 Ranking do Quiz</h1>
+      <h1 className="ranking-screen__title">
+        <Icon name="trophy" size={40} /> Ranking do Quiz
+      </h1>
 
       {!config.rankingEnabled && (
         <p className="ranking-screen__empty">O ranking está desativado no momento.</p>

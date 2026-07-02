@@ -5,6 +5,9 @@
 }
 
 .ranking-screen__title {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
   margin: 0;
   font-size: clamp(1.6rem, 3vw, 2.4rem);
   color: var(--energisa-blue-dark);

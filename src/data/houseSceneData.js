@@ -2,7 +2,7 @@ export const HOUSE_ROOMS = [
   {
     id: 'sala',
     name: 'Sala',
-    icon: '🛋️',
+    icon: 'sofa',
     wallColor: '#dff1f5',
     floorColor: '#c9e6ec',
     decorations: [
@@ -13,21 +13,21 @@ export const HOUSE_ROOMS = [
     hotspots: [
       {
         id: 'tv-standby',
-        icon: '📺',
+        icon: 'tv',
         x: 45,
         y: 46,
         tip: 'TV ligada na tomada sem uso continua gastando energia em stand-by. Desligue no interruptor quando não estiver usando.',
       },
       {
         id: 'luz-dia',
-        icon: '💡',
+        icon: 'bulb',
         x: 12,
         y: 18,
         tip: 'Luz acesa durante o dia com sol entrando é desperdício. Aproveite a luz natural!',
       },
       {
         id: 'carregador',
-        icon: '🔌',
+        icon: 'plug',
         x: 62,
         y: 70,
         tip: 'Carregadores ligados sem o aparelho continuam consumindo energia. Desligue-os da tomada.',
@@ -37,7 +37,7 @@ export const HOUSE_ROOMS = [
   {
     id: 'cozinha',
     name: 'Cozinha',
-    icon: '🍳',
+    icon: 'fridge',
     wallColor: '#fdeee0',
     floorColor: '#f6dcc4',
     decorations: [
@@ -47,21 +47,21 @@ export const HOUSE_ROOMS = [
     hotspots: [
       {
         id: 'geladeira-aberta',
-        icon: '🧊',
+        icon: 'fridge',
         x: 16,
         y: 50,
         tip: 'Geladeira aberta por muito tempo aumenta o consumo. Feche assim que pegar o que precisa.',
       },
       {
         id: 'luz-cozinha',
-        icon: '💡',
+        icon: 'bulb',
         x: 50,
         y: 16,
         tip: 'Cômodo vazio com a luz acesa é desperdício de energia.',
       },
       {
         id: 'exaustor',
-        icon: '🌬️',
+        icon: 'fan',
         x: 78,
         y: 55,
         tip: 'Desligue o exaustor quando terminar de cozinhar.',
@@ -71,7 +71,7 @@ export const HOUSE_ROOMS = [
   {
     id: 'quarto',
     name: 'Quarto',
-    icon: '🛏️',
+    icon: 'bed',
     wallColor: '#e7e4fb',
     floorColor: '#d6d1f4',
     decorations: [
@@ -81,21 +81,21 @@ export const HOUSE_ROOMS = [
     hotspots: [
       {
         id: 'ar-condicionado',
-        icon: '❄️',
+        icon: 'ac',
         x: 72,
         y: 20,
         tip: 'Ar-condicionado muito frio com a janela aberta desperdiça energia. Feche a janela e ajuste para 23°C.',
       },
       {
         id: 'tv-quarto',
-        icon: '📺',
+        icon: 'tv',
         x: 42,
         y: 48,
         tip: 'TV ligada sem ninguém assistindo é desperdício. Desligue ao sair do quarto.',
       },
       {
         id: 'carregador-cheio',
-        icon: '🔋',
+        icon: 'battery',
         x: 14,
         y: 55,
         tip: 'Depois que a bateria enche, desligue o carregador da tomada.',
@@ -105,7 +105,7 @@ export const HOUSE_ROOMS = [
   {
     id: 'banheiro',
     name: 'Banheiro',
-    icon: '🚿',
+    icon: 'shower',
     wallColor: '#dceef2',
     floorColor: '#c3dfe6',
     decorations: [
@@ -115,14 +115,14 @@ export const HOUSE_ROOMS = [
     hotspots: [
       {
         id: 'banho-longo',
-        icon: '🚿',
+        icon: 'shower',
         x: 50,
         y: 40,
         tip: 'Banhos muito longos gastam muita energia no chuveiro elétrico. Tente reduzir o tempo.',
       },
       {
         id: 'luz-banheiro',
-        icon: '💡',
+        icon: 'bulb',
         x: 16,
         y: 18,
         tip: 'Lembre-se de apagar a luz ao sair do banheiro.',

@@ -1,20 +1,25 @@
+import { useState } from 'react'
 import { useConfig } from '../../context/ConfigContext'
 import AdminSection from './AdminSection'
 import BigButton from '../common/BigButton'
+import Icon, { ICON_NAMES } from '../common/Icon'
 import './QuizEditor.css'
 
 const OPTION_LETTERS = ['A', 'B', 'C', 'D']
 
 export default function QuizEditor() {
   const { quizQuestions, updateQuizQuestions } = useConfig()
+  const [openPicker, setOpenPicker] = useState(null)
 
   const updateQuestion = (id, patch) => {
     updateQuizQuestions(quizQuestions.map((q) => (q.id === id ? { ...q, ...patch } : q)))
   }
 
-  const updateOption = (id, idx, value) => {
+  const updateOption = (id, idx, patch) => {
     updateQuizQuestions(
-      quizQuestions.map((q) => (q.id === id ? { ...q, options: q.options.map((o, i) => (i === idx ? value : o)) } : q))
+      quizQuestions.map((q) =>
+        q.id === id ? { ...q, options: q.options.map((o, i) => (i === idx ? { ...o, ...patch } : o)) } : q
+      )
     )
   }
 
@@ -32,7 +37,12 @@ export default function QuizEditor() {
       {
         id: nextId,
         question: 'Nova pergunta',
-        options: ['Opção 1', 'Opção 2', 'Opção 3', 'Opção 4'],
+        options: [
+          { text: 'Opção 1', icon: 'question' },
+          { text: 'Opção 2', icon: 'question' },
+          { text: 'Opção 3', icon: 'question' },
+          { text: 'Opção 4', icon: 'question' },
+        ],
         correctIndex: 0,
         explanation: '',
       },
@@ -42,7 +52,7 @@ export default function QuizEditor() {
   return (
     <AdminSection
       title="Perguntas do Quiz"
-      description="Edite o texto, as alternativas, a resposta certa e a explicação de cada pergunta."
+      description="Edite o texto, o ícone, a resposta certa e a explicação de cada pergunta."
     >
       <div className="quiz-editor__list">
         {quizQuestions.map((q, qIndex) => (
@@ -65,23 +75,51 @@ export default function QuizEditor() {
               onChange={(e) => updateQuestion(q.id, { question: e.target.value })}
             />
 
-            {q.options.map((option, idx) => (
-              <label key={idx} className="quiz-editor__option">
-                <input
-                  type="radio"
-                  name={`correct-${q.id}`}
-                  checked={q.correctIndex === idx}
-                  onChange={() => updateQuestion(q.id, { correctIndex: idx })}
-                />
-                <span className="quiz-editor__option-letter">{OPTION_LETTERS[idx]}</span>
-                <input
-                  type="text"
-                  className="admin-field__input"
-                  value={option}
-                  onChange={(e) => updateOption(q.id, idx, e.target.value)}
-                />
-              </label>
-            ))}
+            {q.options.map((option, idx) => {
+              const pickerKey = `${q.id}-${idx}`
+              return (
+                <div key={idx} className="quiz-editor__option">
+                  <input
+                    type="radio"
+                    name={`correct-${q.id}`}
+                    checked={q.correctIndex === idx}
+                    onChange={() => updateQuestion(q.id, { correctIndex: idx })}
+                  />
+                  <span className="quiz-editor__option-letter">{OPTION_LETTERS[idx]}</span>
+                  <button
+                    type="button"
+                    className="quiz-editor__icon-btn"
+                    onClick={() => setOpenPicker(openPicker === pickerKey ? null : pickerKey)}
+                    aria-label="Escolher ícone"
+                  >
+                    <Icon name={option.icon} size={26} />
+                  </button>
+                  <input
+                    type="text"
+                    className="admin-field__input"
+                    value={option.text}
+                    onChange={(e) => updateOption(q.id, idx, { text: e.target.value })}
+                  />
+                  {openPicker === pickerKey && (
+                    <div className="quiz-editor__icon-picker">
+                      {ICON_NAMES.map((name) => (
+                        <button
+                          key={name}
+                          type="button"
+                          className={`quiz-editor__icon-option ${option.icon === name ? 'is-selected' : ''}`}
+                          onClick={() => {
+                            updateOption(q.id, idx, { icon: name })
+                            setOpenPicker(null)
+                          }}
+                        >
+                          <Icon name={name} size={24} />
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )
+            })}
 
             <label className="admin-field__label" htmlFor={`explanation-${q.id}`}>
               Explicação (mostrada após responder)

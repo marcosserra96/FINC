@@ -39,6 +39,7 @@
 }
 
 .quiz-editor__option {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -59,4 +60,46 @@
 
 .quiz-editor__option .admin-field__input {
   flex: 1;
+}
+
+.quiz-editor__icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid var(--color-gray-200);
+  background: var(--color-white);
+  flex-shrink: 0;
+}
+
+.quiz-editor__icon-picker {
+  position: absolute;
+  z-index: 10;
+  top: 46px;
+  left: 46px;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  width: 280px;
+  padding: 10px;
+  background: var(--color-white);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-soft);
+}
+
+.quiz-editor__icon-option {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  background: var(--color-gray-100);
+}
+
+.quiz-editor__icon-option.is-selected {
+  border-color: var(--energisa-blue);
 }

@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import ScreenShell from '../../../components/common/ScreenShell'
 import FeedbackOverlay from '../../../components/common/FeedbackOverlay'
 import BigButton from '../../../components/common/BigButton'
+import Icon from '../../../components/common/Icon'
 import { APPLIANCES } from '../../../data/applianceData'
 import { shuffleArray } from '../../../utils/shuffle'
 import './ApplianceRace.css'
@@ -77,12 +78,16 @@ export default function ApplianceRace() {
 
           <div className="appliance-duel">
             <button type="button" className="appliance-card" onClick={() => handleChoice(round.a, round.b)}>
-              <span className="appliance-card__icon">{round.a.icon}</span>
+              <span className="appliance-card__icon">
+                <Icon name={round.a.icon} size={56} />
+              </span>
               <span className="appliance-card__name">{round.a.name}</span>
             </button>
             <span className="appliance-duel__vs">VS</span>
             <button type="button" className="appliance-card" onClick={() => handleChoice(round.b, round.a)}>
-              <span className="appliance-card__icon">{round.b.icon}</span>
+              <span className="appliance-card__icon">
+                <Icon name={round.b.icon} size={56} />
+              </span>
               <span className="appliance-card__name">{round.b.name}</span>
             </button>
           </div>
@@ -101,7 +106,9 @@ export default function ApplianceRace() {
               <div key={item.id} className="appliance-ranking__row">
                 <div className="appliance-ranking__top">
                   <span className="appliance-ranking__position">{idx + 1}º</span>
-                  <span className="appliance-ranking__icon">{item.icon}</span>
+                  <span className="appliance-ranking__icon">
+                    <Icon name={item.icon} size={26} />
+                  </span>
                   <span className="appliance-ranking__name">{item.name}</span>
                   <span className="appliance-ranking__value">{item.kwhMonth} kWh/mês</span>
                 </div>

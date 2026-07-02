@@ -1,6 +1,5 @@
+import Icon from '../../../components/common/Icon'
 import './QuizGame.css'
-
-const OPTION_LETTERS = ['A', 'B', 'C', 'D']
 
 export default function QuizQuestionCard({ question, index, total, selected, answered, onSelect }) {
   return (
@@ -27,8 +26,10 @@ export default function QuizQuestionCard({ question, index, total, selected, ans
               onClick={() => onSelect(idx)}
               disabled={answered}
             >
-              <span className="quiz-option__letter">{OPTION_LETTERS[idx]}</span>
-              <span className="quiz-option__text">{option}</span>
+              <span className="quiz-option__icon">
+                <Icon name={option.icon} size={40} />
+              </span>
+              <span className="quiz-option__text">{option.text}</span>
             </button>
           )
         })}

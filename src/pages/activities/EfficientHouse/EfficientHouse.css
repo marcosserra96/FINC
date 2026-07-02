@@ -31,6 +31,9 @@
 }
 
 .house-rooms-nav__item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: 56px;
   height: 56px;
   border-radius: 50%;
@@ -85,6 +88,9 @@
   position: absolute;
   top: 14px;
   left: 18px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   font-weight: 800;
   font-size: 1.1rem;
   color: var(--energisa-blue-dark);

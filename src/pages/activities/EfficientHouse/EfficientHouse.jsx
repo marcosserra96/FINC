@@ -4,6 +4,7 @@ import Toast from '../../../components/common/Toast'
 import Confetti from '../../../components/common/Confetti'
 import BigButton from '../../../components/common/BigButton'
 import EfficiencyGauge from '../../../components/common/EfficiencyGauge'
+import Icon from '../../../components/common/Icon'
 import { HOUSE_ROOMS } from '../../../data/houseSceneData'
 import './EfficientHouse.css'
 
@@ -92,7 +93,7 @@ export default function EfficientHouse() {
             onClick={() => setActiveRoomIndex(idx)}
             aria-label={room.name}
           >
-            {room.icon}
+            <Icon name={room.icon} size={28} />
           </button>
         ))}
         <div className="house-rooms-nav__gauge">
@@ -108,7 +109,7 @@ export default function EfficientHouse() {
         }}
       >
         <span className="house-scene__room-label">
-          {activeRoom.icon} {activeRoom.name}
+          <Icon name={activeRoom.icon} size={22} /> {activeRoom.name}
         </span>
 
         {activeRoom.decorations.map((deco) => (
@@ -130,7 +131,7 @@ export default function EfficientHouse() {
             onClick={() => handleHotspotTap(hotspot)}
             disabled={hotspot.fixed}
           >
-            {hotspot.icon}
+            <Icon name={hotspot.icon} size={38} />
             {hotspot.fixed && <span className="house-scene__hotspot-check">✓</span>}
           </button>
         ))}
