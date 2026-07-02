@@ -6,19 +6,21 @@
   min-height: var(--touch-target-min);
   padding: 18px 32px;
   border: none;
-  border-radius: var(--radius-lg);
-  font-size: clamp(1.1rem, 1.6vw, 1.5rem);
-  font-weight: 600;
+  border-radius: var(--radius-md);
+  font-size: clamp(1.05rem, 1.5vw, 1.35rem);
+  font-weight: 700;
+  font-family: inherit;
+  letter-spacing: -0.01em;
   color: var(--color-white);
-  background: var(--gradient-main);
-  box-shadow: var(--shadow-soft);
-  transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+  background: var(--gradient-ink);
+  box-shadow: var(--shadow-elevated);
+  transition: transform 0.14s ease, box-shadow 0.14s ease, filter 0.14s ease;
   -webkit-tap-highlight-color: transparent;
 }
 
 .big-button:active {
-  transform: scale(0.96);
-  box-shadow: 0 6px 16px rgba(0, 80, 97, 0.22);
+  transform: scale(0.97);
+  box-shadow: var(--shadow-card);
 }
 
 .big-button--full {
@@ -30,30 +32,32 @@
   align-items: center;
   justify-content: center;
   line-height: 1;
-  width: 3.1rem;
-  height: 3.1rem;
+  width: 2.9rem;
+  height: 2.9rem;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.16);
+  color: var(--color-white);
   flex-shrink: 0;
 }
 
 .big-button--secondary .big-button__icon,
 .big-button--ghost .big-button__icon {
-  background: var(--color-gray-100);
+  background: rgba(0, 159, 194, 0.1);
+  color: var(--energisa-blue-dark);
 }
 
 .big-button__label {
-  line-height: 1.2;
+  line-height: 1.25;
 }
 
 .big-button--primary {
-  background: var(--gradient-main);
+  background: var(--gradient-ink);
 }
 
 .big-button--secondary {
   background: var(--color-white);
   color: var(--energisa-blue-dark);
-  border: 2px solid var(--color-gray-200);
+  border: 1px solid var(--gray-200);
   box-shadow: var(--shadow-card);
 }
 
@@ -62,22 +66,22 @@
 }
 
 .big-button--success {
-  background: linear-gradient(135deg, #34b878, var(--color-success));
+  background: linear-gradient(135deg, #279967, var(--color-success));
 }
 
 .big-button--danger {
-  background: linear-gradient(135deg, #ef665d, var(--color-error));
+  background: linear-gradient(135deg, #e15a52, var(--color-error));
 }
 
 .big-button--ghost {
   background: transparent;
   color: var(--energisa-blue-dark);
   box-shadow: none;
-  border: 2px solid rgba(0, 80, 97, 0.25);
+  border: 1px solid var(--gray-300);
 }
 
 .big-button--disabled {
-  opacity: 0.55;
-  filter: grayscale(0.2);
+  opacity: 0.5;
+  filter: grayscale(0.15);
   pointer-events: none;
 }

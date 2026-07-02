@@ -6,9 +6,7 @@
   align-items: center;
   justify-content: center;
   gap: 20px;
-  background-color: var(--energisa-blue);
-  background-image: var(--bg-pattern), var(--gradient-main);
-  background-size: 120px 120px, cover;
+  background: var(--gradient-main);
   color: var(--color-white);
   padding: 24px;
 }

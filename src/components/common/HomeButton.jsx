@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom'
+import Icon from './Icon'
 import './HomeButton.css'
 
 export default function HomeButton() {
@@ -11,7 +12,7 @@ export default function HomeButton() {
       onClick={() => navigate('/')}
       aria-label="Voltar ao início"
     >
-      <span className="home-button__icon">⌂</span>
+      <Icon name="house" size={18} className="home-button__icon" />
       <span className="home-button__label">Início</span>
     </button>
   )

@@ -71,6 +71,7 @@
   border-radius: 50%;
   border: 2px solid var(--color-gray-200);
   background: var(--color-white);
+  color: var(--energisa-blue-dark);
   flex-shrink: 0;
 }
 
@@ -98,6 +99,7 @@
   border-radius: 50%;
   border: 2px solid transparent;
   background: var(--color-gray-100);
+  color: var(--gray-600);
 }
 
 .quiz-editor__icon-option.is-selected {

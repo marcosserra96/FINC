@@ -1,6 +1,7 @@
 .admin-section {
   background: var(--color-white);
   border-radius: var(--radius-lg);
+  border: var(--border-subtle);
   box-shadow: var(--shadow-card);
   padding: clamp(20px, 3vw, 32px);
   display: flex;

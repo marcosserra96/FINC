@@ -1,7 +1,7 @@
 export const DEFAULT_CONFIG = {
   homeMessage: {
-    title: 'Aprenda a economizar energia brincando',
-    subtitle: 'Toque em uma atividade para começar',
+    title: 'O futuro da energia começa com você',
+    subtitle: 'Toque em uma experiência para começar',
   },
   inactivityTimeoutSeconds: 90,
   activities: {

@@ -9,10 +9,10 @@
 .confetti__piece {
   position: absolute;
   top: -10%;
-  width: 10px;
-  height: 16px;
-  border-radius: 3px;
-  opacity: 0.9;
+  width: 7px;
+  height: 15px;
+  border-radius: 2px;
+  opacity: 0.85;
   animation-name: confetti-fall;
   animation-timing-function: ease-in;
   animation-fill-mode: forwards;

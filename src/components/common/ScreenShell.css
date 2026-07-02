@@ -1,7 +1,14 @@
 .screen-shell {
-  background-color: var(--color-gray-100);
-  background-image: var(--bg-pattern-dark);
-  background-size: 120px 120px;
+  position: relative;
+  background-color: var(--gray-50);
+  background-image:
+    radial-gradient(ellipse 55% 45% at 12% -6%, rgba(0, 159, 194, 0.14), transparent 60%),
+    radial-gradient(ellipse 50% 42% at 106% 108%, rgba(243, 112, 33, 0.1), transparent 60%),
+    var(--bg-dot-grid);
+  background-size:
+    auto,
+    auto,
+    24px 24px;
   padding: 28px clamp(24px, 4vw, 64px);
   animation: screen-enter 0.28s ease;
 }

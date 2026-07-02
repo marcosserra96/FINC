@@ -14,13 +14,14 @@
 
 .house-screen__title {
   margin: 0;
-  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  font-size: clamp(1.7rem, 3vw, 2.5rem);
   color: var(--energisa-blue-dark);
+  letter-spacing: -0.02em;
 }
 
 .house-screen__subtitle {
   margin: 0;
-  color: var(--color-gray-600);
+  color: var(--gray-600);
   font-size: 1.05rem;
 }
 
@@ -42,29 +43,31 @@
   justify-content: center;
   gap: 18px;
   border-radius: var(--radius-lg);
-  border: none;
+  border: var(--border-subtle);
   background: var(--color-white);
-  box-shadow: var(--shadow-soft);
-  font-size: 1.15rem;
+  box-shadow: var(--shadow-elevated);
+  font-size: 1.1rem;
   font-weight: 700;
-  color: var(--color-text);
+  color: var(--gray-800);
   padding: 20px;
   -webkit-tap-highlight-color: transparent;
-  transition: transform 0.12s ease;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
 }
 
 .house-choice-card:active {
   transform: scale(0.96);
+  box-shadow: var(--shadow-card);
 }
 
 .house-choice-card__icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 6.4rem;
-  height: 6.4rem;
+  width: 5.6rem;
+  height: 5.6rem;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--color-gray-100), var(--color-gray-200));
+  background: rgba(0, 159, 194, 0.08);
+  color: var(--energisa-blue-dark);
 }
 
 .house-screen--result {
