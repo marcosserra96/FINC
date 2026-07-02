@@ -89,12 +89,15 @@
   overflow: hidden;
 }
 
+.memory-card__face--photo {
+  padding: 0;
+  gap: 0;
+}
+
 .memory-card__image {
-  flex: 1;
-  min-height: 0;
   width: 100%;
-  object-fit: cover;
-  border-radius: calc(var(--radius-md) - 4px);
+  height: 100%;
+  object-fit: contain;
 }
 
 .memory-card__label {

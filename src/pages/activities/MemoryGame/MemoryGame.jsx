@@ -114,13 +114,17 @@ export default function MemoryGame() {
                   <span className="memory-card__face memory-card__face--back">
                     <Icon name="bolt" size={26} />
                   </span>
-                  <span className="memory-card__face memory-card__face--front">
+                  <span
+                    className={`memory-card__face memory-card__face--front ${cardImages[card.icon] ? 'memory-card__face--photo' : ''}`}
+                  >
                     {cardImages[card.icon] ? (
-                      <img className="memory-card__image" src={cardImages[card.icon]} alt="" />
+                      <img className="memory-card__image" src={cardImages[card.icon]} alt={card.label} />
                     ) : (
-                      <Icon name={card.icon} size={30} />
+                      <>
+                        <Icon name={card.icon} size={30} />
+                        <span className="memory-card__label">{card.label}</span>
+                      </>
                     )}
-                    <span className="memory-card__label">{card.label}</span>
                   </span>
                 </span>
               </button>
