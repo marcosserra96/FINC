@@ -1,82 +1,66 @@
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import ScreenShell from '../../../components/common/ScreenShell'
-import Toast from '../../../components/common/Toast'
+import FeedbackOverlay from '../../../components/common/FeedbackOverlay'
 import Confetti from '../../../components/common/Confetti'
 import BigButton from '../../../components/common/BigButton'
 import EfficiencyGauge from '../../../components/common/EfficiencyGauge'
 import Icon from '../../../components/common/Icon'
-import { HOUSE_ROOMS } from '../../../data/houseSceneData'
+import { HOUSE_CHOICES } from '../../../data/houseChoicesData'
+import { shuffleArray } from '../../../utils/shuffle'
 import './EfficientHouse.css'
 
-function cloneRooms() {
-  return HOUSE_ROOMS.map((room) => ({
-    ...room,
-    items: room.items.map((item) => ({ ...item, checked: false })),
+function buildRounds() {
+  return shuffleArray(HOUSE_CHOICES).map((round) => ({
+    ...round,
+    options: shuffleArray(round.options),
   }))
 }
 
 export default function EfficientHouse() {
-  const [rooms, setRooms] = useState(cloneRooms)
-  const [activeRoomIndex, setActiveRoomIndex] = useState(0)
-  const [toast, setToast] = useState(null)
+  const [rounds, setRounds] = useState(buildRounds)
+  const [roundIndex, setRoundIndex] = useState(0)
+  const [correctCount, setCorrectCount] = useState(0)
+  const [feedback, setFeedback] = useState(null)
   const [finished, setFinished] = useState(false)
-  const [started, setStarted] = useState(false)
 
-  const activeRoom = rooms[activeRoomIndex]
+  const round = rounds[roundIndex]
+  const ratio = rounds.length ? correctCount / rounds.length : 0
 
-  const totalWaste = useMemo(
-    () => rooms.reduce((sum, r) => sum + r.items.filter((i) => i.isWaste).length, 0),
-    [rooms]
-  )
-  const foundWaste = useMemo(
-    () => rooms.reduce((sum, r) => sum + r.items.filter((i) => i.isWaste && i.checked).length, 0),
-    [rooms]
-  )
-  const ratio = totalWaste ? foundWaste / totalWaste : 0
-
-  const handleItemTap = (item) => {
-    if (item.checked || toast || finished) return
-    setStarted(true)
-    setRooms((prev) =>
-      prev.map((room, idx) =>
-        idx !== activeRoomIndex
-          ? room
-          : { ...room, items: room.items.map((i) => (i.id === item.id ? { ...i, checked: true } : i)) }
-      )
-    )
-    setToast(
-      item.isWaste
-        ? { message: item.tip, tone: 'good' }
-        : { message: `Tudo certo aqui! ${item.tip}`, tone: 'info' }
-    )
+  const handleChoice = (chosen) => {
+    if (feedback) return
+    if (chosen.efficient) setCorrectCount((c) => c + 1)
+    setFeedback({
+      isCorrect: chosen.efficient,
+      title: chosen.efficient ? 'Boa escolha!' : 'Não foi dessa vez',
+      message: (chosen.efficient ? chosen : round.options.find((o) => o.efficient)).tip,
+    })
   }
 
-  const handleToastDone = () => {
-    setToast(null)
-    const roomDone = activeRoom.items.filter((i) => i.isWaste).every((i) => i.checked)
-    if (roomDone) {
-      if (activeRoomIndex + 1 < rooms.length) {
-        setActiveRoomIndex(activeRoomIndex + 1)
-      } else {
-        setFinished(true)
-      }
+  const handleContinue = () => {
+    setFeedback(null)
+    if (roundIndex + 1 >= rounds.length) {
+      setFinished(true)
+      return
     }
+    setRoundIndex((i) => i + 1)
   }
 
   const handleRestart = () => {
-    setRooms(cloneRooms())
-    setActiveRoomIndex(0)
-    setToast(null)
+    setRounds(buildRounds())
+    setRoundIndex(0)
+    setCorrectCount(0)
+    setFeedback(null)
     setFinished(false)
-    setStarted(false)
   }
 
   if (finished) {
     return (
       <ScreenShell className="house-screen house-screen--result">
-        <Confetti />
+        {ratio >= 0.7 && <Confetti />}
         <h1 className="house-screen__title">Casa Eficiente</h1>
-        <p className="house-screen__subtitle">Veja o selo de eficiência da sua casa:</p>
+        <p className="house-screen__subtitle">
+          Você fez {correctCount} de {rounds.length} escolhas eficientes. Veja o selo da sua casa:
+        </p>
         <EfficiencyGauge ratio={ratio} label="Parabéns por deixar a casa mais eficiente!" />
         <BigButton variant="primary" onClick={handleRestart}>
           Jogar novamente
@@ -87,58 +71,37 @@ export default function EfficientHouse() {
 
   return (
     <ScreenShell className="house-screen">
-      <div className="house-screen__header">
-        <h1 className="house-screen__title">Casa Eficiente</h1>
+      <div className="house-screen__body">
+        <h1 className="house-screen__title">Vamos montar uma casa eficiente?</h1>
         <p className="house-screen__subtitle">
-          Toque nos itens deste cômodo que estão desperdiçando energia
+          {round.question} · Etapa {roundIndex + 1} de {rounds.length}
         </p>
+
+        <div className="house-choices">
+          {round.options.map((option, idx) => (
+            <button
+              key={idx}
+              type="button"
+              className="house-choice-card"
+              onClick={() => handleChoice(option)}
+            >
+              <span className="house-choice-card__icon">
+                <Icon name={option.icon} size={56} />
+              </span>
+              <span className="house-choice-card__text">{option.text}</span>
+            </button>
+          ))}
+        </div>
       </div>
 
-      <div className="house-rooms-nav">
-        {rooms.map((room, idx) => (
-          <button
-            key={room.id}
-            type="button"
-            className={`house-rooms-nav__item ${idx === activeRoomIndex ? 'is-active' : ''} ${
-              room.items.filter((i) => i.isWaste).every((i) => i.checked) ? 'is-done' : ''
-            }`}
-            onClick={() => setActiveRoomIndex(idx)}
-            aria-label={room.name}
-          >
-            <Icon name={room.icon} size={28} />
-          </button>
-        ))}
-        {started && (
-          <div className="house-rooms-nav__gauge">
-            <EfficiencyGauge ratio={ratio} compact label={`${foundWaste}/${totalWaste}`} />
-          </div>
-        )}
-      </div>
-
-      <div className="house-room-title">
-        <Icon name={activeRoom.icon} size={24} />
-        <span>{activeRoom.name}</span>
-      </div>
-
-      <div key={activeRoom.id} className="house-grid">
-        {activeRoom.items.map((item) => (
-          <button
-            key={item.id}
-            type="button"
-            className={`house-item ${item.checked ? (item.isWaste ? 'is-fixed' : 'is-ok') : ''}`}
-            onClick={() => handleItemTap(item)}
-            disabled={item.checked}
-          >
-            <span className="house-item__icon">
-              <Icon name={item.icon} size={36} />
-            </span>
-            <span className="house-item__label">{item.label}</span>
-            {item.checked && <span className="house-item__check">✓</span>}
-          </button>
-        ))}
-      </div>
-
-      {toast && <Toast message={toast.message} tone={toast.tone} onDone={handleToastDone} />}
+      {feedback && (
+        <FeedbackOverlay
+          status={feedback.isCorrect ? 'correct' : 'wrong'}
+          title={feedback.title}
+          message={feedback.message}
+          onContinue={handleContinue}
+        />
+      )}
     </ScreenShell>
   )
 }

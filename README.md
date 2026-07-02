@@ -8,7 +8,7 @@ Aplicação web interativa para tela touch, criada para estandes e eventos do Gr
 
 - **Tela inicial** com chamada principal, botões grandes de atividades e logo com acesso oculto à área da equipe.
 - **Quiz Rápido**: perguntas de múltipla escolha sobre economia e segurança no uso de energia, com feedback imediato e pontuação final.
-- **Casa Eficiente**: encontre pontos de desperdício de energia em cada cômodo de uma casa (luz acesa à toa, aparelhos em stand-by, banho longo, ar-condicionado mal usado, geladeira aberta etc).
+- **Casa Eficiente**: monte uma casa eficiente escolhendo, em etapas, entre duas opções do dia a dia (lâmpada LED ou incandescente, banho curto ou longo, carregador ligado ou desligado etc), com um selo de eficiência A-E ao final.
 - **O Que Mais Consome Energia?**: compare eletrodomésticos e descubra quais pesam mais na conta de luz, com um ranking educativo ao final.
 - **Ranking opcional** (apenas apelido + pontuação, sem dados pessoais).
 - **Área da equipe (admin)** protegida por PIN, oculta atrás de 5 toques no logo da tela inicial.
