@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useConfig } from '../../context/ConfigContext'
 import GeneralSettings from '../../components/admin/GeneralSettings'
 import ActivitiesSettings from '../../components/admin/ActivitiesSettings'
+import MemoryImagesSettings from '../../components/admin/MemoryImagesSettings'
 import QuizEditor from '../../components/admin/QuizEditor'
 import RankingSettings from '../../components/admin/RankingSettings'
 import DangerZone from '../../components/admin/DangerZone'
@@ -53,7 +54,12 @@ export default function AdminPanel() {
 
       <main className="admin-panel__content">
         {activeTab === 'geral' && <GeneralSettings />}
-        {activeTab === 'atividades' && <ActivitiesSettings />}
+        {activeTab === 'atividades' && (
+          <>
+            <ActivitiesSettings />
+            <MemoryImagesSettings />
+          </>
+        )}
         {activeTab === 'quiz' && <QuizEditor />}
         {activeTab === 'ranking' && <RankingSettings />}
         {activeTab === 'avancado' && <DangerZone />}

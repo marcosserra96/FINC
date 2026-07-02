@@ -4,6 +4,7 @@ import Confetti from '../../../components/common/Confetti'
 import BigButton from '../../../components/common/BigButton'
 import EfficiencyGauge from '../../../components/common/EfficiencyGauge'
 import Icon from '../../../components/common/Icon'
+import { useConfig } from '../../../context/ConfigContext'
 import { MEMORY_PAIRS } from '../../../data/memoryCardsData'
 import { shuffleArray } from '../../../utils/shuffle'
 import './MemoryGame.css'
@@ -19,6 +20,8 @@ function buildDeck() {
 }
 
 export default function MemoryGame() {
+  const { config } = useConfig()
+  const cardImages = config.memoryCardImages || {}
   const [deck, setDeck] = useState(buildDeck)
   const [flipped, setFlipped] = useState([])
   const [matchedPairs, setMatchedPairs] = useState([])
@@ -112,7 +115,11 @@ export default function MemoryGame() {
                     <Icon name="bolt" size={26} />
                   </span>
                   <span className="memory-card__face memory-card__face--front">
-                    <Icon name={card.icon} size={30} />
+                    {cardImages[card.icon] ? (
+                      <img className="memory-card__image" src={cardImages[card.icon]} alt="" />
+                    ) : (
+                      <Icon name={card.icon} size={30} />
+                    )}
                     <span className="memory-card__label">{card.label}</span>
                   </span>
                 </span>
