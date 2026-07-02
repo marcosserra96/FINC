@@ -11,7 +11,7 @@ import './EfficientHouse.css'
 function cloneRooms() {
   return HOUSE_ROOMS.map((room) => ({
     ...room,
-    hotspots: room.hotspots.map((h) => ({ ...h, fixed: false })),
+    items: room.items.map((item) => ({ ...item, checked: false })),
   }))
 }
 
@@ -20,31 +20,40 @@ export default function EfficientHouse() {
   const [activeRoomIndex, setActiveRoomIndex] = useState(0)
   const [toast, setToast] = useState(null)
   const [finished, setFinished] = useState(false)
+  const [started, setStarted] = useState(false)
 
   const activeRoom = rooms[activeRoomIndex]
 
-  const totalHotspots = useMemo(() => rooms.reduce((sum, r) => sum + r.hotspots.length, 0), [rooms])
-  const fixedCount = useMemo(
-    () => rooms.reduce((sum, r) => sum + r.hotspots.filter((h) => h.fixed).length, 0),
+  const totalWaste = useMemo(
+    () => rooms.reduce((sum, r) => sum + r.items.filter((i) => i.isWaste).length, 0),
     [rooms]
   )
-  const ratio = totalHotspots ? fixedCount / totalHotspots : 0
+  const foundWaste = useMemo(
+    () => rooms.reduce((sum, r) => sum + r.items.filter((i) => i.isWaste && i.checked).length, 0),
+    [rooms]
+  )
+  const ratio = totalWaste ? foundWaste / totalWaste : 0
 
-  const handleHotspotTap = (hotspot) => {
-    if (hotspot.fixed || toast || finished) return
+  const handleItemTap = (item) => {
+    if (item.checked || toast || finished) return
+    setStarted(true)
     setRooms((prev) =>
       prev.map((room, idx) =>
         idx !== activeRoomIndex
           ? room
-          : { ...room, hotspots: room.hotspots.map((h) => (h.id === hotspot.id ? { ...h, fixed: true } : h)) }
+          : { ...room, items: room.items.map((i) => (i.id === item.id ? { ...i, checked: true } : i)) }
       )
     )
-    setToast({ message: hotspot.tip })
+    setToast(
+      item.isWaste
+        ? { message: item.tip, tone: 'good' }
+        : { message: `Tudo certo aqui! ${item.tip}`, tone: 'info' }
+    )
   }
 
   const handleToastDone = () => {
     setToast(null)
-    const roomDone = activeRoom.hotspots.every((h) => h.fixed)
+    const roomDone = activeRoom.items.filter((i) => i.isWaste).every((i) => i.checked)
     if (roomDone) {
       if (activeRoomIndex + 1 < rooms.length) {
         setActiveRoomIndex(activeRoomIndex + 1)
@@ -59,6 +68,7 @@ export default function EfficientHouse() {
     setActiveRoomIndex(0)
     setToast(null)
     setFinished(false)
+    setStarted(false)
   }
 
   if (finished) {
@@ -79,7 +89,9 @@ export default function EfficientHouse() {
     <ScreenShell className="house-screen">
       <div className="house-screen__header">
         <h1 className="house-screen__title">Casa Eficiente</h1>
-        <p className="house-screen__subtitle">Toque nos pontos que estão brilhando para corrigir o desperdício</p>
+        <p className="house-screen__subtitle">
+          Toque nos itens deste cômodo que estão desperdiçando energia
+        </p>
       </div>
 
       <div className="house-rooms-nav">
@@ -88,7 +100,7 @@ export default function EfficientHouse() {
             key={room.id}
             type="button"
             className={`house-rooms-nav__item ${idx === activeRoomIndex ? 'is-active' : ''} ${
-              room.hotspots.every((h) => h.fixed) ? 'is-done' : ''
+              room.items.filter((i) => i.isWaste).every((i) => i.checked) ? 'is-done' : ''
             }`}
             onClick={() => setActiveRoomIndex(idx)}
             aria-label={room.name}
@@ -96,48 +108,37 @@ export default function EfficientHouse() {
             <Icon name={room.icon} size={28} />
           </button>
         ))}
-        <div className="house-rooms-nav__gauge">
-          <EfficiencyGauge ratio={ratio} compact label={`${fixedCount}/${totalHotspots}`} />
-        </div>
+        {started && (
+          <div className="house-rooms-nav__gauge">
+            <EfficiencyGauge ratio={ratio} compact label={`${foundWaste}/${totalWaste}`} />
+          </div>
+        )}
       </div>
 
-      <div
-        key={activeRoom.id}
-        className="house-scene"
-        style={{
-          background: `linear-gradient(180deg, ${activeRoom.wallColor} 0%, ${activeRoom.wallColor} 62%, ${activeRoom.floorColor} 62%, ${activeRoom.floorColor} 100%)`,
-        }}
-      >
-        <span className="house-scene__room-label">
-          <Icon name={activeRoom.icon} size={22} /> {activeRoom.name}
-        </span>
+      <div className="house-room-title">
+        <Icon name={activeRoom.icon} size={24} />
+        <span>{activeRoom.name}</span>
+      </div>
 
-        {activeRoom.decorations.map((deco) => (
-          <span
-            key={deco.id}
-            className="house-scene__decoration"
-            style={{ left: `${deco.x}%`, top: `${deco.y}%`, fontSize: `${deco.size}rem` }}
-          >
-            {deco.icon}
-          </span>
-        ))}
-
-        {activeRoom.hotspots.map((hotspot) => (
+      <div key={activeRoom.id} className="house-grid">
+        {activeRoom.items.map((item) => (
           <button
-            key={hotspot.id}
+            key={item.id}
             type="button"
-            className={`house-scene__hotspot ${hotspot.fixed ? 'is-fixed' : 'is-glowing'}`}
-            style={{ left: `${hotspot.x}%`, top: `${hotspot.y}%` }}
-            onClick={() => handleHotspotTap(hotspot)}
-            disabled={hotspot.fixed}
+            className={`house-item ${item.checked ? (item.isWaste ? 'is-fixed' : 'is-ok') : ''}`}
+            onClick={() => handleItemTap(item)}
+            disabled={item.checked}
           >
-            <Icon name={hotspot.icon} size={38} />
-            {hotspot.fixed && <span className="house-scene__hotspot-check">✓</span>}
+            <span className="house-item__icon">
+              <Icon name={item.icon} size={36} />
+            </span>
+            <span className="house-item__label">{item.label}</span>
+            {item.checked && <span className="house-item__check">✓</span>}
           </button>
         ))}
       </div>
 
-      {toast && <Toast message={toast.message} tone="good" onDone={handleToastDone} />}
+      {toast && <Toast message={toast.message} tone={toast.tone} onDone={handleToastDone} />}
     </ScreenShell>
   )
 }

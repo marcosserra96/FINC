@@ -276,6 +276,22 @@ const ICONS = {
       </g>
     </>
   ),
+  pot: (
+    <>
+      <path d="M10 20 H38 V30 C38 36 32 40 24 40 C16 40 10 36 10 30 Z" fill="#B0BEC5" stroke="#78909C" strokeWidth="2" />
+      <rect x="8" y="17" width="32" height="5" rx="2.5" fill="#78909C" />
+      <rect x="3" y="18" width="6" height="3" rx="1.5" fill="#78909C" />
+      <rect x="39" y="18" width="6" height="3" rx="1.5" fill="#78909C" />
+      <path d="M18 13 C18 10 21 10 21 13 M27 13 C27 10 30 10 30 13" fill="none" stroke="#B0BEC5" strokeWidth="2" strokeLinecap="round" />
+    </>
+  ),
+  mirror: (
+    <>
+      <ellipse cx="24" cy="18" rx="14" ry="16" fill="#E8F6FB" stroke="#90A4AE" strokeWidth="3" />
+      <line x1="24" y1="34" x2="24" y2="42" stroke="#90A4AE" strokeWidth="3" strokeLinecap="round" />
+      <line x1="16" y1="42" x2="32" y2="42" stroke="#90A4AE" strokeWidth="3" strokeLinecap="round" />
+    </>
+  ),
 }
 
 export const ICON_NAMES = Object.keys(ICONS)
