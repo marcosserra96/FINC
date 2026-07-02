@@ -90,6 +90,7 @@ Depois, em **Settings → Pages**, selecione a branch `gh-pages` como fonte.
 1. Na tela inicial, toque **5 vezes seguidas no logo** (dentro de poucos segundos).
 2. Digite o **PIN de acesso** (padrão: `2026`) no teclado numérico exibido.
 3. No painel, é possível:
+   - Enviar o logo oficial (SVG ou PNG) na aba **Geral**;
    - Editar a mensagem da tela inicial;
    - Ajustar o tempo de inatividade até o retorno automático;
    - Trocar o PIN de acesso;

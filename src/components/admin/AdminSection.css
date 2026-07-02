@@ -145,3 +145,57 @@
   color: var(--color-success);
   font-weight: 600;
 }
+
+.admin-logo-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.admin-logo-preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 160px;
+  height: 84px;
+  padding: 12px 20px;
+  border-radius: var(--radius-md);
+  background: var(--gradient-ink);
+}
+
+.admin-logo-preview img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.admin-logo-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.admin-logo-upload {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 20px;
+  border-radius: var(--radius-md);
+  background: var(--energisa-blue);
+  color: var(--color-white);
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.admin-logo-reset {
+  border: none;
+  background: transparent;
+  color: var(--color-gray-600);
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-align: left;
+  text-decoration: underline;
+}

@@ -1,12 +1,11 @@
 import { useSecretTap } from '../../hooks/useSecretTap'
+import { useConfig } from '../../context/ConfigContext'
 import './Logo.css'
 
-/**
- * Área reservada para o logo oficial do Grupo Energisa.
- * Para usar a logo real, substitua o arquivo em public/logo-energisa-placeholder.svg
- * (ou aponte o "src" abaixo para o novo arquivo).
- */
+const PLACEHOLDER_LOGO = `${import.meta.env.BASE_URL}logo-energisa-placeholder.svg`
+
 export default function Logo({ onSecretUnlock, size = 'lg' }) {
+  const { config } = useConfig()
   const registerTap = useSecretTap({
     requiredTaps: 5,
     windowMs: 2500,
@@ -20,7 +19,7 @@ export default function Logo({ onSecretUnlock, size = 'lg' }) {
       role={onSecretUnlock ? 'button' : undefined}
       aria-label="Energisa"
     >
-      <img src={`${import.meta.env.BASE_URL}logo-energisa-placeholder.svg`} alt="Energisa" draggable={false} />
+      <img src={config.logoDataUrl || PLACEHOLDER_LOGO} alt="Energisa" draggable={false} />
     </div>
   )
 }

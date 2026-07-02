@@ -11,6 +11,7 @@ export const DEFAULT_CONFIG = {
   },
   rankingEnabled: true,
   adminPin: '2026',
+  logoDataUrl: null,
 };
 
 export function mergeWithDefaultConfig(stored) {

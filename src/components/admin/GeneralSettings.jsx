@@ -4,6 +4,8 @@ import AdminSection from './AdminSection'
 const TIMEOUT_STEP = 10
 const TIMEOUT_MIN = 20
 const TIMEOUT_MAX = 300
+const LOGO_ACCEPT = '.svg,.png,image/svg+xml,image/png'
+const LOGO_MAX_BYTES = 2 * 1024 * 1024
 
 export default function GeneralSettings() {
   const { config, updateConfig } = useConfig()
@@ -13,8 +15,47 @@ export default function GeneralSettings() {
     updateConfig({ inactivityTimeoutSeconds: next })
   }
 
+  const handleLogoUpload = (e) => {
+    const file = e.target.files?.[0]
+    e.target.value = ''
+    if (!file) return
+    if (!/\.(svg|png)$/i.test(file.name) && file.type !== 'image/svg+xml' && file.type !== 'image/png') {
+      window.alert('Envie um arquivo SVG ou PNG.')
+      return
+    }
+    if (file.size > LOGO_MAX_BYTES) {
+      window.alert('Arquivo muito grande. Envie um logo de até 2MB.')
+      return
+    }
+    const reader = new FileReader()
+    reader.onload = () => updateConfig({ logoDataUrl: reader.result })
+    reader.readAsDataURL(file)
+  }
+
   return (
     <>
+      <AdminSection
+        title="Logo do totem"
+        description="Envie o logo oficial do Grupo Energisa (SVG ou PNG). Ele já deve conter o nome escrito — nada é adicionado por cima."
+      >
+        <div className="admin-logo-row">
+          <div className="admin-logo-preview">
+            <img src={config.logoDataUrl || `${import.meta.env.BASE_URL}logo-energisa-placeholder.svg`} alt="Prévia do logo" />
+          </div>
+          <div className="admin-logo-actions">
+            <label className="admin-logo-upload">
+              Enviar arquivo
+              <input type="file" accept={LOGO_ACCEPT} onChange={handleLogoUpload} hidden />
+            </label>
+            {config.logoDataUrl && (
+              <button type="button" className="admin-logo-reset" onClick={() => updateConfig({ logoDataUrl: null })}>
+                Usar logo padrão
+              </button>
+            )}
+          </div>
+        </div>
+      </AdminSection>
+
       <AdminSection
         title="Mensagem da tela inicial"
         description="Texto exibido para o público na tela de abertura do totem."
