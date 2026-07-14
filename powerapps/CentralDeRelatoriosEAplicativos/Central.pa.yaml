@@ -1,0 +1,1984 @@
+Screens:
+  Central:
+    Properties:
+      Fill: =RGBA(244, 246, 247, 1)
+      OnVisible: |-
+        =Set(varEmailUsuario, Lower(User().Email));
+
+        Set(varIsAdmin, varEmailUsuario = "marcos.serra@energisa.com.br");
+
+        ClearCollect(colCategorias, {Value: "Todas"});
+        Collect(
+            colCategorias,
+            Sort(
+                Distinct(
+                    Filter(
+                        'GD - Lista de Relatórios Power BI',
+                        !IsBlank('Categoria Relatório'.Value)
+                    ),
+                    'Categoria Relatório'.Value
+                ),
+                Value,
+                SortOrder.Ascending
+            )
+        );
+
+        ClearCollect(colAreas, {Value: "Todas"});
+        Collect(
+            colAreas,
+            Sort(
+                Distinct(
+                    Filter(
+                        'GD - Lista de Relatórios Power BI',
+                        !IsBlank(Gerência.Value)
+                    ),
+                    Gerência.Value
+                ),
+                Value,
+                SortOrder.Ascending
+            )
+        );
+
+        ClearCollect(
+            colTipoItemOpcoes,
+            Sort(Choices('GD - Lista de Relatórios Power BI'.'Tipo de Item'), Value, SortOrder.Ascending)
+        );
+
+        ClearCollect(
+            colAmbienteOpcoes,
+            Sort(Choices('GD - Lista de Relatórios Power BI'.'Ambiente de Publicação'), Value, SortOrder.Ascending)
+        );
+
+        ClearCollect(
+            colAreaOpcoesForm,
+            Sort(Choices('GD - Lista de Relatórios Power BI'.Gerência), Value, SortOrder.Ascending)
+        );
+
+        ClearCollect(
+            colCoordenacaoOpcoesForm,
+            Sort(Choices('GD - Lista de Relatórios Power BI'.Coordenação), Value, SortOrder.Ascending)
+        );
+
+        ClearCollect(
+            colCategoriaOpcoesForm,
+            Sort(Choices('GD - Lista de Relatórios Power BI'.'Categoria Relatório'), Value, SortOrder.Ascending)
+        );
+
+        ClearCollect(
+            colResponsaveisBrutos,
+            Distinct(
+                Filter(
+                    'GD - Lista de Relatórios Power BI',
+                    !IsBlank('Responsável pela Atualização'.Email)
+                ),
+                Lower('Responsável pela Atualização'.Email) & "|" & Coalesce('Responsável pela Atualização'.DisplayName, 'Responsável pela Atualização'.Email)
+            )
+        );
+
+        ClearCollect(
+            colResponsaveis,
+            Sort(
+                AddColumns(
+                    colResponsaveisBrutos,
+                    "EmailResp",
+                    Lower(Mid(Value, 1, Find("|", Value) - 1)),
+                    "NomeResp",
+                    Mid(Value, Find("|", Value) + 1, 200)
+                ),
+                NomeResp,
+                SortOrder.Ascending
+            )
+        );
+
+        Set(
+            varPodeAdicionar,
+            varIsAdmin Or
+            CountRows(
+                Filter(
+                    'GD - Lista de Relatórios Power BI',
+                    Lower('Responsável pela Atualização'.Email) = varEmailUsuario
+                )
+            ) > 0
+        );
+
+        Set(varTipoSelecionado, "TODOS");
+        Set(varAreaSelecionada, "Todas");
+        Set(varModalAberto, false);
+        Set(varConfirmarDescarte, false);
+        Set(varSalvando, false);
+        Set(varErroFormulario, "");
+        Set(varModoFormulario, "");
+        Set(varRegistroSelecionado, Blank())
+
+    Children:
+      - cntCabecalho:
+          Control: GroupContainer@1.5.0
+          Variant: ManualLayout
+          Properties:
+            DropShadow: =DropShadow.Regular
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =68
+            Width: =Parent.Width
+            X: =0
+            Y: =0
+          Children:
+            - faixaAzul:
+                Control: GroupContainer@1.5.0
+                Variant: ManualLayout
+                Properties:
+                  Fill: =RGBA(0, 159, 194, 1)
+                  Height: =4
+                  Width: =Parent.Width * 0.86
+                  X: =0
+                  Y: =0
+
+            - faixaLaranja:
+                Control: GroupContainer@1.5.0
+                Variant: ManualLayout
+                Properties:
+                  Fill: =RGBA(243, 112, 33, 1)
+                  Height: =4
+                  Width: =Parent.Width - Self.X
+                  X: =faixaAzul.Width
+                  Y: =0
+
+            - marcaAzul:
+                Control: GroupContainer@1.5.0
+                Variant: ManualLayout
+                Properties:
+                  Fill: =RGBA(0, 159, 194, 1)
+                  Height: =34
+                  RadiusBottomLeft: =4
+                  RadiusBottomRight: =4
+                  RadiusTopLeft: =4
+                  RadiusTopRight: =4
+                  Width: =6
+                  X: =20
+                  Y: =17
+
+            - marcaLaranja:
+                Control: GroupContainer@1.5.0
+                Variant: ManualLayout
+                Properties:
+                  Fill: =RGBA(243, 112, 33, 1)
+                  Height: =34
+                  RadiusBottomLeft: =3
+                  RadiusBottomRight: =3
+                  RadiusTopLeft: =3
+                  RadiusTopRight: =3
+                  Width: =3
+                  X: =29
+                  Y: =17
+
+            - lblTitulo:
+                Control: Text@0.0.51
+                Properties:
+                  FontColor: =RGBA(0, 80, 97, 1)
+                  Height: =29
+                  Size: =22
+                  Text: ="Central de Relatórios e Aplicativos"
+                  VerticalAlign: =VerticalAlign.Middle
+                  Weight: ='TextCanvas.Weight'.Bold
+                  Width: =Min(620, Parent.Width - 390)
+                  X: =45
+                  Y: =9
+
+            - lblSubtitulo:
+                Control: Text@0.0.51
+                Properties:
+                  FontColor: =RGBA(243, 112, 33, 1)
+                  Height: =18
+                  Size: =11
+                  Text: ="Energisa Minas Rio"
+                  VerticalAlign: =VerticalAlign.Middle
+                  Weight: ='TextCanvas.Weight'.Semibold
+                  Width: =300
+                  X: =45
+                  Y: =38
+
+            - lblUsuario:
+                Control: Text@0.0.51
+                Properties:
+                  Align: ='TextCanvas.Align'.End
+                  FontColor: =RGBA(38, 73, 81, 1)
+                  Height: =22
+                  Size: =11
+                  Text: =First(Split(User().FullName, " ")).Value
+                  VerticalAlign: =VerticalAlign.Middle
+                  Weight: ='TextCanvas.Weight'.Semibold
+                  Width: =210
+                  X: =Parent.Width - 286
+                  Y: =23
+
+            - imgUsuario:
+                Control: Image@2.2.3
+                Properties:
+                  AccessibleLabel: ="Foto do usuário conectado"
+                  Height: =42
+                  Image: =User().Image
+                  ImagePosition: =ImagePosition.Fill
+                  RadiusBottomLeft: =21
+                  RadiusBottomRight: =21
+                  RadiusTopLeft: =21
+                  RadiusTopRight: =21
+                  Width: =42
+                  X: =Parent.Width - 62
+                  Y: =12
+
+      - cntFiltros:
+          Control: GroupContainer@1.5.0
+          Variant: ManualLayout
+          Properties:
+            DropShadow: =DropShadow.Regular
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =90
+            RadiusBottomLeft: =12
+            RadiusBottomRight: =12
+            RadiusTopLeft: =12
+            RadiusTopRight: =12
+            Width: =Parent.Width - 40
+            X: =20
+            Y: =80
+          Children:
+            - lblTipo:
+                Control: Text@0.0.51
+                Properties:
+                  FontColor: =RGBA(102, 119, 125, 1)
+                  Height: =16
+                  Size: =8
+                  Text: ="TIPO DE CONTEÚDO"
+                  VerticalAlign: =VerticalAlign.Middle
+                  Weight: ='TextCanvas.Weight'.Bold
+                  Width: =180
+                  X: =18
+                  Y: =10
+
+            - baseTipo:
+                Control: GroupContainer@1.5.0
+                Variant: ManualLayout
+                Properties:
+                  Fill: =RGBA(239, 244, 245, 1)
+                  Height: =38
+                  RadiusBottomLeft: =9
+                  RadiusBottomRight: =9
+                  RadiusTopLeft: =9
+                  RadiusTopRight: =9
+                  Width: =310
+                  X: =18
+                  Y: =30
+
+            - btnTipoTodos:
+                Control: HtmlViewer@2.1.0
+                Properties:
+                  Height: =32
+                  HtmlText: |-
+                    =With(
+                        {
+                            vSelecionado: Coalesce(varTipoSelecionado, "TODOS") = "TODOS",
+                            vLargura: Text(RoundDown(Self.Width - 4, 0), "[$-en-US]0"),
+                            vAltura: Text(RoundDown(Self.Height - 4, 0), "[$-en-US]0")
+                        },
+                        "
+                        <div style='
+                            width:" & vLargura & "px;
+                            height:" & vAltura & "px;
+                            box-sizing:border-box;
+                            display:flex;
+                            align-items:center;
+                            justify-content:center;
+                            border-radius:7px;
+                            background:" & If(vSelecionado, "#005061", "transparent") & ";
+                            color:" & If(vSelecionado, "#FFFFFF", "#52666C") & ";
+                            box-shadow:" & If(vSelecionado, "0 3px 8px rgba(0,80,97,0.20)", "none") & ";
+                            font-family:Segoe UI,Arial,sans-serif;
+                            font-size:10px;
+                            font-weight:700;
+                            cursor:pointer;
+                            margin:2px;
+                            overflow:hidden;
+                        '>
+                            Todos
+                        </div>
+                        "
+                    )
+                  OnSelect: =Set(varTipoSelecionado, "TODOS")
+                  PaddingBottom: =0
+                  PaddingLeft: =0
+                  PaddingRight: =0
+                  PaddingTop: =0
+                  Width: =(baseTipo.Width - 6) / 3
+                  X: =baseTipo.X + 3
+                  Y: =33
+
+            - btnTipoRelatorios:
+                Control: HtmlViewer@2.1.0
+                Properties:
+                  Height: =32
+                  HtmlText: |-
+                    =With(
+                        {
+                            vSelecionado: Coalesce(varTipoSelecionado, "TODOS") = "RELATÓRIOS",
+                            vLargura: Text(RoundDown(Self.Width - 4, 0), "[$-en-US]0"),
+                            vAltura: Text(RoundDown(Self.Height - 4, 0), "[$-en-US]0")
+                        },
+                        "
+                        <div style='
+                            width:" & vLargura & "px;
+                            height:" & vAltura & "px;
+                            box-sizing:border-box;
+                            display:flex;
+                            align-items:center;
+                            justify-content:center;
+                            border-radius:7px;
+                            background:" & If(vSelecionado, "#005061", "transparent") & ";
+                            color:" & If(vSelecionado, "#FFFFFF", "#52666C") & ";
+                            box-shadow:" & If(vSelecionado, "0 3px 8px rgba(0,80,97,0.20)", "none") & ";
+                            font-family:Segoe UI,Arial,sans-serif;
+                            font-size:10px;
+                            font-weight:700;
+                            cursor:pointer;
+                            margin:2px;
+                            overflow:hidden;
+                        '>
+                            Relatórios
+                        </div>
+                        "
+                    )
+                  OnSelect: =Set(varTipoSelecionado, "RELATÓRIOS")
+                  PaddingBottom: =0
+                  PaddingLeft: =0
+                  PaddingRight: =0
+                  PaddingTop: =0
+                  Width: =(baseTipo.Width - 6) / 3
+                  X: =btnTipoTodos.X + btnTipoTodos.Width
+                  Y: =33
+
+            - btnTipoAplicativos:
+                Control: HtmlViewer@2.1.0
+                Properties:
+                  Height: =32
+                  HtmlText: |-
+                    =With(
+                        {
+                            vSelecionado: Coalesce(varTipoSelecionado, "TODOS") = "APLICATIVOS",
+                            vLargura: Text(RoundDown(Self.Width - 4, 0), "[$-en-US]0"),
+                            vAltura: Text(RoundDown(Self.Height - 4, 0), "[$-en-US]0")
+                        },
+                        "
+                        <div style='
+                            width:" & vLargura & "px;
+                            height:" & vAltura & "px;
+                            box-sizing:border-box;
+                            display:flex;
+                            align-items:center;
+                            justify-content:center;
+                            border-radius:7px;
+                            background:" & If(vSelecionado, "#005061", "transparent") & ";
+                            color:" & If(vSelecionado, "#FFFFFF", "#52666C") & ";
+                            box-shadow:" & If(vSelecionado, "0 3px 8px rgba(0,80,97,0.20)", "none") & ";
+                            font-family:Segoe UI,Arial,sans-serif;
+                            font-size:10px;
+                            font-weight:700;
+                            cursor:pointer;
+                            margin:2px;
+                            overflow:hidden;
+                        '>
+                            Aplicativos
+                        </div>
+                        "
+                    )
+                  OnSelect: =Set(varTipoSelecionado, "APLICATIVOS")
+                  PaddingBottom: =0
+                  PaddingLeft: =0
+                  PaddingRight: =0
+                  PaddingTop: =0
+                  Width: =(baseTipo.Width - 6) / 3
+                  X: =btnTipoRelatorios.X + btnTipoRelatorios.Width
+                  Y: =33
+
+            - lblArea:
+                Control: Text@0.0.51
+                Properties:
+                  FontColor: =RGBA(102, 119, 125, 1)
+                  Height: =16
+                  Size: =8
+                  Text: ="ÁREA"
+                  VerticalAlign: =VerticalAlign.Middle
+                  Weight: ='TextCanvas.Weight'.Bold
+                  Width: =200
+                  X: =350
+                  Y: =10
+
+            - galAreaTabs:
+                Control: Gallery@2.15.0
+                Variant: Horizontal
+                Properties:
+                  Height: =46
+                  Items: =colAreas
+                  ShowScrollbar: =false
+                  TemplatePadding: =0
+                  TemplateSize: =112
+                  Width: =560
+                  X: =350
+                  Y: =30
+                Children:
+                  - htmlChipArea:
+                      Control: HtmlViewer@2.1.0
+                      Properties:
+                        Height: =36
+                        HtmlText: |-
+                          =With(
+                              {
+                                  vSelecionado: Coalesce(varAreaSelecionada, "Todas") = ThisItem.Value,
+                                  vLargura: Text(RoundDown(Self.Width - 4, 0), "[$-en-US]0"),
+                                  vAltura: Text(RoundDown(Self.Height - 4, 0), "[$-en-US]0")
+                              },
+                              "
+                              <div style='
+                                  width:" & vLargura & "px;
+                                  height:" & vAltura & "px;
+                                  box-sizing:border-box;
+                                  display:flex;
+                                  align-items:center;
+                                  justify-content:center;
+                                  border-radius:7px;
+                                  background:" & If(vSelecionado, "#005061", "#EFF4F5") & ";
+                                  color:" & If(vSelecionado, "#FFFFFF", "#52666C") & ";
+                                  box-shadow:" & If(vSelecionado, "0 3px 8px rgba(0,80,97,0.20)", "none") & ";
+                                  font-family:Segoe UI,Arial,sans-serif;
+                                  font-size:10px;
+                                  font-weight:700;
+                                  cursor:pointer;
+                                  padding:0 10px;
+                                  overflow:hidden;
+                                  white-space:nowrap;
+                                  text-overflow:ellipsis;
+                              '>
+                                  " & ThisItem.Value & "
+                              </div>
+                              "
+                          )
+                        OnSelect: =Set(varAreaSelecionada, ThisItem.Value)
+                        PaddingBottom: =0
+                        PaddingLeft: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        Width: =Parent.TemplateWidth - 4
+                        X: =2
+                        Y: =1
+
+            - lblCategoria:
+                Control: Text@0.0.51
+                Properties:
+                  FontColor: =RGBA(102, 119, 125, 1)
+                  Height: =16
+                  Size: =8
+                  Text: ="CATEGORIA"
+                  VerticalAlign: =VerticalAlign.Middle
+                  Weight: ='TextCanvas.Weight'.Bold
+                  Width: =150
+                  X: =galAreaTabs.X + galAreaTabs.Width + 16
+                  Y: =10
+
+            - drpCategoria:
+                Control: ModernDropdown@1.0.2
+                Properties:
+                  AccessibleLabel: ="Filtrar por categoria"
+                  Default: =First(colCategorias)
+                  Height: =38
+                  ItemDisplayText: =ThisItem.Value
+                  Items: =colCategorias
+                  Width: =190
+                  X: =galAreaTabs.X + galAreaTabs.Width + 16
+                  Y: =30
+
+            - lblPesquisa:
+                Control: Text@0.0.51
+                Properties:
+                  FontColor: =RGBA(102, 119, 125, 1)
+                  Height: =16
+                  Size: =8
+                  Text: ="PESQUISAR"
+                  VerticalAlign: =VerticalAlign.Middle
+                  Weight: ='TextCanvas.Weight'.Bold
+                  Width: =120
+                  X: =drpCategoria.X + drpCategoria.Width + 20
+                  Y: =10
+
+            - icoPesquisa:
+                Control: Icon@0.0.7
+                Properties:
+                  Height: =28
+                  Icon: ="Search"
+                  IconColor: =RGBA(0, 159, 194, 1)
+                  IconStyle: ='Icon.IconStyle'.Outline
+                  Width: =24
+                  X: =lblPesquisa.X + 8
+                  Y: =35
+
+            - txtPesquisa:
+                Control: TextInput@0.0.54
+                Properties:
+                  AccessibleLabel: ="Pesquisar conteúdos"
+                  Appearance: ='TextInputCanvas.Appearance'.Outline
+                  Height: =38
+                  Placeholder: ="Pesquisar por título, descrição, área, categoria ou responsável"
+                  TriggerOutput: ='TextInputCanvas.TriggerOutput'.Keypress
+                  Width: =Parent.Width - lblPesquisa.X - 138
+                  X: =lblPesquisa.X
+                  Y: =30
+
+            - btnLimpar:
+                Control: HtmlViewer@2.1.0
+                Properties:
+                  Height: =38
+                  HtmlText: |-
+                    =With(
+                        {
+                            vTemFiltro:
+                                Or(
+                                    Coalesce(varTipoSelecionado, "TODOS") <> "TODOS",
+                                    Coalesce(varAreaSelecionada, "Todas") <> "Todas",
+                                    Coalesce(drpCategoria.Selected.Value, "Todas") <> "Todas",
+                                    !IsBlank(Trim(txtPesquisa.Value))
+                                ),
+                            vLargura: Text(RoundDown(Self.Width - 4, 0), "[$-en-US]0"),
+                            vAltura: Text(RoundDown(Self.Height - 4, 0), "[$-en-US]0")
+                        },
+                        "
+                        <div style='
+                            width:" & vLargura & "px;
+                            height:" & vAltura & "px;
+                            box-sizing:border-box;
+                            display:flex;
+                            align-items:center;
+                            justify-content:center;
+                            gap:6px;
+                            border-radius:8px;
+                            border:1px solid " & If(vTemFiltro, "#F0C5A9", "#D8E3E5") & ";
+                            background:" & If(vTemFiltro, "#FFF5EF", "#FFFFFF") & ";
+                            color:" & If(vTemFiltro, "#A94C12", "#5F7177") & ";
+                            font-family:Segoe UI,Arial,sans-serif;
+                            font-size:9px;
+                            font-weight:700;
+                            cursor:pointer;
+                            margin:2px;
+                            overflow:hidden;
+                        '>
+                            <span style='color:#F37021;font-size:14px;'>&#8635;</span>
+                            LIMPAR
+                        </div>
+                        "
+                    )
+                  OnSelect: |-
+                    =Set(varTipoSelecionado, "TODOS");
+                    Set(varAreaSelecionada, "Todas");
+                    Reset(drpCategoria);
+                    Reset(txtPesquisa)
+                  PaddingBottom: =0
+                  PaddingLeft: =0
+                  PaddingRight: =0
+                  PaddingTop: =0
+                  Width: =104
+                  X: =Parent.Width - 124
+                  Y: =30
+
+      - cntResultados:
+          Control: GroupContainer@1.5.0
+          Variant: ManualLayout
+          Properties:
+            Fill: =RGBA(244, 246, 247, 1)
+            Height: =52
+            Width: =Parent.Width
+            X: =0
+            Y: =cntFiltros.Y + cntFiltros.Height + 4
+          Children:
+            - lblQuantidade:
+                Control: Text@0.0.51
+                Properties:
+                  FontColor: =RGBA(49, 78, 85, 1)
+                  Height: =26
+                  Size: =11
+                  Text: |-
+                    =With(
+                        {
+                            vQuantidade: CountRows(galCatalogo.AllItems)
+                        },
+                        vQuantidade &
+                        If(
+                            vQuantidade = 1,
+                            " conteúdo encontrado",
+                            " conteúdos encontrados"
+                        )
+                    )
+                  VerticalAlign: =VerticalAlign.Middle
+                  Weight: ='TextCanvas.Weight'.Bold
+                  Width: =330
+                  X: =28
+                  Y: =12
+
+            - btnAdicionarNovo:
+                Control: Button@0.0.45
+                Properties:
+                  AccessibleLabel: ="Adicionar novo conteúdo"
+                  BorderThickness: =0
+                  Height: =36
+                  Text: ="+  Adicionar novo"
+                  Visible: =varPodeAdicionar
+                  Width: =172
+                  X: =Parent.Width - 200
+                  Y: =8
+                  OnSelect: |-
+                    =If(
+                        varPodeAdicionar,
+                        Set(varModoFormulario, "NOVO");
+                        Set(varRegistroSelecionado, Blank());
+                        Set(varErroFormulario, "");
+                        Set(varConfirmarDescarte, false);
+                        Reset(txtFormNome);
+                        Reset(txtFormDescricao);
+                        Reset(txtFormLink);
+                        Reset(txtFormPeriodicidade);
+                        Reset(txtFormNovoResponsavelEmail);
+                        Reset(drpFormTipo);
+                        Reset(drpFormAmbiente);
+                        Reset(drpFormArea);
+                        Reset(drpFormCoordenacao);
+                        Reset(drpFormCategoria);
+                        Reset(drpFormResponsavel);
+                        Set(varModalAberto, true),
+                        Notify("Você não possui permissão para adicionar novos registros.", NotificationType.Error)
+                    )
+
+      - galCatalogo:
+          Control: Gallery@2.15.0
+          Variant: Vertical
+          Properties:
+            Height: =Parent.Height - Self.Y
+            Items: |-
+              =With(
+                  {
+                      vTipo:
+                          Coalesce(
+                              varTipoSelecionado,
+                              "TODOS"
+                          ),
+
+                      vArea:
+                          Coalesce(
+                              varAreaSelecionada,
+                              "Todas"
+                          ),
+
+                      vCategoria:
+                          Coalesce(
+                              drpCategoria.Selected.Value,
+                              "Todas"
+                          ),
+
+                      vPesquisa:
+                          Lower(
+                              Trim(
+                                  txtPesquisa.Value
+                              )
+                          )
+                  },
+
+                  SortByColumns(
+                      Filter(
+                          'GD - Lista de Relatórios Power BI',
+
+                          Or(
+                              vTipo = "TODOS",
+                              And(
+                                  vTipo = "RELATÓRIOS",
+                                  'Tipo de Item'.Value = "Relatório"
+                              ),
+                              And(
+                                  vTipo = "APLICATIVOS",
+                                  'Tipo de Item'.Value = "Aplicativo"
+                              )
+                          ),
+
+                          Or(
+                              vArea = "Todas",
+                              Gerência.Value = vArea
+                          ),
+
+                          Or(
+                              vCategoria = "Todas",
+                              'Categoria Relatório'.Value = vCategoria
+                          ),
+
+                          Or(
+                              IsBlank(vPesquisa),
+                              vPesquisa in Lower(
+                                  Coalesce(
+                                      'Nome do Relatório',
+                                      ""
+                                  )
+                              ),
+                              vPesquisa in Lower(
+                                  Coalesce(
+                                      Descrição,
+                                      ""
+                                  )
+                              ),
+                              vPesquisa in Lower(
+                                  Coalesce(
+                                      Gerência.Value,
+                                      ""
+                                  )
+                              ),
+                              vPesquisa in Lower(
+                                  Coalesce(
+                                      Coordenação.Value,
+                                      ""
+                                  )
+                              ),
+                              vPesquisa in Lower(
+                                  Coalesce(
+                                      'Categoria Relatório'.Value,
+                                      ""
+                                  )
+                              ),
+                              vPesquisa in Lower(
+                                  Coalesce(
+                                      'Responsável pela Atualização'.DisplayName,
+                                      ""
+                                  )
+                              ),
+                              vPesquisa in Lower(
+                                  Coalesce(
+                                      'Tipo de Item'.Value,
+                                      ""
+                                  )
+                              ),
+                              vPesquisa in Lower(
+                                  Coalesce(
+                                      'Ambiente de Publicação'.Value,
+                                      ""
+                                  )
+                              )
+                          )
+                      ),
+                      "NomedoRelat_x00f3_rio",
+                      SortOrder.Ascending
+                  )
+              )
+            TemplatePadding: =0
+            TemplateSize: =230
+            ShowScrollbar: =false
+            Width: =Parent.Width
+            WrapCount: =3
+            X: =0
+            Y: =cntResultados.Y + cntResultados.Height
+          Children:
+            - htmlCard:
+                Control: HtmlViewer@2.1.0
+                Properties:
+                  Height: =216
+                  HtmlText: |-
+                    =With(
+                        {
+                            vTipo:
+                                Upper(
+                                    Coalesce(
+                                        ThisItem.'Tipo de Item'.Value,
+                                        "Item"
+                                    )
+                                ),
+
+                            vAmbiente:
+                                Coalesce(
+                                    ThisItem.'Ambiente de Publicação'.Value,
+                                    ""
+                                ),
+
+                            vCategoria:
+                                Coalesce(
+                                    ThisItem.'Categoria Relatório'.Value,
+                                    "Sem categoria"
+                                ),
+
+                            vArea:
+                                Coalesce(
+                                    ThisItem.Gerência.Value,
+                                    "Sem área"
+                                ),
+
+                            vTitulo:
+                                Coalesce(
+                                    ThisItem.'Nome do Relatório',
+                                    "Sem título"
+                                ),
+
+                            vDescricao:
+                                PlainText(
+                                    Coalesce(
+                                        ThisItem.Descrição,
+                                        "Nenhuma descrição cadastrada."
+                                    )
+                                ),
+
+                            vAtualizacao:
+                                Coalesce(
+                                    ThisItem.'Periodicidade de Atualização',
+                                    "Sob demanda"
+                                ),
+
+                            vResponsavel:
+                                Coalesce(
+                                    ThisItem.'Responsável pela Atualização'.DisplayName,
+                                    "Responsável não informado"
+                                ),
+
+                            vFoto:
+                                Coalesce(
+                                    ThisItem.'Responsável pela Atualização'.Picture,
+                                    ""
+                                ),
+
+                            vTemLink:
+                                !IsBlank(
+                                    ThisItem.'Link de Acesso'
+                                ),
+
+                            vLarguraReservada:
+                                If(
+                                    varIsAdmin Or
+                                    Lower(
+                                        Coalesce(
+                                            ThisItem.'Responsável pela Atualização'.Email,
+                                            ""
+                                        )
+                                    ) = varEmailUsuario,
+                                    164,
+                                    92
+                                ),
+
+                            vLarguraCard:
+                                Text(
+                                    RoundDown(Self.Width - 8, 0),
+                                    "[$-en-US]0"
+                                ),
+
+                            vAlturaCard:
+                                Text(
+                                    RoundDown(Self.Height - 8, 0),
+                                    "[$-en-US]0"
+                                )
+                        },
+
+                        With(
+                            {
+                                vIniciais:
+                                    Upper(
+                                        Left(
+                                            First(
+                                                Split(
+                                                    vResponsavel,
+                                                    " "
+                                                )
+                                            ).Value,
+                                            1
+                                        ) &
+                                        If(
+                                            CountRows(
+                                                Split(
+                                                    vResponsavel,
+                                                    " "
+                                                )
+                                            ) > 1,
+                                            Left(
+                                                Last(
+                                                    Split(
+                                                        vResponsavel,
+                                                        " "
+                                                    )
+                                                ).Value,
+                                                1
+                                            ),
+                                            ""
+                                        )
+                                    ),
+
+                                vTituloHtml:
+                                    Substitute(
+                                        Substitute(
+                                            Substitute(
+                                                vTitulo,
+                                                "&",
+                                                "&amp;"
+                                            ),
+                                            "<",
+                                            "&lt;"
+                                        ),
+                                        ">",
+                                        "&gt;"
+                                    ),
+
+                                vDescricaoHtml:
+                                    Substitute(
+                                        Substitute(
+                                            Substitute(
+                                                vDescricao,
+                                                "&",
+                                                "&amp;"
+                                            ),
+                                            "<",
+                                            "&lt;"
+                                        ),
+                                        ">",
+                                        "&gt;"
+                                    ),
+
+                                vResponsavelHtml:
+                                    Substitute(
+                                        Substitute(
+                                            Substitute(
+                                                vResponsavel,
+                                                "&",
+                                                "&amp;"
+                                            ),
+                                            "<",
+                                            "&lt;"
+                                        ),
+                                        ">",
+                                        "&gt;"
+                                    ),
+
+                                vFotoHtml:
+                                    Substitute(
+                                        Substitute(
+                                            vFoto,
+                                            "&",
+                                            "&amp;"
+                                        ),
+                                        "'",
+                                        "%27"
+                                    )
+                            },
+
+                            "
+                            <div style='
+                                width:" & vLarguraCard & "px;
+                                height:" & vAlturaCard & "px;
+                                margin:4px;
+                                box-sizing:border-box;
+                                display:flex;
+                                flex-direction:column;
+                                overflow:hidden;
+                                padding:14px 16px 0 16px;
+                                background:#FFFFFF;
+                                border:1px solid #DDE5E7;
+                                border-radius:12px;
+                                box-shadow:0 2px 4px rgba(0,80,97,0.08);
+                                font-family:Segoe UI,Arial,sans-serif;
+                                cursor:pointer;
+                            '>
+
+                                <div style='
+                                    height:22px;
+                                    display:flex;
+                                    align-items:center;
+                                    justify-content:space-between;
+                                    gap:8px;
+                                '>
+                                    <span style='
+                                        display:inline-block;
+                                        padding:3px 9px;
+                                        border-radius:14px;
+                                        background:" & If(vTipo = "APLICATIVO", "#EAF2FF", "#EDF5F6") & ";
+                                        color:" & If(vTipo = "APLICATIVO", "#245CA6", "#005061") & ";
+                                        font-size:9px;
+                                        line-height:14px;
+                                        font-weight:700;
+                                        letter-spacing:0.3px;
+                                        white-space:nowrap;
+                                    '>
+                                        " & vTipo & "
+                                    </span>
+
+                                    " &
+                                    If(
+                                        !IsBlank(vAmbiente),
+                                        "
+                                        <span style='
+                                            display:inline-block;
+                                            padding:3px 9px;
+                                            border-radius:14px;
+                                            background:" & If(vAmbiente = "Report Server", "#FFF1E8", "#FFF8D8") & ";
+                                            color:" & If(vAmbiente = "Report Server", "#B94C0E", "#745C00") & ";
+                                            font-size:9px;
+                                            line-height:14px;
+                                            font-weight:700;
+                                            white-space:nowrap;
+                                        '>
+                                            " & vAmbiente & "
+                                        </span>
+                                        ",
+                                        ""
+                                    ) &
+                                    "
+                                </div>
+
+                                <div style='
+                                    height:42px;
+                                    margin-top:7px;
+                                    color:#003F4C;
+                                    font-size:16px;
+                                    line-height:20px;
+                                    font-weight:700;
+                                    overflow:hidden;
+                                    display:-webkit-box;
+                                    -webkit-box-orient:vertical;
+                                    -webkit-line-clamp:2;
+                                '>
+                                    " & vTituloHtml & "
+                                </div>
+
+                                <div style='
+                                    height:22px;
+                                    margin-top:4px;
+                                    display:flex;
+                                    align-items:center;
+                                    gap:6px;
+                                    overflow:hidden;
+                                '>
+                                    <span style='
+                                        display:inline-block;
+                                        max-width:64%;
+                                        padding:3px 8px;
+                                        border-radius:14px;
+                                        background:#E5F6FA;
+                                        color:#007C98;
+                                        font-size:9px;
+                                        line-height:14px;
+                                        font-weight:600;
+                                        white-space:nowrap;
+                                        overflow:hidden;
+                                        text-overflow:ellipsis;
+                                    '>
+                                        " & vCategoria & "
+                                    </span>
+
+                                    <span style='
+                                        display:inline-block;
+                                        max-width:31%;
+                                        padding:3px 8px;
+                                        border-radius:14px;
+                                        background:#F1F4F5;
+                                        color:#526168;
+                                        font-size:9px;
+                                        line-height:14px;
+                                        font-weight:600;
+                                        white-space:nowrap;
+                                        overflow:hidden;
+                                        text-overflow:ellipsis;
+                                    '>
+                                        " & vArea & "
+                                    </span>
+                                </div>
+
+                                <div style='
+                                    height:49px;
+                                    margin-top:6px;
+                                    color:#3B4D52;
+                                    font-size:11px;
+                                    line-height:16px;
+                                    overflow:hidden;
+                                    display:-webkit-box;
+                                    -webkit-box-orient:vertical;
+                                    -webkit-line-clamp:3;
+                                '>
+                                    " & vDescricaoHtml & "
+                                </div>
+
+                                <div style='
+                                    height:52px;
+                                    margin-top:auto;
+                                    display:flex;
+                                    align-items:center;
+                                    box-sizing:border-box;
+                                    border-top:1px solid #E8EEF0;
+                                '>
+                                    <div style='
+                                        width:36px;
+                                        min-width:36px;
+                                        height:36px;
+                                        margin-right:9px;
+                                    '>
+                                        " &
+                                        If(
+                                            !IsBlank(vFotoHtml),
+                                            "
+                                            <img
+                                                src='" & vFotoHtml & "'
+                                                alt='Foto do responsável'
+                                                style='
+                                                    width:36px;
+                                                    height:36px;
+                                                    display:block;
+                                                    object-fit:cover;
+                                                    border-radius:50%;
+                                                    border:1px solid #D7E3E6;
+                                                '
+                                            />
+                                            ",
+                                            "
+                                            <div style='
+                                                width:36px;
+                                                height:36px;
+                                                display:flex;
+                                                align-items:center;
+                                                justify-content:center;
+                                                box-sizing:border-box;
+                                                border-radius:50%;
+                                                background:#E5F6FA;
+                                                border:1px solid #CDE9EF;
+                                                color:#005061;
+                                                font-size:11px;
+                                                font-weight:700;
+                                            '>
+                                                " & vIniciais & "
+                                            </div>
+                                            "
+                                        ) &
+                                        "
+                                    </div>
+
+                                    <div style='
+                                        min-width:0;
+                                        flex:1;
+                                        padding-right:10px;
+                                        overflow:hidden;
+                                    '>
+                                        <div style='
+                                            color:#16444E;
+                                            font-size:11px;
+                                            line-height:15px;
+                                            font-weight:700;
+                                            white-space:nowrap;
+                                            overflow:hidden;
+                                            text-overflow:ellipsis;
+                                        '>
+                                            " & vResponsavelHtml & "
+                                        </div>
+
+                                        <div style='
+                                            margin-top:1px;
+                                            color:#718087;
+                                            font-size:9px;
+                                            line-height:12px;
+                                            white-space:nowrap;
+                                            overflow:hidden;
+                                            text-overflow:ellipsis;
+                                        '>
+                                            Atualização: " & vAtualizacao & "
+                                        </div>
+                                    </div>
+
+                                    <div style='
+                                        width:" & vLarguraReservada & "px;
+                                        min-width:" & vLarguraReservada & "px;
+                                        height:31px;
+                                    '></div>
+                                </div>
+
+                            </div>
+                            "
+                        )
+                    )
+                  PaddingBottom: =0
+                  PaddingLeft: =0
+                  PaddingRight: =0
+                  PaddingTop: =0
+                  Width: =Parent.TemplateWidth - 20
+                  X: =10
+                  Y: =7
+
+            - btnEditarCard:
+                Control: Button@0.0.45
+                Properties:
+                  AccessibleLabel: ="Editar " & Coalesce(ThisItem.'Nome do Relatório', "item")
+                  BorderThickness: =0
+                  Height: =28
+                  Text: ="Editar"
+                  Visible: |-
+                    =varIsAdmin Or
+                    Lower(Coalesce(ThisItem.'Responsável pela Atualização'.Email, "")) = varEmailUsuario
+                  Width: =64
+                  X: =Parent.TemplateWidth - 184
+                  Y: =185
+                  OnSelect: |-
+                    =If(
+                        varIsAdmin Or
+                        Lower(Coalesce(ThisItem.'Responsável pela Atualização'.Email, "")) = varEmailUsuario,
+
+                        Set(varModoFormulario, "EDITAR");
+                        Set(varRegistroSelecionado, ThisItem);
+                        Set(varErroFormulario, "");
+                        Set(varConfirmarDescarte, false);
+                        Reset(txtFormNome);
+                        Reset(txtFormDescricao);
+                        Reset(txtFormLink);
+                        Reset(txtFormPeriodicidade);
+                        Reset(txtFormNovoResponsavelEmail);
+                        Reset(drpFormTipo);
+                        Reset(drpFormAmbiente);
+                        Reset(drpFormArea);
+                        Reset(drpFormCoordenacao);
+                        Reset(drpFormCategoria);
+                        Reset(drpFormResponsavel);
+                        Set(varModalAberto, true),
+
+                        Notify("Você não possui permissão para editar este item.", NotificationType.Error)
+                    )
+
+            - btnAcessarCard:
+                Control: Button@0.0.45
+                Properties:
+                  AccessibleLabel: ="Acessar " & Coalesce(ThisItem.'Nome do Relatório', "item")
+                  BorderThickness: =0
+                  DisplayMode: =If(IsBlank(ThisItem.'Link de Acesso'), DisplayMode.Disabled, DisplayMode.Edit)
+                  Height: =28
+                  Text: =If(IsBlank(ThisItem.'Link de Acesso'), "Indisponível", "Acessar")
+                  Width: =92
+                  X: =Parent.TemplateWidth - 112
+                  Y: =185
+                  OnSelect: |-
+                    =If(
+                        !IsBlank(ThisItem.'Link de Acesso'),
+                        Launch(ThisItem.'Link de Acesso')
+                    )
+
+      - htmlSemResultados:
+          Control: HtmlViewer@2.1.0
+          Properties:
+            Height: =140
+            HtmlText: |-
+              ="
+              <div style='
+                  width:calc(100% - 8px);
+                  height:calc(100% - 8px);
+                  margin:4px;
+                  box-sizing:border-box;
+                  display:flex;
+                  flex-direction:column;
+                  align-items:center;
+                  justify-content:center;
+                  font-family:Segoe UI,Arial,sans-serif;
+                  color:#52666C;
+              '>
+                  <div style='
+                      width:46px;
+                      height:46px;
+                      border-radius:50%;
+                      display:flex;
+                      align-items:center;
+                      justify-content:center;
+                      background:#E5F6FA;
+                      color:#009FC2;
+                      font-size:22px;
+                      margin-bottom:10px;
+                  '>
+                      &#128269;
+                  </div>
+
+                  <div style='
+                      color:#005061;
+                      font-size:16px;
+                      font-weight:700;
+                  '>
+                      Nenhum conteúdo encontrado
+                  </div>
+
+                  <div style='
+                      margin-top:5px;
+                      color:#718087;
+                      font-size:11px;
+                  '>
+                      Revise a pesquisa ou limpe os filtros para visualizar mais resultados.
+                  </div>
+              </div>
+              "
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Visible: =CountRows(galCatalogo.AllItems) = 0
+            Width: =Parent.Width
+            X: =0
+            Y: =galCatalogo.Y + 20
+
+      - btnLimparVazio:
+          Control: Button@0.0.45
+          Properties:
+            AccessibleLabel: ="Limpar filtros"
+            BorderColor: =RGBA(0, 159, 194, 1)
+            BorderThickness: =1
+            Height: =36
+            Text: ="Limpar filtros"
+            Visible: =CountRows(galCatalogo.AllItems) = 0
+            Width: =140
+            X: =(Parent.Width - 140) / 2
+            Y: =htmlSemResultados.Y + 100
+            OnSelect: |-
+              =Set(varTipoSelecionado, "TODOS");
+              Set(varAreaSelecionada, "Todas");
+              Reset(drpCategoria);
+              Reset(txtPesquisa)
+
+      - cntModalScrim:
+          Control: GroupContainer@1.5.0
+          Variant: ManualLayout
+          Properties:
+            Fill: =RGBA(9, 30, 34, 0.4)
+            Height: =Parent.Height
+            Visible: =varModalAberto
+            Width: =Parent.Width
+            X: =0
+            Y: =0
+
+      - cntModalPainel:
+          Control: GroupContainer@1.5.0
+          Variant: ManualLayout
+          Properties:
+            DropShadow: =DropShadow.Regular
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =Parent.Height
+            Visible: =varModalAberto
+            Width: =Min(480, Parent.Width - 24)
+            X: =Parent.Width - Min(480, Parent.Width - 24)
+            Y: =0
+          Children:
+            - lblTituloModal:
+                Control: Text@0.0.51
+                Properties:
+                  FontColor: =RGBA(0, 80, 97, 1)
+                  Height: =28
+                  Size: =16
+                  Text: =If(varModoFormulario = "EDITAR", "Editar conteúdo", "Novo conteúdo")
+                  VerticalAlign: =VerticalAlign.Middle
+                  Weight: ='TextCanvas.Weight'.Bold
+                  Width: =Parent.Width - 80
+                  X: =24
+                  Y: =20
+
+            - btnFecharModal:
+                Control: Button@0.0.45
+                Properties:
+                  AccessibleLabel: ="Fechar painel"
+                  BorderThickness: =0
+                  Height: =32
+                  Text: ="✕"
+                  Width: =32
+                  X: =Parent.Width - 48
+                  Y: =16
+                  OnSelect: |-
+                    =If(
+                        varSalvando,
+                        false,
+                        If(
+                            !IsBlank(Trim(txtFormNome.Value)) Or
+                            !IsBlank(Trim(txtFormDescricao.Value)) Or
+                            !IsBlank(Trim(txtFormLink.Value)) Or
+                            !IsBlank(Trim(txtFormPeriodicidade.Value)) Or
+                            !IsBlank(Trim(txtFormNovoResponsavelEmail.Value)),
+                            Set(varConfirmarDescarte, true),
+                            Set(varModalAberto, false);
+                            Set(varRegistroSelecionado, Blank());
+                            Set(varErroFormulario, "")
+                        )
+                    )
+
+            - lblRotuloNome:
+                Control: Text@0.0.51
+                Properties:
+                  FontColor: =RGBA(102, 119, 125, 1)
+                  Height: =14
+                  Size: =8
+                  Text: |-
+                    =If(
+                        varModoFormulario = "EDITAR",
+                        "NOME * (atual: " & Coalesce(varRegistroSelecionado.'Nome do Relatório', "-") & ")",
+                        "NOME DO RELATÓRIO OU APLICATIVO *"
+                    )
+                  Weight: ='TextCanvas.Weight'.Bold
+                  Width: =Parent.Width - 48
+                  X: =24
+                  Y: =62
+
+            - txtFormNome:
+                Control: TextInput@0.0.54
+                Properties:
+                  AccessibleLabel: ="Nome do relatório ou aplicativo"
+                  Appearance: ='TextInputCanvas.Appearance'.Outline
+                  Height: =36
+                  MaxLength: =255
+                  Placeholder: |-
+                    =If(
+                        varModoFormulario = "EDITAR",
+                        "Deixe em branco para manter o nome atual",
+                        "Nome do relatório ou aplicativo"
+                    )
+                  Width: =Parent.Width - 48
+                  X: =24
+                  Y: =78
+
+            - lblRotuloTipo:
+                Control: Text@0.0.51
+                Properties:
+                  FontColor: =RGBA(102, 119, 125, 1)
+                  Height: =14
+                  Size: =8
+                  Text: ="TIPO DE ITEM *"
+                  Weight: ='TextCanvas.Weight'.Bold
+                  Width: =(Parent.Width - 60) / 2
+                  X: =24
+                  Y: =124
+
+            - drpFormTipo:
+                Control: ModernDropdown@1.0.2
+                Properties:
+                  AccessibleLabel: ="Tipo de item"
+                  Default: |-
+                    =If(
+                        varModoFormulario = "EDITAR" And !IsBlank(varRegistroSelecionado.'Tipo de Item'.Value),
+                        {Value: varRegistroSelecionado.'Tipo de Item'.Value},
+                        Blank()
+                    )
+                  Height: =36
+                  ItemDisplayText: =ThisItem.Value
+                  Items: =colTipoItemOpcoes
+                  Width: =(Parent.Width - 60) / 2
+                  X: =24
+                  Y: =140
+
+            - lblRotuloAmbiente:
+                Control: Text@0.0.51
+                Properties:
+                  FontColor: =RGBA(102, 119, 125, 1)
+                  Height: =14
+                  Size: =8
+                  Text: ="AMBIENTE DE PUBLICAÇÃO *"
+                  Weight: ='TextCanvas.Weight'.Bold
+                  Width: =(Parent.Width - 60) / 2
+                  X: =drpFormTipo.X + drpFormTipo.Width + 12
+                  Y: =124
+
+            - drpFormAmbiente:
+                Control: ModernDropdown@1.0.2
+                Properties:
+                  AccessibleLabel: ="Ambiente de publicação"
+                  Default: |-
+                    =If(
+                        varModoFormulario = "EDITAR" And !IsBlank(varRegistroSelecionado.'Ambiente de Publicação'.Value),
+                        {Value: varRegistroSelecionado.'Ambiente de Publicação'.Value},
+                        Blank()
+                    )
+                  Height: =36
+                  ItemDisplayText: =ThisItem.Value
+                  Items: =colAmbienteOpcoes
+                  Width: =(Parent.Width - 60) / 2
+                  X: =drpFormTipo.X + drpFormTipo.Width + 12
+                  Y: =140
+
+            - lblRotuloArea:
+                Control: Text@0.0.51
+                Properties:
+                  FontColor: =RGBA(102, 119, 125, 1)
+                  Height: =14
+                  Size: =8
+                  Text: ="GERÊNCIA / ÁREA *"
+                  Weight: ='TextCanvas.Weight'.Bold
+                  Width: =(Parent.Width - 60) / 2
+                  X: =24
+                  Y: =186
+
+            - drpFormArea:
+                Control: ModernDropdown@1.0.2
+                Properties:
+                  AccessibleLabel: ="Gerência ou área responsável"
+                  Default: |-
+                    =If(
+                        varModoFormulario = "EDITAR" And !IsBlank(varRegistroSelecionado.Gerência.Value),
+                        {Value: varRegistroSelecionado.Gerência.Value},
+                        Blank()
+                    )
+                  Height: =36
+                  ItemDisplayText: =ThisItem.Value
+                  Items: =colAreaOpcoesForm
+                  Width: =(Parent.Width - 60) / 2
+                  X: =24
+                  Y: =202
+
+            - lblRotuloCoordenacao:
+                Control: Text@0.0.51
+                Properties:
+                  FontColor: =RGBA(102, 119, 125, 1)
+                  Height: =14
+                  Size: =8
+                  Text: ="COORDENAÇÃO"
+                  Weight: ='TextCanvas.Weight'.Bold
+                  Width: =(Parent.Width - 60) / 2
+                  X: =drpFormArea.X + drpFormArea.Width + 12
+                  Y: =186
+
+            - drpFormCoordenacao:
+                Control: ModernDropdown@1.0.2
+                Properties:
+                  AccessibleLabel: ="Coordenação"
+                  Default: |-
+                    =If(
+                        varModoFormulario = "EDITAR" And !IsBlank(varRegistroSelecionado.Coordenação.Value),
+                        {Value: varRegistroSelecionado.Coordenação.Value},
+                        Blank()
+                    )
+                  Height: =36
+                  ItemDisplayText: =ThisItem.Value
+                  Items: =colCoordenacaoOpcoesForm
+                  Width: =(Parent.Width - 60) / 2
+                  X: =drpFormArea.X + drpFormArea.Width + 12
+                  Y: =202
+
+            - lblRotuloCategoria:
+                Control: Text@0.0.51
+                Properties:
+                  FontColor: =RGBA(102, 119, 125, 1)
+                  Height: =14
+                  Size: =8
+                  Text: ="CATEGORIA *"
+                  Weight: ='TextCanvas.Weight'.Bold
+                  Width: =(Parent.Width - 60) / 2
+                  X: =24
+                  Y: =248
+
+            - drpFormCategoria:
+                Control: ModernDropdown@1.0.2
+                Properties:
+                  AccessibleLabel: ="Categoria"
+                  Default: |-
+                    =If(
+                        varModoFormulario = "EDITAR" And !IsBlank(varRegistroSelecionado.'Categoria Relatório'.Value),
+                        {Value: varRegistroSelecionado.'Categoria Relatório'.Value},
+                        Blank()
+                    )
+                  Height: =36
+                  ItemDisplayText: =ThisItem.Value
+                  Items: =colCategoriaOpcoesForm
+                  Width: =(Parent.Width - 60) / 2
+                  X: =24
+                  Y: =264
+
+            - lblRotuloPeriodicidade:
+                Control: Text@0.0.51
+                Properties:
+                  FontColor: =RGBA(102, 119, 125, 1)
+                  Height: =14
+                  Size: =8
+                  Text: ="PERIODICIDADE DE ATUALIZAÇÃO"
+                  Weight: ='TextCanvas.Weight'.Bold
+                  Width: =(Parent.Width - 60) / 2
+                  X: =drpFormCategoria.X + drpFormCategoria.Width + 12
+                  Y: =248
+
+            - txtFormPeriodicidade:
+                Control: TextInput@0.0.54
+                Properties:
+                  AccessibleLabel: ="Periodicidade de atualização"
+                  Appearance: ='TextInputCanvas.Appearance'.Outline
+                  Height: =36
+                  Placeholder: |-
+                    =If(
+                        varModoFormulario = "EDITAR",
+                        "Atual" & Char(58) & " " & Coalesce(varRegistroSelecionado.'Periodicidade de Atualização', "-"),
+                        "Ex. Mensal, Semanal, Sob demanda"
+                    )
+                  Width: =(Parent.Width - 60) / 2
+                  X: =drpFormCategoria.X + drpFormCategoria.Width + 12
+                  Y: =264
+
+            - lblRotuloResponsavel:
+                Control: Text@0.0.51
+                Properties:
+                  FontColor: =RGBA(102, 119, 125, 1)
+                  Height: =14
+                  Size: =8
+                  Text: ="RESPONSÁVEL PELA ATUALIZAÇÃO *"
+                  Weight: ='TextCanvas.Weight'.Bold
+                  Width: =Parent.Width - 48
+                  X: =24
+                  Y: =310
+
+            - cntResponsavelBloqueado:
+                Control: GroupContainer@1.5.0
+                Variant: ManualLayout
+                Properties:
+                  Fill: =RGBA(241, 244, 245, 1)
+                  Height: =36
+                  RadiusBottomLeft: =6
+                  RadiusBottomRight: =6
+                  RadiusTopLeft: =6
+                  RadiusTopRight: =6
+                  Visible: =!varIsAdmin
+                  Width: =Parent.Width - 48
+                  X: =24
+                  Y: =326
+                Children:
+                  - lblResponsavelBloqueado:
+                      Control: Text@0.0.51
+                      Properties:
+                        FontColor: =RGBA(82, 102, 108, 1)
+                        Height: =Parent.Height
+                        Size: =11
+                        Text: |-
+                          =If(
+                              varModoFormulario = "EDITAR",
+                              "🔒 " & Coalesce(varRegistroSelecionado.'Responsável pela Atualização'.DisplayName, User().FullName),
+                              "🔒 " & User().FullName & " (você)"
+                          )
+                        VerticalAlign: =VerticalAlign.Middle
+                        Width: =Parent.Width - 24
+                        X: =12
+                        Y: =0
+
+            - drpFormResponsavel:
+                Control: ModernDropdown@1.0.2
+                Properties:
+                  AccessibleLabel: ="Selecionar responsável entre os já cadastrados"
+                  Default: |-
+                    =If(
+                        varModoFormulario = "EDITAR" And !IsBlank(Coalesce(varRegistroSelecionado.'Responsável pela Atualização'.Email, "")),
+                        {
+                            Value: Lower(varRegistroSelecionado.'Responsável pela Atualização'.Email) & "|" & Coalesce(varRegistroSelecionado.'Responsável pela Atualização'.DisplayName, varRegistroSelecionado.'Responsável pela Atualização'.Email),
+                            EmailResp: Lower(varRegistroSelecionado.'Responsável pela Atualização'.Email),
+                            NomeResp: Coalesce(varRegistroSelecionado.'Responsável pela Atualização'.DisplayName, varRegistroSelecionado.'Responsável pela Atualização'.Email)
+                        },
+                        Blank()
+                    )
+                  Height: =36
+                  ItemDisplayText: =ThisItem.NomeResp
+                  Items: =colResponsaveis
+                  Visible: =varIsAdmin
+                  Width: =Parent.Width - 48
+                  X: =24
+                  Y: =326
+
+            - txtFormNovoResponsavelEmail:
+                Control: TextInput@0.0.54
+                Properties:
+                  AccessibleLabel: ="E-mail de um novo responsável, caso não esteja na lista"
+                  Appearance: ='TextInputCanvas.Appearance'.Outline
+                  Height: =32
+                  Placeholder: ="Ou informe o e-mail de um novo responsável"
+                  Visible: =varIsAdmin
+                  Width: =Parent.Width - 48
+                  X: =24
+                  Y: =366
+
+            - lblRotuloLink:
+                Control: Text@0.0.51
+                Properties:
+                  FontColor: =RGBA(102, 119, 125, 1)
+                  Height: =14
+                  Size: =8
+                  Text: |-
+                    =If(
+                        varModoFormulario = "EDITAR",
+                        "LINK DE ACESSO * (atual: " & Coalesce(varRegistroSelecionado.'Link de Acesso', "-") & ")",
+                        "LINK DE ACESSO *"
+                    )
+                  Weight: ='TextCanvas.Weight'.Bold
+                  Width: =Parent.Width - 48
+                  X: =24
+                  Y: =406
+
+            - txtFormLink:
+                Control: TextInput@0.0.54
+                Properties:
+                  AccessibleLabel: ="Link de acesso ao relatório ou aplicativo"
+                  Appearance: ='TextInputCanvas.Appearance'.Outline
+                  Height: =36
+                  Placeholder: |-
+                    =If(
+                        varModoFormulario = "EDITAR",
+                        "Deixe em branco para manter o link atual",
+                        "https://..."
+                    )
+                  Width: =Parent.Width - 48
+                  X: =24
+                  Y: =422
+
+            - lblRotuloDescricao:
+                Control: Text@0.0.51
+                Properties:
+                  FontColor: =RGBA(102, 119, 125, 1)
+                  Height: =14
+                  Size: =8
+                  Text: ="DESCRIÇÃO"
+                  Weight: ='TextCanvas.Weight'.Bold
+                  Width: =Parent.Width - 48
+                  X: =24
+                  Y: =468
+
+            - txtFormDescricao:
+                Control: TextInput@0.0.54
+                Properties:
+                  AccessibleLabel: ="Descrição do conteúdo"
+                  Appearance: ='TextInputCanvas.Appearance'.Outline
+                  Height: =84
+                  Mode: =TextMode.MultiLine
+                  Placeholder: |-
+                    =If(
+                        varModoFormulario = "EDITAR",
+                        "Deixe em branco para manter a descrição atual" & Char(10) & "Atual: " & PlainText(Coalesce(varRegistroSelecionado.Descrição, "-")),
+                        "Descrição do conteúdo"
+                    )
+                  Width: =Parent.Width - 48
+                  X: =24
+                  Y: =484
+
+            - lblErroFormulario:
+                Control: Text@0.0.51
+                Properties:
+                  FontColor: =RGBA(243, 112, 33, 1)
+                  Height: =34
+                  Size: =10
+                  Text: =varErroFormulario
+                  Visible: =!IsBlank(varErroFormulario)
+                  VerticalAlign: =VerticalAlign.Middle
+                  Weight: ='TextCanvas.Weight'.Semibold
+                  Width: =Parent.Width - 48
+                  X: =24
+                  Y: =576
+
+            - btnCancelarModal:
+                Control: Button@0.0.45
+                Properties:
+                  AccessibleLabel: ="Cancelar"
+                  BorderColor: =RGBA(184, 196, 199, 1)
+                  BorderThickness: =1
+                  DisplayMode: =If(varSalvando, DisplayMode.Disabled, DisplayMode.Edit)
+                  Height: =42
+                  Text: ="Cancelar"
+                  Width: =110
+                  X: =Parent.Width - 24 - 140 - 12 - 110
+                  Y: =Max(624, Parent.Height - 64)
+                  OnSelect: |-
+                    =If(
+                        varSalvando,
+                        false,
+                        If(
+                            !IsBlank(Trim(txtFormNome.Value)) Or
+                            !IsBlank(Trim(txtFormDescricao.Value)) Or
+                            !IsBlank(Trim(txtFormLink.Value)) Or
+                            !IsBlank(Trim(txtFormPeriodicidade.Value)) Or
+                            !IsBlank(Trim(txtFormNovoResponsavelEmail.Value)),
+                            Set(varConfirmarDescarte, true),
+                            Set(varModalAberto, false);
+                            Set(varRegistroSelecionado, Blank());
+                            Set(varErroFormulario, "")
+                        )
+                    )
+
+            - btnSalvarModal:
+                Control: Button@0.0.45
+                Properties:
+                  AccessibleLabel: ="Salvar"
+                  BorderThickness: =0
+                  DisplayMode: =If(varSalvando, DisplayMode.Disabled, DisplayMode.Edit)
+                  Height: =42
+                  Text: =If(varSalvando, "Salvando...", "Salvar")
+                  Width: =140
+                  X: =Parent.Width - 24 - 140
+                  Y: =Max(624, Parent.Height - 64)
+                  OnSelect: |-
+                    =If(
+                        !varSalvando,
+                        Set(varErroFormulario, "");
+                        With(
+                            {
+                                vNomeEfetivo:
+                                    If(
+                                        IsBlank(Trim(txtFormNome.Value)),
+                                        Coalesce(varRegistroSelecionado.'Nome do Relatório', ""),
+                                        Trim(txtFormNome.Value)
+                                    ),
+                                vDescricaoEfetiva:
+                                    If(
+                                        IsBlank(Trim(txtFormDescricao.Value)),
+                                        PlainText(Coalesce(varRegistroSelecionado.Descrição, "")),
+                                        Trim(txtFormDescricao.Value)
+                                    ),
+                                vLinkEfetivo:
+                                    If(
+                                        IsBlank(Trim(txtFormLink.Value)),
+                                        Coalesce(varRegistroSelecionado.'Link de Acesso', ""),
+                                        Trim(txtFormLink.Value)
+                                    ),
+                                vPeriodicidadeEfetiva:
+                                    If(
+                                        IsBlank(Trim(txtFormPeriodicidade.Value)),
+                                        Coalesce(varRegistroSelecionado.'Periodicidade de Atualização', ""),
+                                        Trim(txtFormPeriodicidade.Value)
+                                    )
+                            },
+                            If(
+                                IsBlank(vNomeEfetivo),
+                                    Set(varErroFormulario, "Informe o nome do relatório ou aplicativo."),
+                                IsBlank(drpFormTipo.Selected.Value),
+                                    Set(varErroFormulario, "Selecione o tipo do item."),
+                                IsBlank(drpFormAmbiente.Selected.Value),
+                                    Set(varErroFormulario, "Selecione o ambiente de publicação."),
+                                IsBlank(drpFormArea.Selected.Value),
+                                    Set(varErroFormulario, "Selecione a gerência/área responsável."),
+                                IsBlank(drpFormCategoria.Selected.Value),
+                                    Set(varErroFormulario, "Selecione a categoria."),
+                                IsBlank(vLinkEfetivo),
+                                    Set(varErroFormulario, "Informe o link de acesso."),
+                                varIsAdmin And IsBlank(drpFormResponsavel.Selected) And IsBlank(Trim(txtFormNovoResponsavelEmail.Value)) And varModoFormulario = "NOVO",
+                                    Set(varErroFormulario, "Selecione o responsável pela atualização ou informe um e-mail."),
+                                !varIsAdmin And IsBlank(varEmailUsuario),
+                                    Set(varErroFormulario, "Não foi possível identificar o usuário conectado."),
+                                varModoFormulario = "EDITAR" And !varIsAdmin And Lower(Coalesce(varRegistroSelecionado.'Responsável pela Atualização'.Email, "")) <> varEmailUsuario,
+                                    Set(varErroFormulario, "Você não possui mais permissão para editar este item."),
+
+                                Set(varSalvando, true);
+                                Set(
+                                    varResponsavelGravacao,
+                                    If(
+                                        !varIsAdmin,
+                                            If(
+                                                varModoFormulario = "EDITAR",
+                                                varRegistroSelecionado.'Responsável pela Atualização',
+                                                {
+                                                    Claims: "i:0#.f|membership|" & varEmailUsuario,
+                                                    DisplayName: User().FullName,
+                                                    Email: varEmailUsuario
+                                                }
+                                            ),
+                                        !IsBlank(Trim(txtFormNovoResponsavelEmail.Value)),
+                                            {
+                                                Claims: "i:0#.f|membership|" & Lower(Trim(txtFormNovoResponsavelEmail.Value)),
+                                                DisplayName: Proper(Substitute(Left(Trim(txtFormNovoResponsavelEmail.Value), Find("@", Trim(txtFormNovoResponsavelEmail.Value) & "@") - 1), ".", " ")),
+                                                Email: Lower(Trim(txtFormNovoResponsavelEmail.Value))
+                                            },
+                                        !IsBlank(drpFormResponsavel.Selected),
+                                            {
+                                                Claims: "i:0#.f|membership|" & drpFormResponsavel.Selected.EmailResp,
+                                                DisplayName: drpFormResponsavel.Selected.NomeResp,
+                                                Email: drpFormResponsavel.Selected.EmailResp
+                                            },
+                                        varModoFormulario = "EDITAR",
+                                            varRegistroSelecionado.'Responsável pela Atualização',
+                                            {
+                                                Claims: "i:0#.f|membership|" & varEmailUsuario,
+                                                DisplayName: User().FullName,
+                                                Email: varEmailUsuario
+                                            }
+                                    )
+                                );
+                                Set(
+                                    varResultadoGravacao,
+                                    Patch(
+                                        'GD - Lista de Relatórios Power BI',
+                                        If(varModoFormulario = "NOVO", Defaults('GD - Lista de Relatórios Power BI'), varRegistroSelecionado),
+                                        {
+                                            'Nome do Relatório': vNomeEfetivo,
+                                            Descrição: vDescricaoEfetiva,
+                                            'Tipo de Item': {Value: drpFormTipo.Selected.Value},
+                                            'Ambiente de Publicação': {Value: drpFormAmbiente.Selected.Value},
+                                            Gerência: {Value: drpFormArea.Selected.Value},
+                                            Coordenação: {Value: drpFormCoordenacao.Selected.Value},
+                                            'Categoria Relatório': {Value: drpFormCategoria.Selected.Value},
+                                            'Periodicidade de Atualização': vPeriodicidadeEfetiva,
+                                            'Responsável pela Atualização': varResponsavelGravacao,
+                                            'Link de Acesso': vLinkEfetivo
+                                        }
+                                    )
+                                );
+                                If(
+                                    IsBlankOrError(varResultadoGravacao),
+                                        Set(varErroFormulario, "Não foi possível salvar as alterações. Tente novamente.");
+                                        Set(varSalvando, false),
+
+                                        Set(varSalvando, false);
+                                        Refresh('GD - Lista de Relatórios Power BI');
+                                        Set(varModalAberto, false);
+                                        Set(varRegistroSelecionado, Blank());
+                                        Set(varErroFormulario, "");
+                                        Set(
+                                            varPodeAdicionar,
+                                            varIsAdmin Or
+                                            CountRows(
+                                                Filter(
+                                                    'GD - Lista de Relatórios Power BI',
+                                                    Lower('Responsável pela Atualização'.Email) = varEmailUsuario
+                                                )
+                                            ) > 0
+                                        );
+                                        Notify("Registro salvo com sucesso.", NotificationType.Success)
+                                )
+                            )
+                        ),
+                        false
+                    )
+
+      - cntConfirmarDescarte:
+          Control: GroupContainer@1.5.0
+          Variant: ManualLayout
+          Properties:
+            DropShadow: =DropShadow.Regular
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =150
+            RadiusBottomLeft: =12
+            RadiusBottomRight: =12
+            RadiusTopLeft: =12
+            RadiusTopRight: =12
+            Visible: =varConfirmarDescarte
+            Width: =320
+            X: =(Parent.Width - 320) / 2
+            Y: =(Parent.Height - 150) / 2
+          Children:
+            - lblConfirmarDescarte:
+                Control: Text@0.0.51
+                Properties:
+                  FontColor: =RGBA(0, 80, 97, 1)
+                  Height: =60
+                  Size: =12
+                  Text: ="Existem alterações não salvas. Deseja realmente descartá-las?"
+                  Weight: ='TextCanvas.Weight'.Semibold
+                  Width: =272
+                  X: =24
+                  Y: =20
+
+            - btnContinuarEditando:
+                Control: Button@0.0.45
+                Properties:
+                  AccessibleLabel: ="Continuar editando"
+                  BorderColor: =RGBA(184, 196, 199, 1)
+                  BorderThickness: =1
+                  Height: =38
+                  Text: ="Continuar editando"
+                  Width: =140
+                  X: =24
+                  Y: =92
+                  OnSelect: =Set(varConfirmarDescarte, false)
+
+            - btnDescartar:
+                Control: Button@0.0.45
+                Properties:
+                  AccessibleLabel: ="Descartar alterações"
+                  BorderThickness: =0
+                  Height: =38
+                  Text: ="Descartar"
+                  Width: =132
+                  X: =24 + 140 + 12
+                  Y: =92
+                  OnSelect: |-
+                    =Set(varConfirmarDescarte, false);
+                    Set(varModalAberto, false);
+                    Set(varRegistroSelecionado, Blank());
+                    Set(varErroFormulario, "")
