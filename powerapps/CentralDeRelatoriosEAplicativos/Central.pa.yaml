@@ -231,7 +231,7 @@ Screens:
           Properties:
             DropShadow: =DropShadow.Regular
             Fill: =RGBA(255, 255, 255, 1)
-            Height: =If(App.Width >= 1200, 86, 190)
+            Height: =90
             RadiusBottomLeft: =12
             RadiusBottomRight: =12
             RadiusTopLeft: =12
@@ -263,7 +263,7 @@ Screens:
                   RadiusBottomRight: =9
                   RadiusTopLeft: =9
                   RadiusTopRight: =9
-                  Width: =If(App.Width >= 1200, 310, Parent.Width - 36)
+                  Width: =310
                   X: =18
                   Y: =30
 
@@ -403,10 +403,9 @@ Screens:
                   Height: =16
                   Size: =8
                   Text: ="ÁREA"
-                  Visible: =App.Width >= 1200
                   VerticalAlign: =VerticalAlign.Middle
                   Weight: ='TextCanvas.Weight'.Bold
-                  Width: =120
+                  Width: =200
                   X: =350
                   Y: =10
 
@@ -414,24 +413,19 @@ Screens:
                 Control: Gallery@2.15.0
                 Variant: Horizontal
                 Properties:
-                  Height: =38
+                  Height: =46
                   Items: =colAreas
                   ShowScrollbar: =true
                   TemplatePadding: =0
-                  TemplateSize: =108
-                  Width: |-
-                    =If(
-                        App.Width >= 1200,
-                        170,
-                        (Parent.Width - 52) / 2
-                    )
-                  X: =If(App.Width >= 1200, 350, 18)
-                  Y: =If(App.Width >= 1200, 30, 84)
+                  TemplateSize: =112
+                  Width: =560
+                  X: =350
+                  Y: =30
                 Children:
                   - htmlChipArea:
                       Control: HtmlViewer@2.1.0
                       Properties:
-                        Height: =Parent.TemplateHeight - 2
+                        Height: =36
                         HtmlText: |-
                           =With(
                               {
@@ -480,11 +474,10 @@ Screens:
                   Height: =16
                   Size: =8
                   Text: ="CATEGORIA"
-                  Visible: =App.Width >= 1200
                   VerticalAlign: =VerticalAlign.Middle
                   Weight: ='TextCanvas.Weight'.Bold
                   Width: =150
-                  X: =536
+                  X: =galAreaTabs.X + galAreaTabs.Width + 16
                   Y: =10
 
             - drpCategoria:
@@ -495,14 +488,9 @@ Screens:
                   Height: =38
                   ItemDisplayText: =ThisItem.Value
                   Items: =colCategorias
-                  Width: |-
-                    =If(
-                        App.Width >= 1200,
-                        200,
-                        (Parent.Width - 52) / 2
-                    )
-                  X: =If(App.Width >= 1200, 536, galAreaTabs.X + galAreaTabs.Width + 16)
-                  Y: =If(App.Width >= 1200, 30, 84)
+                  Width: =190
+                  X: =galAreaTabs.X + galAreaTabs.Width + 16
+                  Y: =30
 
             - lblPesquisa:
                 Control: Text@0.0.51
@@ -511,11 +499,10 @@ Screens:
                   Height: =16
                   Size: =8
                   Text: ="PESQUISAR"
-                  Visible: =App.Width >= 1200
                   VerticalAlign: =VerticalAlign.Middle
                   Weight: ='TextCanvas.Weight'.Bold
                   Width: =120
-                  X: =756
+                  X: =drpCategoria.X + drpCategoria.Width + 20
                   Y: =10
 
             - icoPesquisa:
@@ -526,8 +513,8 @@ Screens:
                   IconColor: =RGBA(0, 159, 194, 1)
                   IconStyle: ='Icon.IconStyle'.Outline
                   Width: =24
-                  X: =If(App.Width >= 1200, 764, 26)
-                  Y: =If(App.Width >= 1200, 35, 145)
+                  X: =lblPesquisa.X + 8
+                  Y: =35
 
             - txtPesquisa:
                 Control: TextInput@0.0.54
@@ -537,14 +524,9 @@ Screens:
                   Height: =38
                   Placeholder: ="Pesquisar por título, descrição, área, categoria ou responsável"
                   TriggerOutput: ='TextInputCanvas.TriggerOutput'.Keypress
-                  Width: |-
-                    =If(
-                        App.Width >= 1200,
-                        Parent.Width - 756 - 138,
-                        Parent.Width - 36 - 116
-                    )
-                  X: =If(App.Width >= 1200, 756, 18)
-                  Y: =If(App.Width >= 1200, 30, 138)
+                  Width: =Parent.Width - lblPesquisa.X - 138
+                  X: =lblPesquisa.X
+                  Y: =30
 
             - btnLimpar:
                 Control: HtmlViewer@2.1.0
@@ -597,9 +579,9 @@ Screens:
                   PaddingLeft: =0
                   PaddingRight: =0
                   PaddingTop: =0
-                  Width: =If(App.Width >= 1200, 104, 100)
-                  X: =Parent.Width - If(App.Width >= 1200, 122, 118)
-                  Y: =If(App.Width >= 1200, 30, 138)
+                  Width: =104
+                  X: =Parent.Width - 124
+                  Y: =30
 
       - cntResultados:
           Control: GroupContainer@1.5.0
@@ -788,14 +770,7 @@ Screens:
             TemplateSize: =230
             ShowScrollbar: =false
             Width: =Parent.Width
-            WrapCount: |-
-              =If(
-                  App.Width >= 1350,
-                  3,
-                  App.Width >= 850,
-                  2,
-                  1
-              )
+            WrapCount: =3
             X: =0
             Y: =cntResultados.Y + cntResultados.Height
           Children:
