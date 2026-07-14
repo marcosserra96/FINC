@@ -102,6 +102,7 @@ Screens:
         );
 
         Set(varTipoSelecionado, "TODOS");
+        Set(varAreaSelecionada, "Todas");
         Set(varModalAberto, false);
         Set(varConfirmarDescarte, false);
         Set(varSalvando, false);
@@ -409,14 +410,15 @@ Screens:
                   X: =350
                   Y: =10
 
-            - drpArea:
-                Control: ModernDropdown@1.0.2
+            - galAreaTabs:
+                Control: Gallery@2.15.0
+                Variant: Horizontal
                 Properties:
-                  AccessibleLabel: ="Filtrar por área"
-                  Default: =First(colAreas)
                   Height: =38
-                  ItemDisplayText: =ThisItem.Value
                   Items: =colAreas
+                  ShowScrollbar: =true
+                  TemplatePadding: =0
+                  TemplateSize: =108
                   Width: |-
                     =If(
                         App.Width >= 1200,
@@ -425,6 +427,51 @@ Screens:
                     )
                   X: =If(App.Width >= 1200, 350, 18)
                   Y: =If(App.Width >= 1200, 30, 84)
+                Children:
+                  - htmlChipArea:
+                      Control: HtmlViewer@2.1.0
+                      Properties:
+                        Height: =Parent.TemplateHeight - 2
+                        HtmlText: |-
+                          =With(
+                              {
+                                  vSelecionado: Coalesce(varAreaSelecionada, "Todas") = ThisItem.Value,
+                                  vLargura: Text(RoundDown(Self.Width - 4, 0), "[$-en-US]0"),
+                                  vAltura: Text(RoundDown(Self.Height - 4, 0), "[$-en-US]0")
+                              },
+                              "
+                              <div style='
+                                  width:" & vLargura & "px;
+                                  height:" & vAltura & "px;
+                                  box-sizing:border-box;
+                                  display:flex;
+                                  align-items:center;
+                                  justify-content:center;
+                                  border-radius:7px;
+                                  background:" & If(vSelecionado, "#005061", "#EFF4F5") & ";
+                                  color:" & If(vSelecionado, "#FFFFFF", "#52666C") & ";
+                                  box-shadow:" & If(vSelecionado, "0 3px 8px rgba(0,80,97,0.20)", "none") & ";
+                                  font-family:Segoe UI,Arial,sans-serif;
+                                  font-size:10px;
+                                  font-weight:700;
+                                  cursor:pointer;
+                                  padding:0 10px;
+                                  overflow:hidden;
+                                  white-space:nowrap;
+                                  text-overflow:ellipsis;
+                              '>
+                                  " & ThisItem.Value & "
+                              </div>
+                              "
+                          )
+                        OnSelect: =Set(varAreaSelecionada, ThisItem.Value)
+                        PaddingBottom: =0
+                        PaddingLeft: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        Width: =Parent.TemplateWidth - 4
+                        X: =2
+                        Y: =1
 
             - lblCategoria:
                 Control: Text@0.0.51
@@ -454,7 +501,7 @@ Screens:
                         200,
                         (Parent.Width - 52) / 2
                     )
-                  X: =If(App.Width >= 1200, 536, drpArea.X + drpArea.Width + 16)
+                  X: =If(App.Width >= 1200, 536, galAreaTabs.X + galAreaTabs.Width + 16)
                   Y: =If(App.Width >= 1200, 30, 84)
 
             - lblPesquisa:
@@ -509,7 +556,7 @@ Screens:
                             vTemFiltro:
                                 Or(
                                     Coalesce(varTipoSelecionado, "TODOS") <> "TODOS",
-                                    Coalesce(drpArea.Selected.Value, "Todas") <> "Todas",
+                                    Coalesce(varAreaSelecionada, "Todas") <> "Todas",
                                     Coalesce(drpCategoria.Selected.Value, "Todas") <> "Todas",
                                     !IsBlank(Trim(txtPesquisa.Value))
                                 ),
@@ -543,7 +590,7 @@ Screens:
                     )
                   OnSelect: |-
                     =Set(varTipoSelecionado, "TODOS");
-                    Reset(drpArea);
+                    Set(varAreaSelecionada, "Todas");
                     Reset(drpCategoria);
                     Reset(txtPesquisa)
                   PaddingBottom: =0
@@ -637,7 +684,7 @@ Screens:
 
                       vArea:
                           Coalesce(
-                              drpArea.Selected.Value,
+                              varAreaSelecionada,
                               "Todas"
                           ),
 
@@ -1304,7 +1351,7 @@ Screens:
             Y: =htmlSemResultados.Y + 100
             OnSelect: |-
               =Set(varTipoSelecionado, "TODOS");
-              Reset(drpArea);
+              Set(varAreaSelecionada, "Todas");
               Reset(drpCategoria);
               Reset(txtPesquisa)
 
