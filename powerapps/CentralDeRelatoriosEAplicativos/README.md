@@ -55,6 +55,7 @@ A primeira versão foi validada apenas com um parser YAML genérico (sintaxe), n
     - O placeholder explica "Deixe em branco para manter o valor atual";
     - Se o usuário deixar em branco e salvar, o valor **original é mantido** (a gravação usa `Coalesce`/`If` para isso); se digitar algo, o valor novo **substitui** o atual.
     - Os campos do tipo Choice (`ModernDropdown`) não têm essa limitação — continuam pré-selecionados normalmente via `Default`.
+11. **O card inteiro não abre mais o link ao ser clicado.** O `htmlCard` (HTML) ficou puramente visual, sem `OnSelect` — só o botão nativo `btnAcessarCard`, no rodapé do card, dispara `Launch(ThisItem.'Link de Acesso')`. Isso evita cliques acidentais em qualquer ponto do card e deixa a área clicável explícita, como em um botão de verdade. `btnEditarCard` também foi realocado do canto superior direito (onde sobrepunha os badges de Tipo/Ambiente) para o rodapé, ao lado do "Acessar" — os dois nunca mais competem visualmente com os badges ou com o nome do responsável (o HTML reserva um espaço vazio de largura fixa nessa área para os botões nativos ficarem por cima sem tampar texto).
 
 ## 5. Checklist de entrega
 

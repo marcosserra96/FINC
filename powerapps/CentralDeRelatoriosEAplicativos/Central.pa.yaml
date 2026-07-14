@@ -822,6 +822,19 @@ Screens:
                                     ThisItem.'Link de Acesso'
                                 ),
 
+                            vLarguraReservada:
+                                If(
+                                    varIsAdmin Or
+                                    Lower(
+                                        Coalesce(
+                                            ThisItem.'Responsável pela Atualização'.Email,
+                                            ""
+                                        )
+                                    ) = varEmailUsuario,
+                                    164,
+                                    92
+                                ),
+
                             vLarguraCard:
                                 Text(
                                     RoundDown(Self.Width - 8, 0),
@@ -1144,34 +1157,16 @@ Screens:
                                         </div>
                                     </div>
 
-                                    <span style='
+                                    <div style='
+                                        width:" & vLarguraReservada & "px;
+                                        min-width:" & vLarguraReservada & "px;
                                         height:31px;
-                                        min-width:88px;
-                                        padding:0 13px;
-                                        display:inline-flex;
-                                        align-items:center;
-                                        justify-content:center;
-                                        box-sizing:border-box;
-                                        border-radius:8px;
-                                        background:" & If(vTemLink, "#009FC2", "#EEF1F2") & ";
-                                        color:" & If(vTemLink, "#FFFFFF", "#829096") & ";
-                                        font-size:10px;
-                                        line-height:31px;
-                                        font-weight:700;
-                                        white-space:nowrap;
-                                    '>
-                                        " & If(vTemLink, "Acessar&nbsp;&nbsp;→", "Indisponível") & "
-                                    </span>
+                                    '></div>
                                 </div>
 
                             </div>
                             "
                         )
-                    )
-                  OnSelect: |-
-                    =If(
-                        !IsBlank(ThisItem.'Link de Acesso'),
-                        Launch(ThisItem.'Link de Acesso')
                     )
                   PaddingBottom: =0
                   PaddingLeft: =0
@@ -1192,8 +1187,8 @@ Screens:
                     =varIsAdmin Or
                     Lower(Coalesce(ThisItem.'Responsável pela Atualização'.Email, "")) = varEmailUsuario
                   Width: =64
-                  X: =Parent.TemplateWidth - 82
-                  Y: =12
+                  X: =Parent.TemplateWidth - 184
+                  Y: =185
                   OnSelect: |-
                     =If(
                         varIsAdmin Or
@@ -1217,6 +1212,23 @@ Screens:
                         Set(varModalAberto, true),
 
                         Notify("Você não possui permissão para editar este item.", NotificationType.Error)
+                    )
+
+            - btnAcessarCard:
+                Control: Button@0.0.45
+                Properties:
+                  AccessibleLabel: ="Acessar " & Coalesce(ThisItem.'Nome do Relatório', "item")
+                  BorderThickness: =0
+                  DisplayMode: =If(IsBlank(ThisItem.'Link de Acesso'), DisplayMode.Disabled, DisplayMode.Edit)
+                  Height: =28
+                  Text: =If(IsBlank(ThisItem.'Link de Acesso'), "Indisponível", "Acessar")
+                  Width: =92
+                  X: =Parent.TemplateWidth - 112
+                  Y: =185
+                  OnSelect: |-
+                    =If(
+                        !IsBlank(ThisItem.'Link de Acesso'),
+                        Launch(ThisItem.'Link de Acesso')
                     )
 
       - htmlSemResultados:
