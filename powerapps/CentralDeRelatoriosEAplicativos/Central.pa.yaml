@@ -415,7 +415,7 @@ Screens:
                 Properties:
                   Height: =46
                   Items: =colAreas
-                  ShowScrollbar: =true
+                  ShowScrollbar: =false
                   TemplatePadding: =0
                   TemplateSize: =112
                   Width: =560

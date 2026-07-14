@@ -62,8 +62,9 @@ A primeira versão foi validada apenas com um parser YAML genérico (sintaxe), n
 13. **Tela fixa em 1600×768 — toda a lógica responsiva (`App.Width >= 1200` etc.) foi removida**, a pedido do usuário (o app não precisa se adaptar a outras larguras). Isso permitiu dar bem mais espaço ao filtro de Área (de 170px para 560px, ~5 chips visíveis por vez em vez de 1,5) e simplificar bastante o layout de `cntFiltros`: uma única linha, posições relativas entre si (`galAreaTabs.X + galAreaTabs.Width + 16` etc.) em vez de pares de valores condicionais para "largo"/"estreito". O `WrapCount` da galeria de cards também virou fixo em `3` colunas.
     - Também corrigi a causa provável do visual "espremido" da barra de rolagem: a `Gallery` horizontal foi de `Height: 38` para `46`, e o chip interno passou a ter altura fixa de `36px` ancorado no topo (`Y: 1`) em vez de preencher 100% da linha — sobra uma faixa de ~10px embaixo para a barra de rolagem nativa não comprimir o chip.
     - **Se no futuro a tela precisar voltar a ser responsiva**, essa simplificação precisa ser revertida (reintroduzir as fórmulas `If(App.Width >= X, ...)` que existiam antes).
+14. **`ShowScrollbar` do `galAreaTabs` mudou para `false`** (era `true`) — some a barrinha visível sob os chips de Área. A rolagem lateral continua funcionando (touch/trackpad/teclado), só não tem mais o indicador visual constante de que existem mais áreas fora da tela.
 
-## 5. Checklist de entrega
+
 
 - [x] Inclusão funcional (Patch, responsável forçado para usuário comum)
 - [x] Edição funcional (Patch, permissão revalidada no salvamento)
