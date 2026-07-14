@@ -172,7 +172,6 @@ Screens:
             - lblTitulo:
                 Control: Text@0.0.51
                 Properties:
-                  AccessibleLabel: ="Central de Relatórios e Aplicativos"
                   FontColor: =RGBA(0, 80, 97, 1)
                   Height: =29
                   Size: =22
@@ -590,18 +589,11 @@ Screens:
                   Y: =12
 
             - btnAdicionarNovo:
-                Control: Button@0.0.44
+                Control: Button@0.0.45
                 Properties:
                   AccessibleLabel: ="Adicionar novo conteúdo"
                   BorderThickness: =0
-                  Color: =RGBA(255, 255, 255, 1)
-                  Fill: =RGBA(0, 159, 194, 1)
                   Height: =36
-                  RadiusBottomLeft: =8
-                  RadiusBottomRight: =8
-                  RadiusTopLeft: =8
-                  RadiusTopRight: =8
-                  Size: =11
                   Text: ="+  Adicionar novo"
                   Visible: =varPodeAdicionar
                   Width: =172
@@ -625,9 +617,6 @@ Screens:
                         Reset(drpFormCoordenacao);
                         Reset(drpFormCategoria);
                         Reset(drpFormResponsavel);
-                        Set(varNomeOriginalForm, "");
-                        Set(varDescricaoOriginalForm, "");
-                        Set(varLinkOriginalForm, "");
                         Set(varModalAberto, true),
                         Notify("Você não possui permissão para adicionar novos registros.", NotificationType.Error)
                     )
@@ -1192,26 +1181,19 @@ Screens:
                   X: =10
                   Y: =7
 
-            - icoEditarCard:
-                Control: Icon@0.0.7
+            - btnEditarCard:
+                Control: Button@0.0.45
                 Properties:
                   AccessibleLabel: ="Editar " & Coalesce(ThisItem.'Nome do Relatório', "item")
-                  Fill: =RGBA(255, 255, 255, 0.92)
+                  BorderThickness: =0
                   Height: =28
-                  Icon: ="Edit"
-                  IconColor: =RGBA(0, 80, 97, 1)
-                  IconStyle: ='Icon.IconStyle'.Filled
-                  RadiusBottomLeft: =8
-                  RadiusBottomRight: =8
-                  RadiusTopLeft: =8
-                  RadiusTopRight: =8
-                  Tooltip: ="Editar este registro"
+                  Text: ="Editar"
                   Visible: |-
                     =varIsAdmin Or
                     Lower(Coalesce(ThisItem.'Responsável pela Atualização'.Email, "")) = varEmailUsuario
-                  Width: =28
-                  X: =Parent.TemplateWidth - 46
-                  Y: =17
+                  Width: =64
+                  X: =Parent.TemplateWidth - 82
+                  Y: =12
                   OnSelect: |-
                     =If(
                         varIsAdmin Or
@@ -1232,9 +1214,6 @@ Screens:
                         Reset(drpFormCoordenacao);
                         Reset(drpFormCategoria);
                         Reset(drpFormResponsavel);
-                        Set(varNomeOriginalForm, Coalesce(ThisItem.'Nome do Relatório', ""));
-                        Set(varDescricaoOriginalForm, PlainText(Coalesce(ThisItem.Descrição, "")));
-                        Set(varLinkOriginalForm, Coalesce(ThisItem.'Link de Acesso', ""));
                         Set(varModalAberto, true),
 
                         Notify("Você não possui permissão para editar este item.", NotificationType.Error)
@@ -1300,19 +1279,12 @@ Screens:
             Y: =galCatalogo.Y + 20
 
       - btnLimparVazio:
-          Control: Button@0.0.44
+          Control: Button@0.0.45
           Properties:
             AccessibleLabel: ="Limpar filtros"
             BorderColor: =RGBA(0, 159, 194, 1)
             BorderThickness: =1
-            Color: =RGBA(0, 159, 194, 1)
-            Fill: =RGBA(255, 255, 255, 1)
             Height: =36
-            RadiusBottomLeft: =8
-            RadiusBottomRight: =8
-            RadiusTopLeft: =8
-            RadiusTopRight: =8
-            Size: =10
             Text: ="Limpar filtros"
             Visible: =CountRows(galCatalogo.AllItems) = 0
             Width: =140
@@ -1334,20 +1306,6 @@ Screens:
             Width: =Parent.Width
             X: =0
             Y: =0
-            OnSelect: |-
-              =If(
-                  varSalvando,
-                  false,
-                  If(
-                      Trim(txtFormNome.Value) <> varNomeOriginalForm Or
-                      Trim(txtFormDescricao.Value) <> varDescricaoOriginalForm Or
-                      Trim(txtFormLink.Value) <> varLinkOriginalForm,
-                      Set(varConfirmarDescarte, true),
-                      Set(varModalAberto, false);
-                      Set(varRegistroSelecionado, Blank());
-                      Set(varErroFormulario, "")
-                  )
-              )
 
       - cntModalPainel:
           Control: GroupContainer@1.5.0
@@ -1374,15 +1332,13 @@ Screens:
                   X: =24
                   Y: =20
 
-            - icoFecharModal:
-                Control: Icon@0.0.7
+            - btnFecharModal:
+                Control: Button@0.0.45
                 Properties:
                   AccessibleLabel: ="Fechar painel"
+                  BorderThickness: =0
                   Height: =32
-                  Icon: ="Cancel"
-                  IconColor: =RGBA(102, 119, 125, 1)
-                  IconStyle: ='Icon.IconStyle'.Outline
-                  Tooltip: ="Fechar"
+                  Text: ="✕"
                   Width: =32
                   X: =Parent.Width - 48
                   Y: =16
@@ -1391,9 +1347,11 @@ Screens:
                         varSalvando,
                         false,
                         If(
-                            Trim(txtFormNome.Value) <> varNomeOriginalForm Or
-                            Trim(txtFormDescricao.Value) <> varDescricaoOriginalForm Or
-                            Trim(txtFormLink.Value) <> varLinkOriginalForm,
+                            !IsBlank(Trim(txtFormNome.Value)) Or
+                            !IsBlank(Trim(txtFormDescricao.Value)) Or
+                            !IsBlank(Trim(txtFormLink.Value)) Or
+                            !IsBlank(Trim(txtFormPeriodicidade.Value)) Or
+                            !IsBlank(Trim(txtFormNovoResponsavelEmail.Value)),
                             Set(varConfirmarDescarte, true),
                             Set(varModalAberto, false);
                             Set(varRegistroSelecionado, Blank());
@@ -1407,7 +1365,12 @@ Screens:
                   FontColor: =RGBA(102, 119, 125, 1)
                   Height: =14
                   Size: =8
-                  Text: ="NOME DO RELATÓRIO OU APLICATIVO *"
+                  Text: |-
+                    =If(
+                        varModoFormulario = "EDITAR",
+                        "NOME * (atual: " & Coalesce(varRegistroSelecionado.'Nome do Relatório', "-") & ")",
+                        "NOME DO RELATÓRIO OU APLICATIVO *"
+                    )
                   Weight: ='TextCanvas.Weight'.Bold
                   Width: =Parent.Width - 48
                   X: =24
@@ -1418,9 +1381,14 @@ Screens:
                 Properties:
                   AccessibleLabel: ="Nome do relatório ou aplicativo"
                   Appearance: ='TextInputCanvas.Appearance'.Outline
-                  Default: =If(varModoFormulario = "EDITAR", Coalesce(varRegistroSelecionado.'Nome do Relatório', ""), "")
                   Height: =36
                   MaxLength: =255
+                  Placeholder: |-
+                    =If(
+                        varModoFormulario = "EDITAR",
+                        "Deixe em branco para manter o nome atual",
+                        "Nome do relatório ou aplicativo"
+                    )
                   Width: =Parent.Width - 48
                   X: =24
                   Y: =78
@@ -1587,10 +1555,13 @@ Screens:
                 Properties:
                   AccessibleLabel: ="Periodicidade de atualização"
                   Appearance: ='TextInputCanvas.Appearance'.Outline
-                  Default: =If(varModoFormulario = "EDITAR", Coalesce(varRegistroSelecionado.'Periodicidade de Atualização', ""), "")
                   Height: =36
                   Placeholder: |-
-                    ="Ex. Mensal, Semanal, Sob demanda"
+                    =If(
+                        varModoFormulario = "EDITAR",
+                        "Atual" & Char(58) & " " & Coalesce(varRegistroSelecionado.'Periodicidade de Atualização', "-"),
+                        "Ex. Mensal, Semanal, Sob demanda"
+                    )
                   Width: =(Parent.Width - 60) / 2
                   X: =drpFormCategoria.X + drpFormCategoria.Width + 12
                   Y: =264
@@ -1666,7 +1637,6 @@ Screens:
                 Properties:
                   AccessibleLabel: ="E-mail de um novo responsável, caso não esteja na lista"
                   Appearance: ='TextInputCanvas.Appearance'.Outline
-                  Default: =""
                   Height: =32
                   Placeholder: ="Ou informe o e-mail de um novo responsável"
                   Visible: =varIsAdmin
@@ -1680,7 +1650,12 @@ Screens:
                   FontColor: =RGBA(102, 119, 125, 1)
                   Height: =14
                   Size: =8
-                  Text: ="LINK DE ACESSO *"
+                  Text: |-
+                    =If(
+                        varModoFormulario = "EDITAR",
+                        "LINK DE ACESSO * (atual: " & Coalesce(varRegistroSelecionado.'Link de Acesso', "-") & ")",
+                        "LINK DE ACESSO *"
+                    )
                   Weight: ='TextCanvas.Weight'.Bold
                   Width: =Parent.Width - 48
                   X: =24
@@ -1691,9 +1666,13 @@ Screens:
                 Properties:
                   AccessibleLabel: ="Link de acesso ao relatório ou aplicativo"
                   Appearance: ='TextInputCanvas.Appearance'.Outline
-                  Default: =If(varModoFormulario = "EDITAR", Coalesce(varRegistroSelecionado.'Link de Acesso', ""), "")
                   Height: =36
-                  Placeholder: ="https://..."
+                  Placeholder: |-
+                    =If(
+                        varModoFormulario = "EDITAR",
+                        "Deixe em branco para manter o link atual",
+                        "https://..."
+                    )
                   Width: =Parent.Width - 48
                   X: =24
                   Y: =422
@@ -1715,9 +1694,14 @@ Screens:
                 Properties:
                   AccessibleLabel: ="Descrição do conteúdo"
                   Appearance: ='TextInputCanvas.Appearance'.Outline
-                  Default: =If(varModoFormulario = "EDITAR", PlainText(Coalesce(varRegistroSelecionado.Descrição, "")), "")
                   Height: =84
                   Mode: =TextMode.MultiLine
+                  Placeholder: |-
+                    =If(
+                        varModoFormulario = "EDITAR",
+                        "Deixe em branco para manter a descrição atual" & Char(10) & "Atual: " & PlainText(Coalesce(varRegistroSelecionado.Descrição, "-")),
+                        "Descrição do conteúdo"
+                    )
                   Width: =Parent.Width - 48
                   X: =24
                   Y: =484
@@ -1737,20 +1721,13 @@ Screens:
                   Y: =576
 
             - btnCancelarModal:
-                Control: Button@0.0.44
+                Control: Button@0.0.45
                 Properties:
                   AccessibleLabel: ="Cancelar"
                   BorderColor: =RGBA(184, 196, 199, 1)
                   BorderThickness: =1
-                  Color: =RGBA(82, 102, 108, 1)
                   DisplayMode: =If(varSalvando, DisplayMode.Disabled, DisplayMode.Edit)
-                  Fill: =RGBA(255, 255, 255, 1)
                   Height: =42
-                  RadiusBottomLeft: =8
-                  RadiusBottomRight: =8
-                  RadiusTopLeft: =8
-                  RadiusTopRight: =8
-                  Size: =11
                   Text: ="Cancelar"
                   Width: =110
                   X: =Parent.Width - 24 - 140 - 12 - 110
@@ -1760,9 +1737,11 @@ Screens:
                         varSalvando,
                         false,
                         If(
-                            Trim(txtFormNome.Value) <> varNomeOriginalForm Or
-                            Trim(txtFormDescricao.Value) <> varDescricaoOriginalForm Or
-                            Trim(txtFormLink.Value) <> varLinkOriginalForm,
+                            !IsBlank(Trim(txtFormNome.Value)) Or
+                            !IsBlank(Trim(txtFormDescricao.Value)) Or
+                            !IsBlank(Trim(txtFormLink.Value)) Or
+                            !IsBlank(Trim(txtFormPeriodicidade.Value)) Or
+                            !IsBlank(Trim(txtFormNovoResponsavelEmail.Value)),
                             Set(varConfirmarDescarte, true),
                             Set(varModalAberto, false);
                             Set(varRegistroSelecionado, Blank());
@@ -1771,19 +1750,12 @@ Screens:
                     )
 
             - btnSalvarModal:
-                Control: Button@0.0.44
+                Control: Button@0.0.45
                 Properties:
                   AccessibleLabel: ="Salvar"
                   BorderThickness: =0
-                  Color: =RGBA(255, 255, 255, 1)
                   DisplayMode: =If(varSalvando, DisplayMode.Disabled, DisplayMode.Edit)
-                  Fill: =If(varSalvando, RGBA(150, 190, 200, 1), RGBA(0, 159, 194, 1))
                   Height: =42
-                  RadiusBottomLeft: =8
-                  RadiusBottomRight: =8
-                  RadiusTopLeft: =8
-                  RadiusTopRight: =8
-                  Size: =11
                   Text: =If(varSalvando, "Salvando...", "Salvar")
                   Width: =140
                   X: =Parent.Width - 24 - 140
@@ -1792,101 +1764,129 @@ Screens:
                     =If(
                         !varSalvando,
                         Set(varErroFormulario, "");
-                        If(
-                            IsBlank(Trim(txtFormNome.Value)),
-                                Set(varErroFormulario, "Informe o nome do relatório ou aplicativo."),
-                            IsBlank(drpFormTipo.Selected.Value),
-                                Set(varErroFormulario, "Selecione o tipo do item."),
-                            IsBlank(drpFormAmbiente.Selected.Value),
-                                Set(varErroFormulario, "Selecione o ambiente de publicação."),
-                            IsBlank(drpFormArea.Selected.Value),
-                                Set(varErroFormulario, "Selecione a gerência/área responsável."),
-                            IsBlank(drpFormCategoria.Selected.Value),
-                                Set(varErroFormulario, "Selecione a categoria."),
-                            IsBlank(Trim(txtFormLink.Value)),
-                                Set(varErroFormulario, "Informe o link de acesso."),
-                            varIsAdmin And IsBlank(drpFormResponsavel.Selected) And IsBlank(Trim(txtFormNovoResponsavelEmail.Value)) And varModoFormulario = "NOVO",
-                                Set(varErroFormulario, "Selecione o responsável pela atualização ou informe um e-mail."),
-                            !varIsAdmin And IsBlank(varEmailUsuario),
-                                Set(varErroFormulario, "Não foi possível identificar o usuário conectado."),
-                            varModoFormulario = "EDITAR" And !varIsAdmin And Lower(Coalesce(varRegistroSelecionado.'Responsável pela Atualização'.Email, "")) <> varEmailUsuario,
-                                Set(varErroFormulario, "Você não possui mais permissão para editar este item."),
+                        With(
+                            {
+                                vNomeEfetivo:
+                                    If(
+                                        IsBlank(Trim(txtFormNome.Value)),
+                                        Coalesce(varRegistroSelecionado.'Nome do Relatório', ""),
+                                        Trim(txtFormNome.Value)
+                                    ),
+                                vDescricaoEfetiva:
+                                    If(
+                                        IsBlank(Trim(txtFormDescricao.Value)),
+                                        PlainText(Coalesce(varRegistroSelecionado.Descrição, "")),
+                                        Trim(txtFormDescricao.Value)
+                                    ),
+                                vLinkEfetivo:
+                                    If(
+                                        IsBlank(Trim(txtFormLink.Value)),
+                                        Coalesce(varRegistroSelecionado.'Link de Acesso', ""),
+                                        Trim(txtFormLink.Value)
+                                    ),
+                                vPeriodicidadeEfetiva:
+                                    If(
+                                        IsBlank(Trim(txtFormPeriodicidade.Value)),
+                                        Coalesce(varRegistroSelecionado.'Periodicidade de Atualização', ""),
+                                        Trim(txtFormPeriodicidade.Value)
+                                    )
+                            },
+                            If(
+                                IsBlank(vNomeEfetivo),
+                                    Set(varErroFormulario, "Informe o nome do relatório ou aplicativo."),
+                                IsBlank(drpFormTipo.Selected.Value),
+                                    Set(varErroFormulario, "Selecione o tipo do item."),
+                                IsBlank(drpFormAmbiente.Selected.Value),
+                                    Set(varErroFormulario, "Selecione o ambiente de publicação."),
+                                IsBlank(drpFormArea.Selected.Value),
+                                    Set(varErroFormulario, "Selecione a gerência/área responsável."),
+                                IsBlank(drpFormCategoria.Selected.Value),
+                                    Set(varErroFormulario, "Selecione a categoria."),
+                                IsBlank(vLinkEfetivo),
+                                    Set(varErroFormulario, "Informe o link de acesso."),
+                                varIsAdmin And IsBlank(drpFormResponsavel.Selected) And IsBlank(Trim(txtFormNovoResponsavelEmail.Value)) And varModoFormulario = "NOVO",
+                                    Set(varErroFormulario, "Selecione o responsável pela atualização ou informe um e-mail."),
+                                !varIsAdmin And IsBlank(varEmailUsuario),
+                                    Set(varErroFormulario, "Não foi possível identificar o usuário conectado."),
+                                varModoFormulario = "EDITAR" And !varIsAdmin And Lower(Coalesce(varRegistroSelecionado.'Responsável pela Atualização'.Email, "")) <> varEmailUsuario,
+                                    Set(varErroFormulario, "Você não possui mais permissão para editar este item."),
 
-                            Set(varSalvando, true);
-                            Set(
-                                varResponsavelGravacao,
-                                If(
-                                    !varIsAdmin,
-                                        If(
-                                            varModoFormulario = "EDITAR",
+                                Set(varSalvando, true);
+                                Set(
+                                    varResponsavelGravacao,
+                                    If(
+                                        !varIsAdmin,
+                                            If(
+                                                varModoFormulario = "EDITAR",
+                                                varRegistroSelecionado.'Responsável pela Atualização',
+                                                {
+                                                    Claims: "i:0#.f|membership|" & varEmailUsuario,
+                                                    DisplayName: User().FullName,
+                                                    Email: varEmailUsuario
+                                                }
+                                            ),
+                                        !IsBlank(Trim(txtFormNovoResponsavelEmail.Value)),
+                                            {
+                                                Claims: "i:0#.f|membership|" & Lower(Trim(txtFormNovoResponsavelEmail.Value)),
+                                                DisplayName: Proper(Substitute(Left(Trim(txtFormNovoResponsavelEmail.Value), Find("@", Trim(txtFormNovoResponsavelEmail.Value) & "@") - 1), ".", " ")),
+                                                Email: Lower(Trim(txtFormNovoResponsavelEmail.Value))
+                                            },
+                                        !IsBlank(drpFormResponsavel.Selected),
+                                            {
+                                                Claims: "i:0#.f|membership|" & drpFormResponsavel.Selected.EmailResp,
+                                                DisplayName: drpFormResponsavel.Selected.NomeResp,
+                                                Email: drpFormResponsavel.Selected.EmailResp
+                                            },
+                                        varModoFormulario = "EDITAR",
                                             varRegistroSelecionado.'Responsável pela Atualização',
                                             {
                                                 Claims: "i:0#.f|membership|" & varEmailUsuario,
                                                 DisplayName: User().FullName,
                                                 Email: varEmailUsuario
                                             }
-                                        ),
-                                    !IsBlank(Trim(txtFormNovoResponsavelEmail.Value)),
+                                    )
+                                );
+                                Set(
+                                    varResultadoGravacao,
+                                    Patch(
+                                        'GD - Lista de Relatórios Power BI',
+                                        If(varModoFormulario = "NOVO", Defaults('GD - Lista de Relatórios Power BI'), varRegistroSelecionado),
                                         {
-                                            Claims: "i:0#.f|membership|" & Lower(Trim(txtFormNovoResponsavelEmail.Value)),
-                                            DisplayName: Proper(Substitute(Left(Trim(txtFormNovoResponsavelEmail.Value), Find("@", Trim(txtFormNovoResponsavelEmail.Value) & "@") - 1), ".", " ")),
-                                            Email: Lower(Trim(txtFormNovoResponsavelEmail.Value))
-                                        },
-                                    !IsBlank(drpFormResponsavel.Selected),
-                                        {
-                                            Claims: "i:0#.f|membership|" & drpFormResponsavel.Selected.EmailResp,
-                                            DisplayName: drpFormResponsavel.Selected.NomeResp,
-                                            Email: drpFormResponsavel.Selected.EmailResp
-                                        },
-                                    varModoFormulario = "EDITAR",
-                                        varRegistroSelecionado.'Responsável pela Atualização',
-                                        {
-                                            Claims: "i:0#.f|membership|" & varEmailUsuario,
-                                            DisplayName: User().FullName,
-                                            Email: varEmailUsuario
+                                            'Nome do Relatório': vNomeEfetivo,
+                                            Descrição: vDescricaoEfetiva,
+                                            'Tipo de Item': {Value: drpFormTipo.Selected.Value},
+                                            'Ambiente de Publicação': {Value: drpFormAmbiente.Selected.Value},
+                                            Gerência: {Value: drpFormArea.Selected.Value},
+                                            Coordenação: {Value: drpFormCoordenacao.Selected.Value},
+                                            'Categoria Relatório': {Value: drpFormCategoria.Selected.Value},
+                                            'Periodicidade de Atualização': vPeriodicidadeEfetiva,
+                                            'Responsável pela Atualização': varResponsavelGravacao,
+                                            'Link de Acesso': vLinkEfetivo
                                         }
-                                )
-                            );
-                            Set(
-                                varResultadoGravacao,
-                                Patch(
-                                    'GD - Lista de Relatórios Power BI',
-                                    If(varModoFormulario = "NOVO", Defaults('GD - Lista de Relatórios Power BI'), varRegistroSelecionado),
-                                    {
-                                        'Nome do Relatório': Trim(txtFormNome.Value),
-                                        Descrição: Trim(txtFormDescricao.Value),
-                                        'Tipo de Item': {Value: drpFormTipo.Selected.Value},
-                                        'Ambiente de Publicação': {Value: drpFormAmbiente.Selected.Value},
-                                        Gerência: {Value: drpFormArea.Selected.Value},
-                                        Coordenação: {Value: drpFormCoordenacao.Selected.Value},
-                                        'Categoria Relatório': {Value: drpFormCategoria.Selected.Value},
-                                        'Periodicidade de Atualização': Trim(txtFormPeriodicidade.Value),
-                                        'Responsável pela Atualização': varResponsavelGravacao,
-                                        'Link de Acesso': Trim(txtFormLink.Value)
-                                    }
-                                )
-                            );
-                            If(
-                                IsBlankOrError(varResultadoGravacao),
-                                    Set(varErroFormulario, "Não foi possível salvar as alterações. Tente novamente.");
-                                    Set(varSalvando, false),
+                                    )
+                                );
+                                If(
+                                    IsBlankOrError(varResultadoGravacao),
+                                        Set(varErroFormulario, "Não foi possível salvar as alterações. Tente novamente.");
+                                        Set(varSalvando, false),
 
-                                    Set(varSalvando, false);
-                                    Refresh('GD - Lista de Relatórios Power BI');
-                                    Set(varModalAberto, false);
-                                    Set(varRegistroSelecionado, Blank());
-                                    Set(varErroFormulario, "");
-                                    Set(
-                                        varPodeAdicionar,
-                                        varIsAdmin Or
-                                        CountRows(
-                                            Filter(
-                                                'GD - Lista de Relatórios Power BI',
-                                                Lower('Responsável pela Atualização'.Email) = varEmailUsuario
-                                            )
-                                        ) > 0
-                                    );
-                                    Notify("Registro salvo com sucesso.", NotificationType.Success)
+                                        Set(varSalvando, false);
+                                        Refresh('GD - Lista de Relatórios Power BI');
+                                        Set(varModalAberto, false);
+                                        Set(varRegistroSelecionado, Blank());
+                                        Set(varErroFormulario, "");
+                                        Set(
+                                            varPodeAdicionar,
+                                            varIsAdmin Or
+                                            CountRows(
+                                                Filter(
+                                                    'GD - Lista de Relatórios Power BI',
+                                                    Lower('Responsável pela Atualização'.Email) = varEmailUsuario
+                                                )
+                                            ) > 0
+                                        );
+                                        Notify("Registro salvo com sucesso.", NotificationType.Success)
+                                )
                             )
                         ),
                         false
@@ -1921,19 +1921,12 @@ Screens:
                   Y: =20
 
             - btnContinuarEditando:
-                Control: Button@0.0.44
+                Control: Button@0.0.45
                 Properties:
                   AccessibleLabel: ="Continuar editando"
                   BorderColor: =RGBA(184, 196, 199, 1)
                   BorderThickness: =1
-                  Color: =RGBA(82, 102, 108, 1)
-                  Fill: =RGBA(255, 255, 255, 1)
                   Height: =38
-                  RadiusBottomLeft: =8
-                  RadiusBottomRight: =8
-                  RadiusTopLeft: =8
-                  RadiusTopRight: =8
-                  Size: =10
                   Text: ="Continuar editando"
                   Width: =140
                   X: =24
@@ -1941,18 +1934,11 @@ Screens:
                   OnSelect: =Set(varConfirmarDescarte, false)
 
             - btnDescartar:
-                Control: Button@0.0.44
+                Control: Button@0.0.45
                 Properties:
                   AccessibleLabel: ="Descartar alterações"
                   BorderThickness: =0
-                  Color: =RGBA(255, 255, 255, 1)
-                  Fill: =RGBA(243, 112, 33, 1)
                   Height: =38
-                  RadiusBottomLeft: =8
-                  RadiusBottomRight: =8
-                  RadiusTopLeft: =8
-                  RadiusTopRight: =8
-                  Size: =10
                   Text: ="Descartar"
                   Width: =132
                   X: =24 + 140 + 12

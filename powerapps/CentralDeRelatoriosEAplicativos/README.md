@@ -41,8 +41,20 @@ Arquivo pronto para colar no editor de código-fonte do Power Apps: `Central.pa.
 3. **`Link de Acesso` é texto simples (URL)**, não um valor estruturado de Hyperlink — inferido porque o código original chama `Launch(ThisItem.'Link de Acesso')` diretamente, sem `.Value`/`.Address`.
 4. **`Descrição` é multilinha** — o formulário grava texto simples (sem formatação rica); o SharePoint aceita texto simples em colunas de texto multilinha normalmente.
 5. **Coordenação não é campo obrigatório** no formulário (não era usada como filtro no código original, sugerindo caráter complementar).
-6. Os controles `Button@0.0.44` e `ModernDropdown@1.0.2` podem ter sua versão automaticamente ajustada pelo Studio ao colar o código, caso a versão instalada no ambiente seja diferente — isso é normal e não impede a colagem.
-7. Contraste de cores e paleta seguem estritamente os tons informados (`#005061`, `#009FC2`, `#F37021`, `#F4F6F7`, `#FFFFFF`).
+6. Contraste de cores e paleta seguem estritamente os tons informados (`#005061`, `#009FC2`, `#F37021`, `#F4F6F7`, `#FFFFFF`), com a ressalva do item 8 abaixo.
+
+### Ajustes feitos após validação real no Power Apps Studio
+
+A primeira versão foi validada apenas com um parser YAML genérico (sintaxe), não com o compilador real do Power Apps. Ao colar no Studio, o compilador acusou propriedades que **não existem nas versões de controle deste ambiente específico** (`PA2108 Unknown property`). Corrigido:
+
+7. **`Icon@0.0.7` não suporta `OnSelect`, `Fill`, `Radius*` nem `AccessibleLabel` neste ambiente** (só o próprio ícone original, decorativo, já usava as propriedades seguras: `Height`, `Icon`, `IconColor`, `IconStyle`, `Width`, `X`, `Y`). O ícone de "Editar" no card e o "✕" de fechar o painel foram substituídos por controles `Button` nativos (interativos de verdade).
+8. **`Button` (bumped para `Button@0.0.45`, versão atual indicada pelo compilador) não suporta `Fill`, `Color`, `Size` nem `Radius*`** neste ambiente — os botões usam apenas `Text`, `BorderColor`, `BorderThickness`, `DisplayMode`, `Height`, `Width`, `X`, `Y`, `OnSelect`, `AccessibleLabel`, e por isso renderizam com o estilo padrão do tema do Power Apps (não com as cores de marca customizadas). Se quiser a cor de marca nos botões, aplique um tema/estilo pelo próprio Studio após colar.
+9. **`GroupContainer@1.5.0` (ManualLayout) não suporta `OnSelect`** — o "scrim" (fundo escurecido atrás do painel) deixou de fechar o painel ao ser clicado; o fechamento/​cancelamento continua funcionando pelos botões "✕", "Cancelar" e "Descartar".
+10. **`TextInput@0.0.54` não suporta `Default`** — não é possível pré-preencher o campo de texto programaticamente. Por isso, ao editar um registro, os campos de texto (Nome, Link, Descrição, Periodicidade) começam **em branco**, e:
+    - O rótulo do campo mostra o valor atual entre parênteses (ex.: `NOME * (atual: Relatório de Vendas)`);
+    - O placeholder explica "Deixe em branco para manter o valor atual";
+    - Se o usuário deixar em branco e salvar, o valor **original é mantido** (a gravação usa `Coalesce`/`If` para isso); se digitar algo, o valor novo **substitui** o atual.
+    - Os campos do tipo Choice (`ModernDropdown`) não têm essa limitação — continuam pré-selecionados normalmente via `Default`.
 
 ## 5. Checklist de entrega
 
