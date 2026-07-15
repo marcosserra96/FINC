@@ -12,7 +12,7 @@ import './InstitutionalCredit.css';
 export function InstitutionalCredit() {
   return (
     <img
-      src="/institutional/energisa-pee-aneel.svg"
+      src={`${import.meta.env.BASE_URL}institutional/energisa-pee-aneel.svg`}
       alt="Energisa — PEE Programa de Eficiência Energética — ANEEL Agência Nacional de Energia Elétrica"
       className="institutional-credit"
     />
