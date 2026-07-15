@@ -1,0 +1,22 @@
+.restart-corner {
+  position: absolute;
+  top: var(--space-4);
+  left: var(--space-4);
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--surface-glass-border);
+  color: var(--text-on-dark-muted);
+  border-radius: var(--radius-full);
+  padding: var(--space-2) var(--space-3);
+  min-height: var(--touch-min-secondary);
+  font-size: var(--fs-small);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.restart-corner:active {
+  transform: scale(0.96);
+}

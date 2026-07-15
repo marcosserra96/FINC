@@ -1,0 +1,196 @@
+.sort-activity {
+  width: 100%;
+  max-width: 720px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.sort-activity__hint {
+  font-size: var(--fs-body-lg);
+  font-weight: 700;
+  color: var(--text-on-dark);
+}
+
+.sort-activity__pool {
+  width: 100%;
+  min-height: 140px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  justify-content: center;
+  align-content: flex-start;
+  background: var(--surface-glass);
+  border: 1px solid var(--surface-glass-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+}
+
+.sort-activity__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  width: 128px;
+  background: var(--surface-card);
+  color: var(--text-on-light);
+  border: none;
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-2) var(--space-2);
+  min-height: 104px;
+  font-weight: 700;
+  font-size: var(--fs-small);
+  text-align: center;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  -webkit-tap-highlight-color: transparent;
+  transition: transform var(--dur-fast) var(--ease-standard), box-shadow var(--dur-fast) var(--ease-standard);
+}
+
+.sort-activity__item-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-sm);
+}
+
+.sort-activity__item-label {
+  line-height: 1.25;
+}
+
+.sort-activity__item--selected {
+  box-shadow: 0 0 0 4px var(--color-orange), var(--shadow-md);
+  transform: scale(1.04);
+}
+
+.sort-activity__item--dragging {
+  opacity: 0;
+}
+
+.sort-activity__item--flying {
+  position: fixed;
+  z-index: 50;
+  /* centraliza no ponto x/y sem usar transform (o framer-motion já controla
+     transform pra escala/rotação — uma regra CSS de transform aqui seria
+     sobrescrita pelo style inline dele) */
+  margin-left: -64px;
+  margin-top: -52px;
+  pointer-events: none;
+  cursor: grabbing;
+  box-shadow: 0 20px 40px rgba(0, 48, 58, 0.45);
+}
+
+.sort-activity__done {
+  color: var(--text-on-dark-muted);
+  margin: auto;
+}
+
+.sort-activity__columns {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+}
+
+.sort-activity__column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  min-height: 148px;
+  border-radius: var(--radius-lg);
+  border: 3px solid transparent;
+  color: var(--text-on-light);
+  font-weight: 800;
+  cursor: pointer;
+  padding: var(--space-3);
+  box-shadow: var(--shadow-sm);
+  -webkit-tap-highlight-color: transparent;
+  transition: transform var(--dur-fast) var(--ease-standard), box-shadow var(--dur-fast) var(--ease-standard), border-color var(--dur-fast) var(--ease-standard);
+}
+
+.sort-activity__column-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-sm);
+}
+
+.sort-activity__column-label {
+  line-height: 1.25;
+}
+
+.sort-activity__column--good {
+  background: var(--color-success-bg);
+}
+
+.sort-activity__column--good .sort-activity__column-icon {
+  background: var(--color-success);
+}
+
+.sort-activity__column--bad {
+  background: var(--color-attention-bg);
+}
+
+.sort-activity__column--bad .sort-activity__column-icon {
+  background: var(--color-orange-dark);
+}
+
+.sort-activity__column:not(:disabled):hover,
+.sort-activity__column:not(:disabled):active {
+  transform: scale(0.99);
+}
+
+.sort-activity__column--over {
+  border-color: var(--color-blue-dark);
+  box-shadow: var(--shadow-md);
+  transform: scale(1.04);
+}
+
+.sort-activity__column--correct {
+  animation: sortColumnBounce 0.5s var(--ease-bounce);
+  border-color: var(--color-success);
+}
+
+.sort-activity__column--incorrect {
+  animation: sortColumnShake 0.5s ease-in-out;
+  border-color: var(--color-orange-dark);
+}
+
+@keyframes sortColumnBounce {
+  0% { transform: scale(1); }
+  35% { transform: scale(1.12); }
+  60% { transform: scale(0.97); }
+  100% { transform: scale(1); }
+}
+
+@keyframes sortColumnShake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}
+
+/* As colunas são alvo do arrasto o tempo todo, mesmo "disabled" (esse
+   atributo só bloqueia o toque-toque, que exige um hábito selecionado antes)
+   — por isso não apagamos a cor aqui, só trocamos o cursor. */
+.sort-activity__column:disabled {
+  cursor: default;
+}
+
+.sort-activity__column-count {
+  font-size: var(--fs-small);
+  color: var(--text-on-light-muted);
+}
+

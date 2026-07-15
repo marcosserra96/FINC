@@ -1,0 +1,25 @@
+.celebration {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.celebration__piece {
+  position: absolute;
+  top: -5%;
+  width: 10px;
+  height: 14px;
+  border-radius: 3px;
+  animation: confettiFall 1.8s ease-in both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .celebration {
+    display: none;
+  }
+}
+
+[data-reduced-motion='true'] .celebration {
+  display: none;
+}

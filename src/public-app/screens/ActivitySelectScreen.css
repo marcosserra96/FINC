@@ -1,0 +1,61 @@
+.activity-select {
+  width: 100%;
+  max-width: 1100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-5);
+}
+
+.activity-select__title {
+  font-family: var(--font-display);
+  font-size: var(--fs-h1);
+  font-weight: 800;
+  text-align: center;
+}
+
+.activity-select__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--space-4);
+  width: 100%;
+}
+
+.activity-select__card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-height: 220px;
+}
+
+.activity-select__icon {
+  width: 60px;
+  height: 60px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  margin-bottom: var(--space-1);
+}
+
+.activity-select__name {
+  font-family: var(--font-display);
+  font-size: var(--fs-h2);
+  font-weight: 800;
+}
+
+.activity-select__desc {
+  color: var(--text-on-light-muted);
+  font-size: var(--fs-body);
+  flex: 1;
+}
+
+.activity-select__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  color: var(--text-on-light-muted);
+  font-size: var(--fs-small);
+  font-weight: 600;
+}

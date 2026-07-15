@@ -1,0 +1,66 @@
+.screen-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: radial-gradient(120% 100% at 50% -10%, var(--surface-bg-top) 0%, var(--surface-bg-bottom) 55%, var(--color-blue-deepest) 100%);
+  z-index: 0;
+}
+
+.screen-bg__glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0.35;
+}
+
+.screen-bg__glow--orange {
+  width: 46vw;
+  height: 46vw;
+  background: var(--color-orange);
+  top: -12%;
+  right: -8%;
+  animation: floatY 9s ease-in-out infinite;
+}
+
+.screen-bg__glow--blue {
+  width: 38vw;
+  height: 38vw;
+  background: var(--color-blue);
+  bottom: -10%;
+  left: -6%;
+  animation: floatY 11s ease-in-out infinite reverse;
+}
+
+.screen-bg__lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.35;
+}
+
+.screen-bg__line {
+  fill: none;
+  stroke: var(--color-blue-light);
+  stroke-width: 2;
+  stroke-dasharray: 14 18;
+  animation: dashFlow 14s linear infinite;
+}
+
+.screen-bg__line--delay {
+  stroke: var(--color-orange-light);
+  animation-duration: 18s;
+  animation-direction: reverse;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .screen-bg__glow,
+  .screen-bg__line {
+    animation: none;
+  }
+}
+
+[data-reduced-motion='true'] .screen-bg__glow,
+[data-reduced-motion='true'] .screen-bg__line {
+  animation: none;
+}

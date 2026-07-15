@@ -1,0 +1,41 @@
+.screen-shell {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.screen-shell__content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.screen-shell__content--padded {
+  padding: var(--space-6) var(--space-6);
+}
+
+@media (max-width: 900px) {
+  .screen-shell__content--padded {
+    padding: var(--space-5) var(--space-4);
+  }
+}
+
+/* Modo altura baixa: reancora o conteúdo interativo pro terço inferior da
+   tela, pra ficar ao alcance de crianças em telas grandes (ex: totem de
+   80"). O topo da tela fica livre pra elementos decorativos. */
+[data-low-reach-mode='true'] .screen-shell__content {
+  justify-content: flex-end;
+  padding-bottom: var(--space-8);
+}
+
+@media (max-width: 900px) {
+  [data-low-reach-mode='true'] .screen-shell__content {
+    padding-bottom: var(--space-6);
+  }
+}

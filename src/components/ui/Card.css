@@ -1,0 +1,36 @@
+.card {
+  --card-accent: var(--color-blue);
+  background: var(--surface-card);
+  color: var(--text-on-light);
+  border-radius: var(--radius-lg);
+  border: none;
+  box-shadow: var(--shadow-md);
+  padding: var(--space-5);
+  text-align: left;
+  font-family: inherit;
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 8px;
+  background: var(--card-accent);
+}
+
+.card--pressable {
+  cursor: pointer;
+  transition: transform var(--dur-fast) var(--ease-standard), box-shadow var(--dur-fast) var(--ease-standard);
+  min-height: var(--touch-min);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.card--pressable:active {
+  transform: scale(0.97);
+}
+
+.card--selected {
+  box-shadow: 0 0 0 4px var(--card-accent), var(--shadow-lg);
+}

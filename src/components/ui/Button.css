@@ -1,0 +1,64 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  border: none;
+  border-radius: var(--radius-full);
+  font-family: var(--font-display);
+  font-weight: 700;
+  cursor: pointer;
+  min-height: var(--touch-min);
+  padding: 0 var(--space-5);
+  font-size: var(--fs-body-lg);
+  transition: filter var(--dur-fast) var(--ease-standard), box-shadow var(--dur-fast) var(--ease-standard);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn--md {
+  min-height: var(--touch-min-secondary);
+  font-size: var(--fs-body);
+  padding: 0 var(--space-4);
+}
+
+.btn--full {
+  width: 100%;
+}
+
+.btn--primary {
+  background: linear-gradient(135deg, var(--color-orange), var(--color-orange-dark));
+  color: #fff;
+  box-shadow: var(--shadow-md);
+}
+
+.btn--secondary {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--text-on-dark);
+  border: 2px solid var(--surface-glass-border);
+  backdrop-filter: blur(6px);
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--text-on-dark-muted);
+}
+
+.btn--success {
+  background: linear-gradient(135deg, var(--color-success), #1c8f61);
+  color: #fff;
+  box-shadow: var(--shadow-md);
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.btn:not(:disabled):hover {
+  filter: brightness(1.06);
+}
+
+.btn__icon {
+  display: inline-flex;
+}

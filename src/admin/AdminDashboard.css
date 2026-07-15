@@ -1,0 +1,106 @@
+.admin-dashboard {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  background: #f2f6f7;
+  color: var(--text-on-light);
+  overflow: hidden;
+}
+
+.admin-dashboard__sidebar {
+  background: var(--color-blue-dark);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-4);
+  gap: var(--space-4);
+}
+
+.admin-dashboard__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.admin-dashboard__brand div {
+  display: flex;
+  flex-direction: column;
+  font-size: var(--fs-small);
+}
+
+.admin-dashboard__brand span {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.admin-dashboard__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.admin-dashboard__nav-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.75);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-size: var(--fs-body);
+  text-align: left;
+  min-height: 48px;
+}
+
+.admin-dashboard__nav-item--active {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+.admin-dashboard__footer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  padding-top: var(--space-3);
+}
+
+.admin-dashboard__ghost-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.75);
+  padding: var(--space-2);
+  cursor: pointer;
+  font-size: var(--fs-small);
+  min-height: 40px;
+}
+
+.admin-dashboard__version {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: var(--fs-small);
+  padding: var(--space-1) var(--space-2);
+}
+
+.admin-dashboard__content {
+  overflow-y: auto;
+  padding: var(--space-6);
+}
+
+@media (max-width: 900px) {
+  .admin-dashboard {
+    grid-template-columns: 84px 1fr;
+  }
+  .admin-dashboard__brand strong,
+  .admin-dashboard__brand span,
+  .admin-dashboard__nav-item span,
+  .admin-dashboard__ghost-btn span {
+    display: none;
+  }
+}

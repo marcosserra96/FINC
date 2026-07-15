@@ -1,0 +1,33 @@
+.attract-ticker {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--surface-glass);
+  border: 1px solid var(--surface-glass-border);
+  border-radius: var(--radius-full);
+  padding: var(--space-2) var(--space-4);
+  max-width: min(680px, 88vw);
+}
+
+.attract-ticker__icon {
+  flex-shrink: 0;
+  color: var(--color-orange-light);
+  display: flex;
+}
+
+.attract-ticker__viewport {
+  position: relative;
+  overflow: hidden;
+  min-height: 1.4em;
+  display: flex;
+  align-items: center;
+}
+
+.attract-ticker__text {
+  display: block;
+  font-size: var(--fs-small);
+  font-weight: 700;
+  color: var(--text-on-dark);
+  letter-spacing: 0.01em;
+  line-height: 1.3;
+}
