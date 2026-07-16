@@ -24,7 +24,7 @@ const quizRelampago: QuizActivityConfig = {
   difficulty: 'facil',
   completionCriteria: { minCorrectRatio: 0.5, minStepsCompleted: 4 },
   learningMessage: 'Pequenos hábitos, repetidos todos os dias, fazem diferença no consumo de energia da casa.',
-  giftEligible: true,
+  giftEligible: false,
   questions: [
     {
       id: 'q1',
@@ -113,7 +113,7 @@ const memoriaEnergia: MemoryActivityConfig = {
   difficulty: 'facil',
   completionCriteria: { minCorrectRatio: 0.4, minStepsCompleted: 4 },
   learningMessage: 'Cada aparelho tem um jeito simples de economizar — o segredo é lembrar deles no dia a dia.',
-  giftEligible: true,
+  giftEligible: false,
   pairs: [
     { id: 'p1', icon: 'bulb', label: 'Lâmpada LED', tip: 'LED costuma consumir menos energia para o mesmo brilho.' },
     { id: 'p2', icon: 'charger', label: 'Carregador', tip: 'Tirar o carregador da tomada evita consumo à toa.' },
@@ -138,7 +138,7 @@ const organizeHabitos: SortActivityConfig = {
   difficulty: 'facil',
   completionCriteria: { minCorrectRatio: 0.75, minStepsCompleted: 8 },
   learningMessage: 'Consumo consciente é feito de hábitos simples repetidos no dia a dia.',
-  giftEligible: true,
+  giftEligible: false,
   categoryLabels: { eficiente: 'Hábito eficiente', desperdicio: 'Desperdício' },
   items: [
     { id: 'h1', label: 'Desligar as luzes ao sair do ambiente', icon: 'bulb', category: 'eficiente' },
@@ -166,7 +166,7 @@ const casaEficiente: ScenarioActivityConfig = {
   difficulty: 'facil',
   completionCriteria: { minCorrectRatio: 0.5, minStepsCompleted: 4 },
   learningMessage: 'Em cada situação do dia a dia existe uma escolha mais consciente — o segredo é ir prestando atenção nelas.',
-  giftEligible: true,
+  giftEligible: false,
   cases: [
     {
       id: 'c1',

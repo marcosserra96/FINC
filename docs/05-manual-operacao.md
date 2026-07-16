@@ -19,7 +19,7 @@ Guia para quem vai operar o totem no dia do evento, sem precisar entender de pro
 
 No painel, seção **Textos e mensagens**: coloque o nome do evento.
 
-Na seção **Brindes**: confira "Total de brindes do evento" e "Estoque atual disponível" — ajuste para a quantidade real que vocês têm na mesa.
+Na seção **Brindes**: por padrão, o sistema de brindes vem **desativado** em todas as atividades (nenhum código é gerado, nenhuma tela de brinde aparece — o visitante vai direto do resultado pro encerramento). Se o evento for distribuir brindes, ative "Brindes habilitados" e confira "Total de brindes do evento" e "Estoque atual disponível", ajustando para a quantidade real que vocês têm na mesa.
 
 Na seção **Comportamento**: se o ambiente for muito barulhento ou tiver fila grande, considere reduzir o "Voltar para a tela inicial após" para algo entre 30–45s.
 
