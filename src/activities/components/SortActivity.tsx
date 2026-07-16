@@ -1,6 +1,6 @@
 import { useMemo, useRef, useState } from 'react';
 import type { PointerEvent as ReactPointerEvent } from 'react';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { Icon } from '@/components/ui/Icon';
 import type { IconName } from '@/components/ui/Icon';
 import { shuffle } from '@/utils/shuffle';
@@ -42,24 +42,29 @@ export function SortActivity({ activity, onComplete }: SortActivityProps) {
   const startedAtRef = useRef(Date.now());
   const items = useMemo<SortItem[]>(() => shuffle(activity.items), [activity.items]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [resolved, setResolved] = useState<Record<string, Outcome>>({});
+  // Só guarda os acertos — um erro não "consome" o hábito, ele volta pro
+  // grupo pra pessoa tentar de novo (ver resolveItem).
+  const [resolved, setResolved] = useState<Record<string, true>>({});
   const [finished, setFinished] = useState(false);
   const [drag, setDrag] = useState<{ itemId: string; x: number; y: number; picking: boolean } | null>(null);
   const [dragOverCategory, setDragOverCategory] = useState<Category | null>(null);
   const [dropFeedback, setDropFeedback] = useState<{ category: Category; outcome: Outcome } | null>(null);
+  const [mistakeHint, setMistakeHint] = useState<string | null>(null);
   const dragMeta = useRef<{ itemId: string; startX: number; startY: number; moved: boolean } | null>(null);
+  // Tentativas erradas contam pro resultado final (não-punitivo, mas real),
+  // mesmo o hábito voltando pro grupo depois de errar.
+  const incorrectAttemptsRef = useRef(0);
 
   const pending = items.filter((item) => !resolved[item.id]);
-  const correctCount = Object.values(resolved).filter((v) => v === 'correct').length;
-  const incorrectCount = Object.values(resolved).filter((v) => v === 'incorrect').length;
+  const correctCount = Object.keys(resolved).length;
 
   const finish = () => {
     if (finished) return;
     setFinished(true);
     onComplete({
       correct: correctCount,
-      incorrect: incorrectCount,
-      stepsCompleted: correctCount + incorrectCount,
+      incorrect: incorrectAttemptsRef.current,
+      stepsCompleted: correctCount,
       totalSteps: items.length,
       durationMs: Date.now() - startedAtRef.current
     });
@@ -67,13 +72,24 @@ export function SortActivity({ activity, onComplete }: SortActivityProps) {
 
   const resolveItem = (item: SortItem, category: Category) => {
     const outcome: Outcome = item.category === category ? 'correct' : 'incorrect';
-    const next = { ...resolved, [item.id]: outcome };
-    setResolved(next);
     setDropFeedback({ category, outcome });
     window.setTimeout(() => setDropFeedback(null), 550);
-    if (Object.keys(next).length >= items.length) {
-      window.setTimeout(finish, 500);
+
+    if (outcome === 'correct') {
+      const next = { ...resolved, [item.id]: true as const };
+      setResolved(next);
+      if (Object.keys(next).length >= items.length) {
+        window.setTimeout(finish, 500);
+      }
+      return;
     }
+
+    // Errou: não sai do grupo — só orienta o que está errado, pra pessoa
+    // arrastar de novo pro lugar certo, em vez de "resolver" por ela.
+    incorrectAttemptsRef.current += 1;
+    const correctLabel = item.category === 'eficiente' ? activity.categoryLabels.eficiente : activity.categoryLabels.desperdicio;
+    setMistakeHint(`"${item.label}" não é bem isso — essa vai em "${correctLabel}". Tenta de novo!`);
+    window.setTimeout(() => setMistakeHint(null), 3800);
   };
 
   const handlePickColumn = (category: Category) => {
@@ -213,6 +229,20 @@ export function SortActivity({ activity, onComplete }: SortActivityProps) {
           <CardContent item={draggingItem} />
         </motion.div>
       )}
+
+      <AnimatePresence>
+        {mistakeHint && (
+          <motion.div
+            className="sort-activity__mistake"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 12 }}
+          >
+            <Icon name="bulb" size={18} />
+            <span>{mistakeHint}</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

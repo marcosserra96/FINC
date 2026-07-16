@@ -17,9 +17,11 @@
   font-family: var(--font-display);
   font-size: var(--fs-display);
   font-weight: 800;
-  /* 1.05 cortava a descendente do "g" de "energia" — a caixa da linha
-     ficava mais baixa que a letra. */
-  line-height: 1.2;
+  /* background-clip:text (na 2ª linha) só pinta o que cabe dentro da
+     caixa da linha — uma linha apertada demais "invisibiliza" a ponta da
+     descendente do "g" (a cor de fallback é transparent). 1.3 dá folga de
+     verdade, não só um pouco a mais. */
+  line-height: 1.3;
   letter-spacing: -0.01em;
 }
 
@@ -27,6 +29,10 @@
   background: linear-gradient(135deg, var(--color-orange-light), var(--color-orange));
   -webkit-background-clip: text;
   background-clip: text;
+  /* reforço: espaço extra garantido embaixo especificamente pra descendente
+     (g, p, q), independente de como o navegador calcula o line-height do
+     font stack do sistema. */
+  padding-bottom: 0.12em;
   color: transparent;
 }
 
