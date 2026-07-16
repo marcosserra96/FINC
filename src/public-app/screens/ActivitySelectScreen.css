@@ -16,9 +16,19 @@
 
 .activity-select__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  /* Colunas fixas em vez de auto-fit: com 4 atividades, auto-fit podia
+     encaixar 3 numa linha e deixar a 4ª sozinha numa segunda linha alta
+     (layout desequilibrado e mais provável de estourar telas baixas). 2
+     colunas mantém sempre um 2x2 previsível e mais compacto verticalmente. */
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--space-4);
   width: 100%;
+}
+
+@media (max-width: 560px) {
+  .activity-select__grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .activity-select__card {

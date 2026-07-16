@@ -14,6 +14,12 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  /* Rede de segurança: em telas baixas ou com conteúdo maior que o normal,
+     nada deve ficar simplesmente inacessível/cortado — vira rolável em vez
+     de sumir por trás do overflow:hidden do .screen-shell. */
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
 }
 
 .screen-shell__content--padded {
@@ -26,16 +32,25 @@
   }
 }
 
-/* Modo altura baixa: reancora o conteúdo interativo pro terço inferior da
-   tela, pra ficar ao alcance de crianças em telas grandes (ex: totem de
-   80"). O topo da tela fica livre pra elementos decorativos. */
+/* Modo altura baixa: em vez de só empurrar o conteúdo pro rodapé, ele passa
+   a ficar preso (position: absolute) numa faixa de altura limitada colada
+   na base da tela — uma "zona de alcance" de verdade. Se o conteúdo não
+   couber nela, rola dentro da própria faixa (não precisa esticar a tela
+   toda). Isso garante que nenhum elemento interativo fique acima dessa
+   faixa, mesmo em telas altas onde o antigo deslocamento fixo de padding
+   praticamente não se notava. */
 [data-low-reach-mode='true'] .screen-shell__content {
+  position: absolute;
+  inset: auto 0 0 0;
+  height: auto;
+  max-height: 68vh;
   justify-content: flex-end;
-  padding-bottom: var(--space-8);
+  padding-bottom: var(--space-6);
 }
 
 @media (max-width: 900px) {
   [data-low-reach-mode='true'] .screen-shell__content {
-    padding-bottom: var(--space-6);
+    max-height: 72vh;
+    padding-bottom: var(--space-5);
   }
 }
