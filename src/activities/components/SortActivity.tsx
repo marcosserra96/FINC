@@ -166,22 +166,32 @@ export function SortActivity({ activity, onComplete }: SortActivityProps) {
       </p>
 
       <div className="sort-activity__pool">
-        {pending.map((item) => (
-          <button
-            key={item.id}
-            type="button"
-            className={`sort-activity__item${selectedId === item.id ? ' sort-activity__item--selected' : ''}${drag?.itemId === item.id ? ' sort-activity__item--dragging' : ''}`}
-            onPointerDown={(e) => handlePointerDown(e, item.id)}
-            onPointerMove={handlePointerMove}
-            onPointerUp={(e) => handlePointerUp(e, item)}
-            onPointerCancel={handlePointerCancel}
-            style={{ touchAction: 'none' }}
-          >
-            <CardContent item={item} />
-          </button>
-        ))}
-        {pending.length === 0 && <p className="sort-activity__done">Tudo organizado!</p>}
+        {/* Renderiza os 8 sempre (mesmo os já resolvidos, só invisíveis) —
+            se só os pendentes existissem no DOM, a caixa ia encolhendo a
+            cada acerto e empurrava as colunas de lugar, obrigando a
+            pessoa a "reencontrar" onde soltar o próximo hábito. */}
+        {items.map((item) => {
+          const isDone = !!resolved[item.id];
+          return (
+            <button
+              key={item.id}
+              type="button"
+              className={`sort-activity__item${selectedId === item.id ? ' sort-activity__item--selected' : ''}${drag?.itemId === item.id ? ' sort-activity__item--dragging' : ''}${isDone ? ' sort-activity__item--done' : ''}`}
+              onPointerDown={(e) => handlePointerDown(e, item.id)}
+              onPointerMove={handlePointerMove}
+              onPointerUp={(e) => handlePointerUp(e, item)}
+              onPointerCancel={handlePointerCancel}
+              disabled={isDone}
+              aria-hidden={isDone}
+              tabIndex={isDone ? -1 : 0}
+              style={{ touchAction: 'none' }}
+            >
+              <CardContent item={item} />
+            </button>
+          );
+        })}
       </div>
+      {pending.length === 0 && <p className="sort-activity__done">Tudo organizado!</p>}
 
       <div className="sort-activity__columns">
         <button

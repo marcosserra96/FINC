@@ -72,6 +72,14 @@
   opacity: 0;
 }
 
+/* Some da tela mas continua ocupando o lugar no flex-wrap — é isso que
+   mantém o tamanho da caixa do grupo estável do primeiro ao último
+   hábito, em vez de encolher e empurrar as colunas de lugar a cada acerto. */
+.sort-activity__item--done {
+  visibility: hidden;
+  pointer-events: none;
+}
+
 .sort-activity__item--flying {
   position: fixed;
   z-index: 50;

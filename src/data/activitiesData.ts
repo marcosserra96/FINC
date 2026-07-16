@@ -309,11 +309,11 @@ const casaEficiente: ScenarioActivityConfig = {
     {
       id: 'c10',
       situation: 'Vou comprar um aparelho novo e tem dois modelos parecidos.',
-      situationIcon: 'star',
+      situationIcon: 'shield',
       explanation: 'O Selo Procel ajuda a comparar a eficiência entre modelos parecidos antes de decidir.',
       options: [
-        { id: 'a', label: 'Comparar o Selo Procel dos dois modelos', icon: 'star', correct: true },
-        { id: 'b', label: 'Escolher sem olhar a etiqueta de eficiência', icon: 'star', correct: false }
+        { id: 'a', label: 'Comparar o Selo Procel dos dois modelos', icon: 'shield', correct: true },
+        { id: 'b', label: 'Escolher sem olhar a etiqueta de eficiência', icon: 'shield', correct: false }
       ]
     }
   ]

@@ -1,5 +1,17 @@
 # 6. Plano de testes
 
+## Caixa do grupo em Organize os Hábitos encolhia e empurrava as colunas de lugar
+
+Relato do usuário: "a medida que vão acabando a caixa em volta deles vai diminuindo e as áreas onde deixo as cartas mudam de lugar". Causa: `.sort-activity__pool` só renderizava os hábitos ainda pendentes (`pending.map`) — a cada acerto, um item saía do DOM, o `flex-wrap` precisava de menos linhas, e a caixa encolhia de verdade. Como toda a tela é uma coluna centralizada, isso empurrava as colunas de destino (`eficiente`/`desperdício`) pra cima a cada acerto, obrigando a pessoa a "reencontrar" onde soltar o próximo hábito.
+
+Corrigido em `src/activities/components/SortActivity.tsx`: agora os 8 hábitos são sempre renderizados (`items.map`, não `pending.map`); os já corretos ganham a classe `sort-activity__item--done` (`visibility: hidden` — some da tela mas continua ocupando o espaço no `flex-wrap`). A caixa do grupo mantém o tamanho do primeiro ao último acerto, e as colunas nunca mais se movem.
+
+Testado medindo `getBoundingClientRect()` da caixa do grupo e das colunas antes e depois de cada um de 6 acertos seguidos: altura da caixa idêntica (408px) em todas as medições, posição das colunas estável do 2º acerto em diante (o único deslocamento visto foi da própria animação de entrada da tela, antes do primeiro toque).
+
+## Ícone genérico numa situação de Casa Eficiente
+
+Feedback do usuário, olhando a atividade: a situação "Vou comprar um aparelho novo..." (comparar o Selo Procel) mostrava o mesmo ícone de estrela ⭐ três vezes — na situação e nas duas opções — sem relação nenhuma com o tema e sem diferenciar visualmente as escolhas (era o único caso, entre 9 situações cadastradas, usando um ícone genérico em vez de um tematicamente relevante). Trocado por `shield` (`src/data/activitiesData.ts`, caso `c10`), que representa melhor a ideia de selo/certificação de eficiência.
+
 ## Dois bugs reais de contagem no resultado final
 
 Relato do usuário: "no organize seus habitos ele ta contando errado, no final acertando tudo fica 7 de 7 mas são 8 cartas" e "no da memoria eu fiz 16 tentativas e acertei as 6, ai fala você acertou 6 de 16 no final, meio confuso".
