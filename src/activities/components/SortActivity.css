@@ -31,14 +31,20 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: var(--space-1);
   width: 128px;
+  /* Altura fixa (não min-height) — antes cada fileira esticava pro
+     tamanho do texto mais longo dela, então a grade tinha duas alturas
+     de linha diferentes em vez de bordas retas de ponta a ponta. Com
+     altura travada + reticências no rótulo (abaixo), toda carta fica
+     igual, não importa o hábito. */
+  height: 152px;
   background: var(--surface-card);
   color: var(--text-on-light);
   border: none;
   border-radius: var(--radius-md);
   padding: var(--space-3) var(--space-2) var(--space-2);
-  min-height: 104px;
   font-weight: 700;
   font-size: var(--fs-small);
   text-align: center;
@@ -61,6 +67,10 @@
 
 .sort-activity__item-label {
   line-height: 1.25;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .sort-activity__item--selected {

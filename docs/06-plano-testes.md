@@ -1,5 +1,11 @@
 # 6. Plano de testes
 
+## Cartas de hábito com altura uniforme (Organize os Hábitos)
+
+Pergunta do usuário: "alguma melhoria para deixar mais profissional?" nas cartas. Medindo o layout real: cada fileira já esticava corretamente pra bater com o card de texto mais longo dela (`align-items: stretch` do flex-wrap funcionando certo), mas as duas fileiras entre si tinham alturas diferentes (166px vs 185px, variando a cada sessão conforme o sorteio dos hábitos) — a grade não tinha bordas retas de ponta a ponta.
+
+Trocado `min-height: 104px` por `height: 152px` fixo em `.sort-activity__item` (`src/activities/components/SortActivity.css`), com o rótulo (`.sort-activity__item-label`) usando `-webkit-line-clamp: 3` pra truncar com reticências os hábitos de nome mais longo em vez de esticar o card. Testado medindo as 8 cartas: todas com exatos 152px, incluindo a cópia "voadora" que segue o dedo durante o arrasto (mesma classe CSS, herda a altura fixa automaticamente).
+
 ## Caixa do grupo em Organize os Hábitos encolhia e empurrava as colunas de lugar
 
 Relato do usuário: "a medida que vão acabando a caixa em volta deles vai diminuindo e as áreas onde deixo as cartas mudam de lugar". Causa: `.sort-activity__pool` só renderizava os hábitos ainda pendentes (`pending.map`) — a cada acerto, um item saía do DOM, o `flex-wrap` precisava de menos linhas, e a caixa encolhia de verdade. Como toda a tela é uma coluna centralizada, isso empurrava as colunas de destino (`eficiente`/`desperdício`) pra cima a cada acerto, obrigando a pessoa a "reencontrar" onde soltar o próximo hábito.
