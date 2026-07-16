@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Icon } from '@/components/ui/Icon';
 import type { IconName } from '@/components/ui/Icon';
@@ -28,6 +28,22 @@ function buildDeck(pairs: MemoryCardPair[]): Card[] {
   return shuffle(cards);
 }
 
+const MIN_CARD_WIDTH = 92;
+const CARD_GAP = 8;
+
+/**
+ * Maior divisor de `count` que caiba em `maxCols` — a grade sai sempre
+ * "cheia" (mesma quantidade de cartas em toda linha), nunca com uma
+ * última linha sobrando sozinha (ex: 10 numa linha e 2 na outra).
+ */
+function pickColumns(count: number, maxCols: number): number {
+  const limit = Math.max(1, Math.min(maxCols, count));
+  for (let cols = limit; cols >= 1; cols--) {
+    if (count % cols === 0) return cols;
+  }
+  return limit;
+}
+
 /**
  * Jogo da memória clássico: vira duas cartas por vez, formando pares.
  * Cada acerto revela uma dica de consumo consciente por alguns segundos.
@@ -51,6 +67,22 @@ export function MemoryActivity({ activity, onComplete }: MemoryActivityProps) {
   const matchedRef = useRef<Set<string>>(new Set());
 
   const totalPairs = activity.pairs.length;
+
+  const gridRef = useRef<HTMLDivElement>(null);
+  const [columns, setColumns] = useState(4);
+
+  useEffect(() => {
+    const el = gridRef.current;
+    if (!el) return;
+    const updateColumns = () => {
+      const maxCols = Math.max(1, Math.floor((el.clientWidth + CARD_GAP) / (MIN_CARD_WIDTH + CARD_GAP)));
+      setColumns(pickColumns(deck.length, maxCols));
+    };
+    updateColumns();
+    const observer = new ResizeObserver(updateColumns);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [deck.length]);
 
   const finish = () => {
     if (finished) return;
@@ -111,7 +143,7 @@ export function MemoryActivity({ activity, onComplete }: MemoryActivityProps) {
         <span>{matched.size} de {totalPairs} pares encontrados</span>
       </div>
 
-      <div className="memory-activity__grid">
+      <div className="memory-activity__grid" ref={gridRef} style={{ gridTemplateColumns: `repeat(${columns}, 1fr)` }}>
         {deck.map((card) => {
           const isMatched = matched.has(card.pairId);
           const isFlipped = flipped.includes(card.cardId) || isMatched;

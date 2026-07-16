@@ -1,6 +1,12 @@
 .memory-activity {
   width: 100%;
-  max-width: 640px;
+  /* Antes era um teto fixo de 640px, que forçava sempre 4 colunas — com 12
+     cartas (3/4 de proporção, portanto mais altas que largas) isso dava uma
+     grade alta o bastante pra precisar rolar em telas mais baixas (ex: modo
+     altura baixa). min() deixa crescer com o espaço real disponível; o
+     grid abaixo aproveita essa largura extra virando mais colunas (mais
+     largo, menos alto) em vez de precisar de barra de rolagem. */
+  max-width: min(100%, 1040px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -21,7 +27,12 @@
 
 .memory-activity__grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  /* auto-fill em vez de um número fixo de colunas: com mais largura
+     disponível (container maior, telas largas, modo altura baixa), o
+     grid abre mais colunas sozinho — cartas menores e mais curtas, sem
+     precisar de mais altura. Card mínimo de 92px mantém o alvo de toque
+     confortável mesmo com bastante colunas. */
+  grid-template-columns: repeat(auto-fill, minmax(92px, 1fr));
   gap: var(--space-2);
   width: 100%;
   perspective: 1200px;
@@ -124,10 +135,4 @@
 .memory-activity__tip svg {
   flex-shrink: 0;
   color: var(--color-success);
-}
-
-@media (max-width: 560px) {
-  .memory-activity__grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
 }

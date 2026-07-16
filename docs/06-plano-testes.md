@@ -1,5 +1,11 @@
 # 6. Plano de testes
 
+## Bug real: grade da Memória da Energia ficava desbalanceada (ex: 10+2)
+
+O `overflow-y: auto` e o `auto-fill` no grid (ver seção do modo altura baixa acima) resolviam o corte/estouro, mas o usuário notou que a grade da Memória da Energia ficava com uma linha cheia (10 cartas) e a seguinte quase vazia (2 cartas) — `auto-fill` preenche colunas de forma gulosa pela largura disponível, sem se importar se sobra pouca coisa pra última linha.
+
+Corrigido em `src/activities/components/MemoryActivity.tsx`: em vez de deixar o CSS decidir sozinho, um `ResizeObserver` mede a largura real do container e calcula, em JS, o **maior divisor exato da quantidade de cartas que caiba nesse espaço** (`pickColumns`) — a grade sai sempre "cheia" (mesma quantidade em toda linha), nunca com sobra. Com 12 cartas (6 pares), o resultado é 6×2 em telas largas/modo altura baixa, 4×3 ou 3×4 em telas mais estreitas — sempre um retângulo completo. Também removido o teto fixo de `max-width: 640px` do container (`MemoryActivity.css`), que impedia a grade de aproveitar telas largas mesmo quando havia espaço de sobra. Testado em três larguras (1600px, 800px, 380px): grade sempre balanceada, sem rolagem em nenhuma delas.
+
 ## Três ajustes a partir do feedback do usuário em Organize os Hábitos e acesso admin
 
 - **"a carta se move em câmera lenta":** a posição do card durante o arrasto (`left`/`top`) era animada com mola (`spring`, mesmo que "rígida"). Toda mola persegue o valor mais novo a cada `pointermove` em vez de saltar direto pra ele — com vários eventos de movimento por segundo, o card sempre fica um passo atrás do dedo, o que lido dá exatamente a sensação de câmera lenta/atraso. Corrigido em `src/activities/components/SortActivity.tsx`: `left`/`top` agora têm `duration: 0` (acompanham o dedo 1:1, sem suavização), e só a escala/rotação (feedback de "pegar" o card) continuam usando mola. Testado disparando um `pointermove` e medindo a posição do elemento no frame seguinte: no eixo X o deslocamento residual caiu para 0px (antes, com mola, ficava sempre atrás do alvo).
