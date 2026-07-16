@@ -65,6 +65,10 @@ export interface SortItem {
   label: string;
   icon: string;
   category: 'eficiente' | 'desperdicio';
+  /** Por que esse hábito é eficiente ou desperdício — mostrado quando a
+   *  pessoa erra a coluna, pra orientar de verdade, não só apontar o
+   *  lugar certo. */
+  explanation: string;
 }
 
 export interface SortActivityConfig extends ActivityConfigBase {

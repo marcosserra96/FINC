@@ -141,14 +141,62 @@ const organizeHabitos: SortActivityConfig = {
   giftEligible: false,
   categoryLabels: { eficiente: 'Hábito eficiente', desperdicio: 'Desperdício' },
   items: [
-    { id: 'h1', label: 'Desligar as luzes ao sair do ambiente', icon: 'bulb', category: 'eficiente' },
-    { id: 'h2', label: 'Aproveitar a luz natural durante o dia', icon: 'window', category: 'eficiente' },
-    { id: 'h3', label: 'Retirar o carregador da tomada quando não usar', icon: 'charger', category: 'eficiente' },
-    { id: 'h4', label: 'Regular o ar-condicionado em temperatura moderada', icon: 'ac', category: 'eficiente' },
-    { id: 'h5', label: 'Deixar a TV ligada sem ninguém assistindo', icon: 'tv', category: 'desperdicio' },
-    { id: 'h6', label: 'Ficar com a geladeira aberta enquanto decide o que pegar', icon: 'fridge', category: 'desperdicio' },
-    { id: 'h7', label: 'Usar o ferro elétrico várias vezes ao dia para poucas peças', icon: 'iron', category: 'desperdicio' },
-    { id: 'h8', label: 'Deixar aparelhos em modo de espera o dia inteiro', icon: 'standby', category: 'desperdicio' }
+    {
+      id: 'h1',
+      label: 'Desligar as luzes ao sair do ambiente',
+      icon: 'bulb',
+      category: 'eficiente',
+      explanation: 'Uma lâmpada acesa num cômodo vazio é energia consumida à toa — desligar ao sair é simples e economiza de verdade.'
+    },
+    {
+      id: 'h2',
+      label: 'Aproveitar a luz natural durante o dia',
+      icon: 'window',
+      category: 'eficiente',
+      explanation: 'Usar a luz do sol durante o dia evita ligar lâmpadas sem necessidade.'
+    },
+    {
+      id: 'h3',
+      label: 'Retirar o carregador da tomada quando não usar',
+      icon: 'charger',
+      category: 'eficiente',
+      explanation: 'Carregadores ligados na tomada, mesmo sem o aparelho conectado, ainda consomem uma pequena quantidade de energia.'
+    },
+    {
+      id: 'h4',
+      label: 'Regular o ar-condicionado em temperatura moderada',
+      icon: 'ac',
+      category: 'eficiente',
+      explanation: 'Temperaturas muito baixas fazem o aparelho trabalhar mais para manter o ambiente frio, consumindo mais energia.'
+    },
+    {
+      id: 'h5',
+      label: 'Deixar a TV ligada sem ninguém assistindo',
+      icon: 'tv',
+      category: 'desperdicio',
+      explanation: 'Um aparelho ligado sem uso é energia consumida sem necessidade nenhuma.'
+    },
+    {
+      id: 'h6',
+      label: 'Ficar com a geladeira aberta enquanto decide o que pegar',
+      icon: 'fridge',
+      category: 'desperdicio',
+      explanation: 'Cada segundo com a porta aberta faz o motor trabalhar mais para manter a temperatura interna.'
+    },
+    {
+      id: 'h7',
+      label: 'Usar o ferro elétrico várias vezes ao dia para poucas peças',
+      icon: 'iron',
+      category: 'desperdicio',
+      explanation: 'O ferro gasta bastante energia para esquentar — juntar as roupas e passar de uma vez é bem mais eficiente.'
+    },
+    {
+      id: 'h8',
+      label: 'Deixar aparelhos em modo de espera o dia inteiro',
+      icon: 'standby',
+      category: 'desperdicio',
+      explanation: 'O modo de espera consome menos que o uso normal, mas não é zero — ao longo do dia todo, isso soma.'
+    }
   ]
 };
 

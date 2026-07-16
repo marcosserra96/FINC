@@ -88,8 +88,8 @@ export function SortActivity({ activity, onComplete }: SortActivityProps) {
     // arrastar de novo pro lugar certo, em vez de "resolver" por ela.
     incorrectAttemptsRef.current += 1;
     const correctLabel = item.category === 'eficiente' ? activity.categoryLabels.eficiente : activity.categoryLabels.desperdicio;
-    setMistakeHint(`"${item.label}" não é bem isso — essa vai em "${correctLabel}". Tenta de novo!`);
-    window.setTimeout(() => setMistakeHint(null), 3800);
+    setMistakeHint(`${item.explanation} Vai em "${correctLabel}" — tenta de novo!`);
+    window.setTimeout(() => setMistakeHint(null), 4600);
   };
 
   const handlePickColumn = (category: Category) => {

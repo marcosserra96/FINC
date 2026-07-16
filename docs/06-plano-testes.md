@@ -1,5 +1,9 @@
 # 6. Plano de testes
 
+## Mensagem de erro em Organize os Hábitos passa a explicar o porquê
+
+Feedback do usuário: a mensagem de erro só dizia "vai na outra coluna", sem explicar por quê — não ensinava nada, só apontava o lugar certo. Adicionado o campo `explanation` em `SortItem` (`src/types/activity.ts`) e preenchido com uma frase real por hábito em `src/data/activitiesData.ts` (ex: "O modo de espera consome menos que o uso normal, mas não é zero — ao longo do dia todo, isso soma."). A mensagem em `src/activities/components/SortActivity.tsx` passou a usar essa explicação em vez de só citar a coluna certa, e o tempo de exibição subiu de 3,8s para 4,6s (texto mais longo pra ler). Testado simulando um arrasto errado: a mensagem exibida contém a explicação completa do hábito, seguida de qual coluna é a certa.
+
 ## Espiadinha inicial na Memória da Energia
 
 Pedido do usuário: iniciar o jogo com todas as cartas viradas pra cima por 3 segundos antes de virar tudo de volta, como uma pequena ajuda de memorização (mecânica clássica do gênero). Implementado em `src/activities/components/MemoryActivity.tsx`: estado `peeking` (true por padrão), todas as cartas renderizam como viradas e com clique bloqueado enquanto `peeking` é true; depois de `PEEK_MS` (3000ms) via `setTimeout`, `peeking` vira false, as cartas voltam pra baixo e o jogo libera normalmente. O HUD mostra "Memorize as cartas..." durante a espiadinha, voltando pro contador de pares depois. O cronômetro usado no resultado final (`startedAtRef`) é reiniciado no momento em que a espiadinha termina, pra não contar esse tempo de ajuda contra o desempenho do visitante. Testado via script: confirmado que as 12 cartas aparecem viradas e desabilitadas durante a espiadinha, e que voltam a virar/ficar clicáveis normalmente depois.
