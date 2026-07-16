@@ -4,7 +4,7 @@ import { Icon } from '@/components/ui/Icon';
 import { useApp } from '@/store/AppContext';
 import './AttractTicker.css';
 
-const ROTATE_MS = 6000;
+const ROTATE_MS = 10000;
 
 /**
  * Banner de curiosidades da tela de atração — a vitrine do totem precisa

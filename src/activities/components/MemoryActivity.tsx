@@ -118,7 +118,7 @@ export function MemoryActivity({ activity, onComplete }: MemoryActivityProps) {
         setFlipped([]);
         setLocked(false);
         setActiveTip(pairInfo?.tip ?? null);
-        window.setTimeout(() => setActiveTip(null), 2600);
+        window.setTimeout(() => setActiveTip(null), 4200);
 
         if (matchedRef.current.size >= totalPairs) {
           window.setTimeout(finish, 900);

@@ -118,6 +118,16 @@
 }
 
 .memory-activity__tip {
+  /* Fora do fluxo do flex: antes, a dica entrava como mais um item da
+     coluna e empurrava a grade pra cima toda vez que aparecia. Como
+     overlay fixo, flutua por cima sem mexer no layout do jogo. */
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: var(--space-6);
+  margin: 0 auto;
+  width: fit-content;
+  z-index: 20;
   display: flex;
   align-items: center;
   gap: var(--space-2);

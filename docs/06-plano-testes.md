@@ -1,5 +1,11 @@
 # 6. Plano de testes
 
+## Três ajustes pequenos: título cortado, tempo de leitura das dicas, e mensagem deslocando o jogo
+
+- **"o g do energia ta cortando um pedacinho embaixo":** `.attract__title` usava `line-height: 1.05`, apertado demais pra descendente do "g" em fonte bold 800 — a caixa da linha ficava mais baixa que a letra. Corrigido para `line-height: 1.2` em `src/public-app/screens/AttractScreen.css`. Confirmado visualmente que o "g" de "energia?" aparece inteiro.
+- **"as dicas... pode aumentar o tempo de exibição, ta muito rápido":** o banner de curiosidades da tela inicial (`AttractTicker.tsx`) trocava de frase a cada 6s — aumentado para 10s. A dica que aparece ao acertar um par na Memória da Energia (`MemoryActivity.tsx`) ficava visível por 2,6s — aumentado para 4,2s.
+- **"as mensagens do jogo... estão deslocando o jogo um pouco pra cima":** a dica da Memória da Energia (`.memory-activity__tip`) era renderizada como mais um item dentro do `flex` de `.memory-activity` — quando aparecia, aumentava a altura total do bloco, e como o bloco fica centralizado na tela, a grade de cartas subia um pouco pra reacomodar. Corrigido tirando a dica do fluxo (`position: fixed`, ancorada no rodapé da tela como um toast) — ela agora flutua por cima sem alterar a altura de `.memory-activity`, então a grade não se move mais. Confirmado via `getBoundingClientRect()` da grade antes/depois de um acerto: sem deslocamento.
+
 ## Botão "Concluir" removido também da Memória da Energia
 
 Depois de tirar o "Concluir" de Organize os Hábitos, o usuário confirmou que queria o mesmo padrão em todo lugar: nenhuma atividade deve ter saída manual antecipada, só conclusão automática ao terminar de verdade. Removido o botão de `src/activities/components/MemoryActivity.tsx` (e o import não usado de `Button`) — a lógica de conclusão automática (`finish()` disparado quando os 6 pares são encontrados) não foi alterada, só a via manual de sair antes. Confirmado via DOM que o botão não existe mais em nenhum estado da tela.
