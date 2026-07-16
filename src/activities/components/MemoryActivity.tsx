@@ -2,7 +2,6 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Icon } from '@/components/ui/Icon';
 import type { IconName } from '@/components/ui/Icon';
-import { Button } from '@/components/ui/Button';
 import { shuffle } from '@/utils/shuffle';
 import { colorForKey } from '@/utils/paletteColor';
 import type { ActivityRunResult, MemoryActivityConfig, MemoryCardPair } from '@/types';
@@ -186,10 +185,6 @@ export function MemoryActivity({ activity, onComplete }: MemoryActivityProps) {
           </motion.div>
         )}
       </AnimatePresence>
-
-      <Button onPress={finish} variant="secondary" size="md" icon={<Icon name="chevronRight" size={20} />}>
-        Concluir
-      </Button>
     </div>
   );
 }

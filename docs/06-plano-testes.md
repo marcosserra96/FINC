@@ -1,5 +1,9 @@
 # 6. Plano de testes
 
+## Botão "Concluir" removido também da Memória da Energia
+
+Depois de tirar o "Concluir" de Organize os Hábitos, o usuário confirmou que queria o mesmo padrão em todo lugar: nenhuma atividade deve ter saída manual antecipada, só conclusão automática ao terminar de verdade. Removido o botão de `src/activities/components/MemoryActivity.tsx` (e o import não usado de `Button`) — a lógica de conclusão automática (`finish()` disparado quando os 6 pares são encontrados) não foi alterada, só a via manual de sair antes. Confirmado via DOM que o botão não existe mais em nenhum estado da tela.
+
 ## Bug real: grade da Memória da Energia ficava desbalanceada (ex: 10+2)
 
 O `overflow-y: auto` e o `auto-fill` no grid (ver seção do modo altura baixa acima) resolviam o corte/estouro, mas o usuário notou que a grade da Memória da Energia ficava com uma linha cheia (10 cartas) e a seguinte quase vazia (2 cartas) — `auto-fill` preenche colunas de forma gulosa pela largura disponível, sem se importar se sobra pouca coisa pra última linha.
