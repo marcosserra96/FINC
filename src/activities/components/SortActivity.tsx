@@ -3,7 +3,6 @@ import type { PointerEvent as ReactPointerEvent } from 'react';
 import { motion } from 'framer-motion';
 import { Icon } from '@/components/ui/Icon';
 import type { IconName } from '@/components/ui/Icon';
-import { Button } from '@/components/ui/Button';
 import { shuffle } from '@/utils/shuffle';
 import { colorForKey } from '@/utils/paletteColor';
 import type { ActivityRunResult, SortActivityConfig, SortItem } from '@/types';
@@ -202,16 +201,18 @@ export function SortActivity({ activity, onComplete }: SortActivityProps) {
             scale: drag.picking ? 1.05 : 1.12,
             rotate: drag.picking ? 0 : -4
           }}
-          transition={{ left: { type: 'spring', stiffness: 900, damping: 45 }, top: { type: 'spring', stiffness: 900, damping: 45 }, default: { duration: 0.18 } }}
+          // A posição segue o dedo em tempo real (sem mola) — uma mola,
+          // mesmo "rígida", sempre corre atrás do valor mais novo a cada
+          // pointermove, e isso lido junto com vários eventos por segundo
+          // dá a sensação de o card se mover em câmera lenta / atrasado em
+          // relação ao dedo. Só escala e rotação (feedback de "pegar" o
+          // card) usam mola — não precisam acompanhar o dedo 1:1.
+          transition={{ left: { duration: 0 }, top: { duration: 0 }, default: { type: 'spring', stiffness: 700, damping: 40 } }}
           aria-hidden="true"
         >
           <CardContent item={draggingItem} />
         </motion.div>
       )}
-
-      <Button onPress={finish} variant="secondary" size="md" icon={<Icon name="chevronRight" size={20} />}>
-        Concluir
-      </Button>
     </div>
   );
 }

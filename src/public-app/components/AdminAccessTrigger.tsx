@@ -29,7 +29,11 @@ export function AdminAccessTrigger() {
       aria-hidden="true"
       tabIndex={-1}
       style={{
-        position: 'absolute',
+        // position: fixed (não absolute) — o pai (.screen-shell__content)
+        // pode ficar preso numa faixa mais baixa da tela no modo altura
+        // baixa, e um "absolute" aqui acompanharia esse deslocamento,
+        // saindo do canto de verdade da tela.
+        position: 'fixed',
         top: 0,
         right: 0,
         width: 90,

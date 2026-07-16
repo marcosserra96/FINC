@@ -60,7 +60,7 @@ PIN fixo no MVP (`src/services/adminAuth.ts`), documentado no manual da equipe. 
 - `:focus-visible` com contorno laranja de alto contraste para navegação por teclado (manutenção/testes).
 - `prefers-reduced-motion` respeitado via CSS **e** via config do admin (`reducedMotion`), que também reduz a duração das transições do `framer-motion`.
 - Sem flashes rápidos, sem cronômetro regressivo pressionando dentro das atividades.
-- Toda atividade tem uma via alternativa de conclusão manual ("Concluir"), então ninguém fica travado numa mecânica que não consiga executar.
+- Ninguém fica travado numa mecânica que não consiga executar: o "Recomeçar" (canto da tela) sempre reinicia a sessão, e o timer de inatividade devolve pra Atração sozinho. Organize os Hábitos e Casa Eficiente/Quiz Relâmpago concluem sozinhos ao terminar todos os itens; a Memória da Energia mantém um botão "Concluir" à parte, por ter duração mais variável (encontrar 6 pares pode levar bem mais tempo que errar por engano).
 
 ## Kiosk mode (proteções de navegador)
 
