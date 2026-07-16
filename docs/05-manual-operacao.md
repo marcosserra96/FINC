@@ -41,6 +41,7 @@ O totem detecta sozinho quando o estoque chega a zero e mostra uma mensagem alte
 - Se a tela mostrar uma mensagem de erro, ela sempre vem com um botão único de recomeçar — toque nele.
 - Sem internet no local? Sem problema, o totem funciona offline depois do primeiro carregamento.
 - Se nada resolver, feche e abra o navegador/aplicativo novamente — nenhuma configuração é perdida.
+- Depois de uma atualização publicada pela equipe técnica, se o totem parecer estar mostrando a versão antiga: recarregue a página (ou feche e abra de novo). O app funciona offline guardando uma cópia local, então uma aba que já estava aberta antes da atualização só pega a versão nova depois de recarregada pelo menos uma vez.
 
 ## Ao final do evento
 

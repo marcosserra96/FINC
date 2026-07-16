@@ -1,5 +1,11 @@
 # 6. Plano de testes
 
+## Bug real: o "g" continuava cortado mesmo depois do fix — service worker servindo versão em cache
+
+Depois de corrigir o `line-height` do título (ver seção abaixo) e publicar, o usuário reportou que o "g" continuava cortado ao abrir pelo link. Investigado direto no site publicado: o arquivo CSS servido pela rede já tinha a correção (`line-height:1.2`, confirmado buscando o CSS via `fetch`), mas o `line-height` computado na página realmente carregada no navegador ainda mostrava a proporção antiga (1.05). Causa: o app é um PWA com service worker (`vite-plugin-pwa`, estratégia `generateSW`, cache-first) — abas que já tinham visitado o site antes do deploy continuam com o *service worker* antigo em controle, servindo os arquivos antigos do cache, mesmo o servidor já tendo os novos.
+
+Corrigido em `vite.config.ts`: adicionado `workbox.skipWaiting: true` e `workbox.clientsClaim: true`, fazendo o novo service worker assumir o controle assim que termina de instalar, em vez de esperar todas as abas antigas fecharem. **Limitação real que continua existindo:** mesmo com essa configuração, uma aba que já estava aberta *antes* do deploy só passa a usar a versão nova depois de pelo menos um recarregamento — é uma característica inerente do ciclo de vida de service workers, não tem como o site "se atualizar sozinho" numa aba já carregada sem pelo menos um reload. Pra equipe do evento: se algo parecer desatualizado depois de uma atualização, um recarregamento da página (ou fechar e abrir de novo) resolve.
+
 ## Três ajustes pequenos: título cortado, tempo de leitura das dicas, e mensagem deslocando o jogo
 
 - **"o g do energia ta cortando um pedacinho embaixo":** `.attract__title` usava `line-height: 1.05`, apertado demais pra descendente do "g" em fonte bold 800 — a caixa da linha ficava mais baixa que a letra. Corrigido para `line-height: 1.2` em `src/public-app/screens/AttractScreen.css`. Confirmado visualmente que o "g" de "energia?" aparece inteiro.

@@ -30,6 +30,13 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,svg,png,ico,woff2}'],
+        // O service worker antigo só larga o controle na próxima navegação
+        // por padrão — skipWaiting + clientsClaim faz o novo assumir assim
+        // que termina de instalar, sem esperar todas as abas fecharem.
+        // Mesmo assim, uma aba já aberta antes do deploy só pega a versão
+        // nova depois de recarregada pelo menos uma vez.
+        skipWaiting: true,
+        clientsClaim: true,
         // Modo evento: cache-first para nunca depender de internet no estande.
         runtimeCaching: [
           {
