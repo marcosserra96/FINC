@@ -20,11 +20,3 @@
 .restart-corner:active {
   transform: scale(0.96);
 }
-
-/* Modo altura baixa: "Recomeçar" é a única forma de cancelar/voltar em
-   qualquer atividade, então precisa continuar alcançável — desce pro
-   rodapé junto com o resto dos controles em vez de ficar preso no topo. */
-[data-low-reach-mode='true'] .restart-corner {
-  top: auto;
-  bottom: var(--space-4);
-}

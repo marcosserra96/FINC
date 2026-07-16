@@ -38,8 +38,7 @@ import {
   Download,
   Maximize,
   Grid3x3,
-  DoorClosed,
-  Accessibility
+  DoorClosed
 } from 'lucide-react';
 
 export type IconName =
@@ -81,8 +80,7 @@ export type IconName =
   | 'download'
   | 'expand'
   | 'cards'
-  | 'door'
-  | 'lowReach';
+  | 'door';
 
 interface IconProps extends SVGProps<SVGSVGElement> {
   name: IconName;
@@ -131,8 +129,7 @@ const COMPONENTS = {
   download: Download,
   expand: Maximize,
   cards: Grid3x3,
-  door: DoorClosed,
-  lowReach: Accessibility
+  door: DoorClosed
 } as const satisfies Record<IconName, React.ComponentType<SVGProps<SVGSVGElement>>>;
 
 export function Icon({ name, size = 24, strokeWidth = 1.8, ...rest }: IconProps & { strokeWidth?: number }) {

@@ -35,10 +35,6 @@ Na seção **Comportamento**: se o ambiente for muito barulhento ou tiver fila g
 
 O totem detecta sozinho quando o estoque chega a zero e mostra uma mensagem alternativa para o visitante (sem brinde, mas com o aprendizado). Vocês podem repor o estoque a qualquer momento em **Brindes → Estoque atual disponível**.
 
-## Modo altura baixa (acessibilidade para crianças)
-
-Em telas grandes (ex: totem de 80"), montadas na altura de um adulto, botões perto do topo podem ficar fora do alcance de crianças pequenas. Existe um botão discreto de acessibilidade — um pequeno ícone (bem apagado, de propósito, pra não convidar toque por brincadeira) no canto superior direito de qualquer tela pública. Ao tocar nele, todo o conteúdo interativo do totem passa a ficar ancorado no terço inferior da tela; toque de novo pra voltar ao normal. A escolha fica salva no aparelho (sobrevive a reinícios) — então, se o público do evento for majoritariamente infantil, a equipe pode ativar uma vez no início e deixar assim o dia todo.
-
 ## Se algo travar ou parecer estranho
 
 - Toque no botão "Recomeçar" (canto superior esquerdo, em qualquer tela) — isso reinicia a sessão sem precisar mexer no equipamento.

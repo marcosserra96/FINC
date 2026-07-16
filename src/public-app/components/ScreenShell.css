@@ -14,12 +14,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  /* Rede de segurança: em telas baixas ou com conteúdo maior que o normal,
-     nada deve ficar simplesmente inacessível/cortado — vira rolável em vez
-     de sumir por trás do overflow:hidden do .screen-shell. */
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: thin;
 }
 
 .screen-shell__content--padded {
@@ -30,19 +24,4 @@
   .screen-shell__content--padded {
     padding: var(--space-5) var(--space-4);
   }
-}
-
-/* Modo altura baixa: reflow real, não uma caixa de corte. Em vez de travar
-   o conteúdo dentro de um max-height (que cortava ao meio qualquer coisa
-   maior que a caixa — ex: o banner de curiosidades ficava com a metade de
-   cima invisível), o conteúdo continua ocupando a tela inteira e livre
-   para crescer; só troca de centralizado para ancorado embaixo. O que de
-   fato aproxima as ações do rodapé é a combinação com a compactação de
-   espaçamento/tipografia e a ocultação de elementos decorativos definida
-   em app-shell[data-low-reach-mode] (theme.css) e em cada tela — assim o
-   conteúdo real fica baixo o bastante pra caber na metade inferior sem
-   precisar recortar nada. overflow-y:auto continua como rede de segurança
-   apenas para o caso raro de conteúdo genuinamente maior que a tela. */
-[data-low-reach-mode='true'] .screen-shell__content {
-  justify-content: flex-end;
 }

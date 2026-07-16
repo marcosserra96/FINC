@@ -52,6 +52,5 @@ export const STORAGE_KEYS = {
   metricsEvents: 'metrics-events',
   giftRecords: 'gift-records',
   lastGiftDeviceTimestamp: 'last-gift-device-ts',
-  adminSession: 'admin-session',
-  lowReachMode: 'low-reach-mode'
+  adminSession: 'admin-session'
 } as const;

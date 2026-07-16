@@ -8,10 +8,6 @@
   gap: var(--space-6);
   cursor: pointer;
   padding: var(--space-6);
-  /* reserva espaço pro crédito institucional, que é posicionado hors do
-     fluxo (position: absolute) colado na base — sem isso, em telas baixas,
-     o botão centralizado podia acabar por baixo da logo. */
-  padding-bottom: calc(var(--space-4) + 56px);
   text-align: center;
 }
 
@@ -83,30 +79,6 @@
   .attract__icons {
     display: none;
   }
-}
-
-/* Telas baixas (não só estreitas) também precisam de folga — o critério
-   antigo só olhava largura, então um totem com pouca altura de tela (ou o
-   navegador aberto sem estar em tela cheia) cortava o rodapé. */
-@media (max-height: 700px) {
-  .attract {
-    gap: var(--space-4);
-  }
-
-  .attract__icons {
-    display: none;
-  }
-}
-
-/* Modo altura baixa: os 3 ícones são só decoração (mesma informação do
-   título) — primeiro item a sair pra abrir espaço real pro conteúdo
-   descer, sem precisar cortar nada. */
-[data-low-reach-mode='true'] .attract__icons {
-  display: none;
-}
-
-[data-low-reach-mode='true'] .attract {
-  gap: var(--space-4);
 }
 
 .attract__credit {

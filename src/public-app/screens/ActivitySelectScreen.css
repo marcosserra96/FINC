@@ -16,19 +16,9 @@
 
 .activity-select__grid {
   display: grid;
-  /* Colunas fixas em vez de auto-fit: com 4 atividades, auto-fit podia
-     encaixar 3 numa linha e deixar a 4ª sozinha numa segunda linha alta
-     (layout desequilibrado e mais provável de estourar telas baixas). 2
-     colunas mantém sempre um 2x2 previsível e mais compacto verticalmente. */
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: var(--space-4);
   width: 100%;
-}
-
-@media (max-width: 560px) {
-  .activity-select__grid {
-    grid-template-columns: 1fr;
-  }
 }
 
 .activity-select__card {
@@ -47,17 +37,6 @@
   justify-content: center;
   color: #fff;
   margin-bottom: var(--space-1);
-}
-
-/* Modo altura baixa: cards mais baixos e ícone menor — mesma lógica das
-   outras atividades, reduz o chrome fixo em vez de aplicar zoom. */
-[data-low-reach-mode='true'] .activity-select__card {
-  min-height: 160px;
-}
-
-[data-low-reach-mode='true'] .activity-select__icon {
-  width: 44px;
-  height: 44px;
 }
 
 .activity-select__name {

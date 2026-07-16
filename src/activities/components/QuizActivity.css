@@ -31,18 +31,6 @@
   box-shadow: var(--shadow-sm);
 }
 
-/* Modo altura baixa: cartão mais baixo e ícone menor — menos altura fixa
-   de chrome, texto continua no tamanho ditado pelos tokens compactados
-   (theme.css), não por um scale() aqui. */
-[data-low-reach-mode='true'] .quiz-activity__card {
-  min-height: 160px;
-}
-
-[data-low-reach-mode='true'] .quiz-activity__icon {
-  width: 56px;
-  height: 56px;
-}
-
 .quiz-activity__prompt {
   font-size: var(--fs-h2);
   font-weight: 700;

@@ -6,7 +6,6 @@ import { loadConfig, saveConfig } from '@/services/configService';
 import { getAllActivities, getActivityById } from '@/services/activitiesService';
 import { logEvent } from '@/services/metricsService';
 import { checkEligibility, releaseGift } from '@/services/prizeService';
-import { storage, STORAGE_KEYS } from '@/services/storage';
 
 interface AppContextValue {
   state: ReturnType<typeof initialState>;
@@ -23,7 +22,6 @@ interface AppContextValue {
   reportError: (message: string) => void;
   updateConfig: (config: AppConfig) => void;
   reloadActivities: () => void;
-  toggleLowReachMode: () => void;
 }
 
 const AppContext = createContext<AppContextValue | null>(null);
@@ -35,7 +33,6 @@ export function AppProvider({ children }: { children: ReactNode }) {
     const config = loadConfig();
     const activities = getAllActivities();
     dispatch({ type: 'CONFIG_LOADED', config, activities });
-    dispatch({ type: 'LOW_REACH_MODE_LOADED', lowReachMode: storage.get(STORAGE_KEYS.lowReachMode, false) });
   }, []);
 
   useEffect(() => {
@@ -168,11 +165,6 @@ export function AppProvider({ children }: { children: ReactNode }) {
     dispatch({ type: 'ACTIVITIES_UPDATED', activities: getAllActivities() });
   }, []);
 
-  const toggleLowReachMode = useCallback(() => {
-    dispatch({ type: 'TOGGLE_LOW_REACH_MODE' });
-    storage.set(STORAGE_KEYS.lowReachMode, !state.lowReachMode);
-  }, [state.lowReachMode]);
-
   const value = useMemo<AppContextValue>(
     () => ({
       state,
@@ -188,8 +180,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       resetToAttract,
       reportError,
       updateConfig,
-      reloadActivities,
-      toggleLowReachMode
+      reloadActivities
     }),
     [
       state,
@@ -205,8 +196,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       resetToAttract,
       reportError,
       updateConfig,
-      reloadActivities,
-      toggleLowReachMode
+      reloadActivities
     ]
   );
 

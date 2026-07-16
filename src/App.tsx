@@ -13,11 +13,7 @@ export default function App() {
   }
 
   return (
-    <div
-      className="app-shell"
-      data-reduced-motion={state.config.reducedMotion ? 'true' : 'false'}
-      data-low-reach-mode={state.lowReachMode ? 'true' : 'false'}
-    >
+    <div className="app-shell" data-reduced-motion={state.config.reducedMotion ? 'true' : 'false'}>
       <Routes>
         <Route path="/" element={<PublicApp />} />
         <Route path="/admin/*" element={<AdminApp />} />

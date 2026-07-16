@@ -42,21 +42,6 @@
   box-shadow: var(--shadow-sm);
 }
 
-/* Modo altura baixa: mesma lógica do Quiz — reduz o chrome fixo (ícones,
-   altura mínima), não o texto por scale(). */
-[data-low-reach-mode='true'] .scenario-activity__card {
-  min-height: 140px;
-}
-
-[data-low-reach-mode='true'] .scenario-activity__icon {
-  width: 56px;
-  height: 56px;
-}
-
-[data-low-reach-mode='true'] .scenario-activity__option {
-  min-height: 104px;
-}
-
 .scenario-activity__prompt {
   font-size: var(--fs-h2);
   font-weight: 700;

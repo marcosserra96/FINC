@@ -7,15 +7,12 @@ export interface AppState {
   activities: ActivityConfig[];
   session: SessionState;
   configLoaded: boolean;
-  lowReachMode: boolean;
 }
 
 export type AppAction =
   | { type: 'CONFIG_LOADED'; config: AppConfig; activities: ActivityConfig[] }
   | { type: 'CONFIG_UPDATED'; config: AppConfig }
   | { type: 'ACTIVITIES_UPDATED'; activities: ActivityConfig[] }
-  | { type: 'LOW_REACH_MODE_LOADED'; lowReachMode: boolean }
-  | { type: 'TOGGLE_LOW_REACH_MODE' }
   | { type: 'TOUCH' }
   | { type: 'GO_TO_ACTIVITY_SELECT' }
   | { type: 'SELECT_ACTIVITY'; activityId: ActivityId }
@@ -33,8 +30,7 @@ export function initialState(): AppState {
     config: null as unknown as AppConfig,
     activities: [],
     session: createEmptySession(generateSessionId()),
-    configLoaded: false,
-    lowReachMode: false
+    configLoaded: false
   };
 }
 
@@ -48,12 +44,6 @@ export function appReducer(state: AppState, action: AppAction): AppState {
 
     case 'ACTIVITIES_UPDATED':
       return { ...state, activities: action.activities };
-
-    case 'LOW_REACH_MODE_LOADED':
-      return { ...state, lowReachMode: action.lowReachMode };
-
-    case 'TOGGLE_LOW_REACH_MODE':
-      return { ...state, lowReachMode: !state.lowReachMode };
 
     case 'TOUCH':
       return { ...state, session: { ...state.session, lastInteractionAt: Date.now() } };
