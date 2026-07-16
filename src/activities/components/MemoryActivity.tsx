@@ -29,6 +29,9 @@ function buildDeck(pairs: MemoryCardPair[]): Card[] {
 
 const MIN_CARD_WIDTH = 92;
 const CARD_GAP = 8;
+// Todas as cartas começam viradas pra cima por um instante — uma
+// "espiadinha" clássica de jogo da memória, ajuda sem entregar o jogo.
+const PEEK_MS = 3000;
 
 /**
  * Maior divisor de `count` que caiba em `maxCols` — a grade sai sempre
@@ -58,6 +61,7 @@ export function MemoryActivity({ activity, onComplete }: MemoryActivityProps) {
   const [locked, setLocked] = useState(false);
   const [finished, setFinished] = useState(false);
   const [activeTip, setActiveTip] = useState<string | null>(null);
+  const [peeking, setPeeking] = useState(true);
 
   // Contadores em ref: o resultado final é lido no mesmo tick em que o
   // último par é resolvido, então depender de state aqui reabriria a
@@ -66,6 +70,16 @@ export function MemoryActivity({ activity, onComplete }: MemoryActivityProps) {
   const matchedRef = useRef<Set<string>>(new Set());
 
   const totalPairs = activity.pairs.length;
+
+  useEffect(() => {
+    const t = window.setTimeout(() => {
+      setPeeking(false);
+      // O cronômetro do resultado passa a contar a partir daqui — a
+      // espiadinha é uma ajuda, não deveria pesar contra o tempo de jogo.
+      startedAtRef.current = Date.now();
+    }, PEEK_MS);
+    return () => window.clearTimeout(t);
+  }, []);
 
   const gridRef = useRef<HTMLDivElement>(null);
   const [columns, setColumns] = useState(4);
@@ -96,7 +110,7 @@ export function MemoryActivity({ activity, onComplete }: MemoryActivityProps) {
   };
 
   const handleFlip = (card: Card) => {
-    if (locked || finished) return;
+    if (peeking || locked || finished) return;
     if (flipped.includes(card.cardId) || matched.has(card.pairId)) return;
 
     const nextFlipped = [...flipped, card.cardId];
@@ -138,14 +152,14 @@ export function MemoryActivity({ activity, onComplete }: MemoryActivityProps) {
   return (
     <div className="memory-activity">
       <div className="memory-activity__hud">
-        <Icon name="cards" size={18} />
-        <span>{matched.size} de {totalPairs} pares encontrados</span>
+        <Icon name={peeking ? 'bulb' : 'cards'} size={18} />
+        <span>{peeking ? 'Memorize as cartas...' : `${matched.size} de ${totalPairs} pares encontrados`}</span>
       </div>
 
       <div className="memory-activity__grid" ref={gridRef} style={{ gridTemplateColumns: `repeat(${columns}, 1fr)` }}>
         {deck.map((card) => {
           const isMatched = matched.has(card.pairId);
-          const isFlipped = flipped.includes(card.cardId) || isMatched;
+          const isFlipped = peeking || flipped.includes(card.cardId) || isMatched;
           const isWrong = wrongPair.includes(card.cardId);
           return (
             <button

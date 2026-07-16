@@ -23,7 +23,7 @@ Nove conceitos foram avaliados contra os critérios do projeto (rápido, visual,
 - **Objetivo educativo:** fixar boas práticas de consumo consciente por repetição lúdica.
 - **Público mais adequado:** todos, forte apelo com crianças — jogo da memória é um formato universalmente conhecido.
 - **Tempo médio:** 60–90s (6 pares, 12 cartas).
-- **Como funciona:** toca em duas cartas por vez tentando formar pares; ao acertar um par, uma dica de consumo consciente aparece por alguns segundos antes de sumir sozinha.
+- **Como funciona:** o jogo começa com todas as 12 cartas viradas pra cima por 3 segundos ("espiadinha" — pequena ajuda de memorização, clássico do gênero), depois vira todas de volta e o jogo de verdade começa: toca em duas cartas por vez tentando formar pares; ao acertar um par, uma dica de consumo consciente aparece por alguns segundos antes de sumir sozinha. O tempo da espiadinha não conta pro cronômetro do resultado.
 - **Nível de dificuldade:** fácil.
 - **Potencial de engajamento:** alto — mecânica já conhecida de todo mundo, sem curva de aprendizado.
 - **Facilidade de uso no touch:** máxima — só toque simples, sem gestos, sem precisão motora fina.
