@@ -7,6 +7,13 @@
   gap: var(--space-3);
 }
 
+/* Modo altura baixa: mesma lógica da Memória — mais largura disponível
+   para o pool (flex-wrap) significa mais hábitos por linha, menos linhas
+   no total, sem precisar diminuir o alvo de toque abaixo do confortável. */
+[data-low-reach-mode='true'] .sort-activity {
+  max-width: min(100%, 1200px);
+}
+
 .sort-activity__hint {
   font-size: var(--fs-body-lg);
   font-weight: 700;
@@ -192,5 +199,18 @@
 .sort-activity__column-count {
   font-size: var(--fs-small);
   color: var(--text-on-light-muted);
+}
+
+/* Modo altura baixa: cards do pool mais estreitos (cabem mais por linha,
+   já que é flex-wrap) e mais baixos, colunas mais baixas — menos linhas
+   no total pra caber os 8 hábitos, sem diminuir o alvo de toque abaixo do
+   confortável (ainda bem acima dos 44px mínimos recomendados). */
+[data-low-reach-mode='true'] .sort-activity__item {
+  width: 100px;
+  min-height: 84px;
+}
+
+[data-low-reach-mode='true'] .sort-activity__column {
+  min-height: 116px;
 }
 

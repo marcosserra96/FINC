@@ -98,6 +98,17 @@
   }
 }
 
+/* Modo altura baixa: os 3 ícones são só decoração (mesma informação do
+   título) — primeiro item a sair pra abrir espaço real pro conteúdo
+   descer, sem precisar cortar nada. */
+[data-low-reach-mode='true'] .attract__icons {
+  display: none;
+}
+
+[data-low-reach-mode='true'] .attract {
+  gap: var(--space-4);
+}
+
 .attract__credit {
   position: absolute;
   left: 50%;

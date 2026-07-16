@@ -4,6 +4,7 @@ import { Icon } from '@/components/ui/Icon';
 import type { IconName } from '@/components/ui/Icon';
 import { shuffle } from '@/utils/shuffle';
 import { colorForKey } from '@/utils/paletteColor';
+import { useApp } from '@/store/AppContext';
 import type { ActivityRunResult, MemoryActivityConfig, MemoryCardPair } from '@/types';
 import './MemoryActivity.css';
 
@@ -28,6 +29,7 @@ function buildDeck(pairs: MemoryCardPair[]): Card[] {
 }
 
 const MIN_CARD_WIDTH = 92;
+const MIN_CARD_WIDTH_COMPACT = 72;
 const CARD_GAP = 8;
 
 /**
@@ -50,6 +52,7 @@ function pickColumns(count: number, maxCols: number): number {
  * pouca familiaridade com telas touch.
  */
 export function MemoryActivity({ activity, onComplete }: MemoryActivityProps) {
+  const { state } = useApp();
   const startedAtRef = useRef(Date.now());
   const deck = useMemo(() => buildDeck(activity.pairs), [activity.pairs]);
   const [flipped, setFlipped] = useState<string[]>([]);
@@ -73,15 +76,16 @@ export function MemoryActivity({ activity, onComplete }: MemoryActivityProps) {
   useEffect(() => {
     const el = gridRef.current;
     if (!el) return;
+    const minWidth = state.lowReachMode ? MIN_CARD_WIDTH_COMPACT : MIN_CARD_WIDTH;
     const updateColumns = () => {
-      const maxCols = Math.max(1, Math.floor((el.clientWidth + CARD_GAP) / (MIN_CARD_WIDTH + CARD_GAP)));
+      const maxCols = Math.max(1, Math.floor((el.clientWidth + CARD_GAP) / (minWidth + CARD_GAP)));
       setColumns(pickColumns(deck.length, maxCols));
     };
     updateColumns();
     const observer = new ResizeObserver(updateColumns);
     observer.observe(el);
     return () => observer.disconnect();
-  }, [deck.length]);
+  }, [deck.length, state.lowReachMode]);
 
   const finish = () => {
     if (finished) return;

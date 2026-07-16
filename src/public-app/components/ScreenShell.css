@@ -32,25 +32,17 @@
   }
 }
 
-/* Modo altura baixa: em vez de só empurrar o conteúdo pro rodapé, ele passa
-   a ficar preso (position: absolute) numa faixa de altura limitada colada
-   na base da tela — uma "zona de alcance" de verdade. Se o conteúdo não
-   couber nela, rola dentro da própria faixa (não precisa esticar a tela
-   toda). Isso garante que nenhum elemento interativo fique acima dessa
-   faixa, mesmo em telas altas onde o antigo deslocamento fixo de padding
-   praticamente não se notava. */
+/* Modo altura baixa: reflow real, não uma caixa de corte. Em vez de travar
+   o conteúdo dentro de um max-height (que cortava ao meio qualquer coisa
+   maior que a caixa — ex: o banner de curiosidades ficava com a metade de
+   cima invisível), o conteúdo continua ocupando a tela inteira e livre
+   para crescer; só troca de centralizado para ancorado embaixo. O que de
+   fato aproxima as ações do rodapé é a combinação com a compactação de
+   espaçamento/tipografia e a ocultação de elementos decorativos definida
+   em app-shell[data-low-reach-mode] (theme.css) e em cada tela — assim o
+   conteúdo real fica baixo o bastante pra caber na metade inferior sem
+   precisar recortar nada. overflow-y:auto continua como rede de segurança
+   apenas para o caso raro de conteúdo genuinamente maior que a tela. */
 [data-low-reach-mode='true'] .screen-shell__content {
-  position: absolute;
-  inset: auto 0 0 0;
-  height: auto;
-  max-height: 68vh;
   justify-content: flex-end;
-  padding-bottom: var(--space-6);
-}
-
-@media (max-width: 900px) {
-  [data-low-reach-mode='true'] .screen-shell__content {
-    max-height: 72vh;
-    padding-bottom: var(--space-5);
-  }
 }

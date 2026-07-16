@@ -49,6 +49,17 @@
   margin-bottom: var(--space-1);
 }
 
+/* Modo altura baixa: cards mais baixos e ícone menor — mesma lógica das
+   outras atividades, reduz o chrome fixo em vez de aplicar zoom. */
+[data-low-reach-mode='true'] .activity-select__card {
+  min-height: 160px;
+}
+
+[data-low-reach-mode='true'] .activity-select__icon {
+  width: 44px;
+  height: 44px;
+}
+
 .activity-select__name {
   font-family: var(--font-display);
   font-size: var(--fs-h2);

@@ -1,5 +1,27 @@
 # 6. Plano de testes
 
+## Reconstrução do modo altura baixa: de "caixa de corte" pra reflow real
+
+Relato do usuário, com print: o modo de acessibilidade estava cortando a parte de cima das telas (ex: o banner de curiosidades da Atração aparecia com a metade superior invisível, cortada ao meio). Pedido explícito, com instruções técnicas detalhadas: não usar `transform: scale()`/`zoom`, não usar valores fixos gigantes, não cortar/sobrepor conteúdo, não depender de coordenadas absolutas rígidas pra componentes importantes, usar Grid/Flexbox/`clamp()`/`minmax()` de verdade, e criar um padrão reutilizável em vez de remendos por tela.
+
+**Causa raiz:** a versão anterior do modo altura baixa prendia `.screen-shell__content` (o wrapper de toda tela pública) dentro de uma caixa `position: absolute` com `max-height: 68vh`. Quando o conteúdo natural da tela era mais alto que essa caixa, o excesso overflowava por CIMA (por causa do `justify-content: flex-end`) — e como o scroll da caixa começava em `scrollTop: 0`, a parte de cima ficava literalmente cortada ao meio, sem indicação visual de que dava pra rolar pra ver o resto. Era, na prática, um "zoom" disfarçado: uma caixa de tamanho fixo em vez de reorganização real do conteúdo.
+
+**Reconstrução, em 3 camadas (documentadas em [docs/04-arquitetura.md](04-arquitetura.md)):**
+1. Tokens de espaçamento e tipografia (`--space-4` a `--space-8`, `--fs-display`/`--fs-h1`/`--fs-h2`/`--fs-body-lg`) redefinidos globalmente sob `.app-shell[data-low-reach-mode='true']` em `theme.css` — compacta toda a interface de uma vez, sem tocar em cada componente.
+2. `ScreenShell.css`: removida a caixa `max-height`/`position: absolute`; agora é só `justify-content: flex-end` sobre um conteúdo já compactado pela camada 1. `overflow-y: auto` continua só como rede de segurança pra casos extremos.
+3. Ajustes pontuais por componente: ícones decorativos escondidos (Atração), grades mais densas via `ResizeObserver` (Memória, Organize os Hábitos), alturas mínimas e ícones reduzidos (Quiz, Cenário, Seleção), e o botão "Recomeçar" reposicionado pro rodapé (antes ficava preso no topo mesmo com o modo ativo — regressão pega durante o próprio teste desta correção).
+
+**Testado com medição real de DOM (não só visual) em três resoluções — 1920×1080, 1600×900 e 1280×600 (caso extremo de tela baixa) — nas 7 telas do fluxo público (Atração, Seleção, e as 4 atividades), com o modo altura baixa ligado:**
+- ✅ Nenhuma rolagem horizontal em nenhuma combinação.
+- ✅ Nenhuma rolagem vertical necessária em nenhuma tela, em nenhuma das três resoluções (a rede de segurança existe, mas não precisou entrar em ação em nenhum teste real).
+- ✅ Banner de curiosidades da Atração aparece inteiro (bug original resolvido) — confirmado que `.screen-shell__content` não tem mais posição/tamanho fixo que corte conteúdo.
+- ✅ Grade da Memória: sempre balanceada (12 colunas em 1 linha só, em telas largas com o modo ativo).
+- ✅ Organize os Hábitos: os 8 hábitos cabem numa única linha (antes eram 2-3), arrasto real testado e funcionando no layout compacto.
+- ✅ "Recomeçar" e o gatilho secreto do admin continuam alcançáveis com o modo ativo (o admin de propósito FORA da zona reancorada, já que é operado pela equipe).
+- ✅ Modo normal (sem altura baixa) testado nas mesmas resoluções — comportamento idêntico ao anterior, nenhuma regressão.
+
+**Limitação real e documentada:** em Organize os Hábitos, o conteúdo (8 itens arrastáveis + 2 colunas) é intrinsecamente maior que o de qualquer outra atividade — mesmo compactado ao máximo sem reduzir o alvo de toque abaixo do confortável, o topo do conteúdo fica por volta de 39% da altura da tela (a meta era 60%). Não há corte, sobreposição ou rolagem — só não atinge a meta "estética" dos 60% nessa tela especificamente. Reduzir mais exigiria diminuir ainda mais os cards (abaixo do recomendado para toque) ou esconder itens da lista, o que mudaria a mecânica do jogo.
+
 ## Botão "Concluir" removido também da Memória da Energia
 
 Depois de tirar o "Concluir" de Organize os Hábitos, o usuário confirmou que queria o mesmo padrão em todo lugar: nenhuma atividade deve ter saída manual antecipada, só conclusão automática ao terminar de verdade. Removido o botão de `src/activities/components/MemoryActivity.tsx` (e o import não usado de `Button`) — a lógica de conclusão automática (`finish()` disparado quando os 6 pares são encontrados) não foi alterada, só a via manual de sair antes. Confirmado via DOM que o botão não existe mais em nenhum estado da tela.
