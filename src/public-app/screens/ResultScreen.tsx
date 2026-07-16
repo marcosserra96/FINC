@@ -23,7 +23,7 @@ export function ResultScreen() {
         </h1>
 
         <p className="result-screen__score anim-slide-up">
-          Você acertou {result.correct} de {result.correct + result.incorrect}
+          Você acertou {result.correct} de {result.totalSteps}
         </p>
 
         <div className="result-screen__learning anim-slide-up">

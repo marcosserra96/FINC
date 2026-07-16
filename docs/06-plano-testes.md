@@ -1,5 +1,15 @@
 # 6. Plano de testes
 
+## Dois bugs reais de contagem no resultado final
+
+Relato do usuário: "no organize seus habitos ele ta contando errado, no final acertando tudo fica 7 de 7 mas são 8 cartas" e "no da memoria eu fiz 16 tentativas e acertei as 6, ai fala você acertou 6 de 16 no final, meio confuso".
+
+**Bug 1 — Organize os Hábitos contava um a menos:** o mesmo tipo de corrida de closure obsoleta já encontrada antes na Memória da Energia. `finish()` era chamada dentro de um `window.setTimeout`, e lia a contagem de acertos de `resolved` (estado do render em que o timeout foi agendado) em vez do valor mais recente — no par que dispara a conclusão automática, esse valor sempre vinha um passo atrás. Corrigido em `src/activities/components/SortActivity.tsx`: `finish` agora recebe a contagem final como parâmetro, calculada ali mesmo em `resolveItem` a partir de `next` (o objeto já atualizado), em vez de depender de uma leitura posterior e potencialmente desatualizada do estado.
+
+**Bug 2 — "X de Y" confuso na Memória (e potencialmente em qualquer atividade com nova tentativa após erro):** `ResultScreen.tsx` calculava o denominador como `result.correct + result.incorrect`. Isso funciona para Quiz/Cenário (cada pergunta é respondida uma única vez, certo ou errado, então a soma sempre bate com o total de perguntas) — mas quebra pra Organize os Hábitos e Memória da Energia, onde `incorrect` conta **tentativas erradas**, não itens, desde que essas atividades ganharam a mecânica de tentar de novo depois de errar. Com 16 tentativas e 6 acertos, `correct + incorrect` = 22 (ou pior, alguma combinação confusa), nunca o "6 pares" que a pessoa realmente via na tela. Corrigido usando `result.totalSteps` como denominador — um valor fixo e correto em todas as 4 atividades (nº de perguntas, nº de situações, nº de hábitos, nº de pares), independente de quantas tentativas foram necessárias.
+
+Testado ponta a ponta simulando um arrasto completo dos 8 hábitos (Organize os Hábitos) e uma resolução completa dos 6 pares com vários erros no meio (Memória da Energia): resultado final "8 de 8" e "6 de 6" respectivamente, confirmados via texto renderizado na tela de resultado.
+
 ## Mensagem de erro em Organize os Hábitos passa a explicar o porquê
 
 Feedback do usuário: a mensagem de erro só dizia "vai na outra coluna", sem explicar por quê — não ensinava nada, só apontava o lugar certo. Adicionado o campo `explanation` em `SortItem` (`src/types/activity.ts`) e preenchido com uma frase real por hábito em `src/data/activitiesData.ts` (ex: "O modo de espera consome menos que o uso normal, mas não é zero — ao longo do dia todo, isso soma."). A mensagem em `src/activities/components/SortActivity.tsx` passou a usar essa explicação em vez de só citar a coluna certa, e o tempo de exibição subiu de 3,8s para 4,6s (texto mais longo pra ler). Testado simulando um arrasto errado: a mensagem exibida contém a explicação completa do hábito, seguida de qual coluna é a certa.

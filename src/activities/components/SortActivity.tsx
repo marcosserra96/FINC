@@ -56,15 +56,19 @@ export function SortActivity({ activity, onComplete }: SortActivityProps) {
   const incorrectAttemptsRef = useRef(0);
 
   const pending = items.filter((item) => !resolved[item.id]);
-  const correctCount = Object.keys(resolved).length;
 
-  const finish = () => {
+  // Recebe a contagem final como parâmetro em vez de ler `resolved` do
+  // estado — chamada dentro de um setTimeout, um closure sobre o estado do
+  // render atual leria o valor de ANTES do último acerto (a mesma corrida
+  // clássica de closure obsoleta já vista na Memória da Energia), sempre
+  // contando um a menos no resultado final.
+  const finish = (finalCorrectCount: number) => {
     if (finished) return;
     setFinished(true);
     onComplete({
-      correct: correctCount,
+      correct: finalCorrectCount,
       incorrect: incorrectAttemptsRef.current,
-      stepsCompleted: correctCount,
+      stepsCompleted: finalCorrectCount,
       totalSteps: items.length,
       durationMs: Date.now() - startedAtRef.current
     });
@@ -78,8 +82,9 @@ export function SortActivity({ activity, onComplete }: SortActivityProps) {
     if (outcome === 'correct') {
       const next = { ...resolved, [item.id]: true as const };
       setResolved(next);
-      if (Object.keys(next).length >= items.length) {
-        window.setTimeout(finish, 500);
+      const nextCount = Object.keys(next).length;
+      if (nextCount >= items.length) {
+        window.setTimeout(() => finish(nextCount), 500);
       }
       return;
     }
