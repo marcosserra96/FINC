@@ -31,6 +31,7 @@ Nove conceitos foram avaliados contra os critérios do projeto (rápido, visual,
 - **Complexidade de desenvolvimento:** baixa-média (grade de cartas com flip 3D via CSS, sem física).
 - **Riscos de confusão/abandono:** baixíssimo — grade pequena (12 cartas) mantém a sessão dentro do tempo alvo.
 - **Critério de conclusão válida:** encontrar uma proporção mínima de pares nas tentativas feitas (padrão 40%, calibrado para não punir tentativa e erro natural do jogo) com número mínimo de tentativas.
+- **Imagens reais nas cartas (opcional):** as cartas usam ícone + crachá colorido por padrão, mas o código já está pronto pra usar ilustrações de verdade no lugar — basta adicionar os arquivos em `public/images/memory/` (nomes e instruções em `public/images/memory/README.md`). Sem os arquivos, cai automaticamente no ícone, sem quebrar nada.
 
 > Substituiu a "Caça ao Desperdício" (cena de casa com alvos para tocar), retirada do MVP por feedback de que a mecânica não estava explorando bem o potencial da tela touch nem tinha acabamento visual à altura das demais. Fica documentada como conceito de evolução futura mais abaixo.
 

@@ -1,5 +1,13 @@
 # 6. Plano de testes
 
+## Código preparado para receber imagens reais nas cartas do jogo da memória
+
+Usuário perguntou se havia alguma skill de geração de imagem disponível pra criar versões melhores dos cards (mandou referências de ilustrações estilo cartoon para os pares do jogo da memória). Não há nenhuma ferramenta de geração de imagem disponível neste ambiente — resposta dada diretamente. Como o usuário confirmou querer o código pronto pra só encaixar os arquivos depois (gerados em outra ferramenta), preparado o caminho completo sem alterar o comportamento atual.
+
+`MemoryCardPair` (`src/types/activity.ts`) ganhou um campo opcional `image` (caminho relativo a `public/`). Preenchido em `src/data/activitiesData.ts` para os 6 pares do "Memória da Energia", apontando pra `images/memory/{bulb,charger,ac,fridge,tv,iron}.png` — arquivos que **ainda não existem**. `MemoryActivity.tsx` tenta carregar a imagem; se o arquivo não existir (`onError` do `<img>`), a carta cai automaticamente de volta pro ícone colorido de sempre, sem quebrar nada — testado e confirmado via inspeção do DOM que o fallback funciona (carta renderiza `.memory-activity__card-content` com ícone, não uma imagem quebrada). Isso significa que o usuário só precisa soltar os arquivos com os nomes certos em `public/images/memory/` — nenhuma mudança de código é necessária depois. Instruções completas (nomes exatos, proporção recomendada 3:4, formato, peso) documentadas em `public/images/memory/README.md`, criado junto.
+
+Visualmente, quando a imagem existir, ela preenche o card inteiro (`object-fit: cover`) com a legenda (nome do hábito) numa faixa translúcida sobreposta no rodapé — não é preciso legenda separada abaixo da imagem, mantendo o layout compacto. O verso da carta (sempre o mesmo gradiente azul com o raio) não foi alterado — é intencionalmente igual para todas as cartas, como em qualquer jogo da memória físico.
+
 ## Cards de faixa etária em uma linha só, e limite de tempo por atividade com tela amigável
 
 Dois pedidos numa mesma leva de feedback:

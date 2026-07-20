@@ -84,8 +84,17 @@
   background: var(--surface-card);
   color: var(--color-blue-dark);
   transform: rotateY(180deg);
+  overflow: hidden;
+}
+
+.memory-activity__card-content {
+  display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   gap: var(--space-1);
+  width: 100%;
+  height: 100%;
   padding: var(--space-2);
   text-align: center;
 }
@@ -106,6 +115,32 @@
   font-weight: 700;
   line-height: 1.2;
   color: var(--text-on-light);
+}
+
+/* Imagem real da carta (quando disponível — ver public/images/memory/) no
+   lugar do ícone/crachá: preenche o card todo, com a legenda flutuando
+   como uma faixa translúcida por cima do rodapé da imagem. */
+.memory-activity__card-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.memory-activity__card-caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: var(--space-2) var(--space-2) var(--space-1);
+  padding-top: var(--space-4);
+  background: linear-gradient(to top, rgba(0, 48, 58, 0.75), transparent);
+  color: #fff;
+  font-size: var(--fs-small);
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
 }
 
 .memory-activity__card--matched .memory-activity__card-face--front {

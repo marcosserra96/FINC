@@ -115,12 +115,12 @@ const memoriaEnergia: MemoryActivityConfig = {
   learningMessage: 'Cada aparelho tem um jeito simples de economizar — o segredo é lembrar deles no dia a dia.',
   giftEligible: false,
   pairs: [
-    { id: 'p1', icon: 'bulb', label: 'Lâmpada LED', tip: 'LED costuma consumir menos energia para o mesmo brilho.' },
-    { id: 'p2', icon: 'charger', label: 'Carregador', tip: 'Tirar o carregador da tomada evita consumo à toa.' },
-    { id: 'p3', icon: 'ac', label: 'Ar-condicionado', tip: 'Portas e janelas fechadas ajudam o ambiente a esfriar mais rápido.' },
-    { id: 'p4', icon: 'fridge', label: 'Geladeira', tip: 'Um espaço livre atrás ajuda o motor a trabalhar de forma mais tranquila.' },
-    { id: 'p5', icon: 'tv', label: 'Televisão', tip: 'Desligar de vez, e não só deixar em espera, evita desperdício.' },
-    { id: 'p6', icon: 'iron', label: 'Ferro elétrico', tip: 'Juntar as roupas para passar de uma vez costuma ser mais eficiente.' }
+    { id: 'p1', icon: 'bulb', label: 'Lâmpada LED', tip: 'LED costuma consumir menos energia para o mesmo brilho.', image: 'images/memory/bulb.png' },
+    { id: 'p2', icon: 'charger', label: 'Carregador', tip: 'Tirar o carregador da tomada evita consumo à toa.', image: 'images/memory/charger.png' },
+    { id: 'p3', icon: 'ac', label: 'Ar-condicionado', tip: 'Portas e janelas fechadas ajudam o ambiente a esfriar mais rápido.', image: 'images/memory/ac.png' },
+    { id: 'p4', icon: 'fridge', label: 'Geladeira', tip: 'Um espaço livre atrás ajuda o motor a trabalhar de forma mais tranquila.', image: 'images/memory/fridge.png' },
+    { id: 'p5', icon: 'tv', label: 'Televisão', tip: 'Desligar de vez, e não só deixar em espera, evita desperdício.', image: 'images/memory/tv.png' },
+    { id: 'p6', icon: 'iron', label: 'Ferro elétrico', tip: 'Juntar as roupas para passar de uma vez costuma ser mais eficiente.', image: 'images/memory/iron.png' }
   ]
 };
 

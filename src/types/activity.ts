@@ -53,6 +53,10 @@ export interface MemoryCardPair {
   icon: string;
   label: string;
   tip: string;
+  /** Caminho relativo a `public/` (ex: 'images/memory/bulb.png'). Opcional —
+   *  sem imagem (ou se o arquivo não existir), a carta usa o ícone/crachá
+   *  colorido normalmente. Ver public/images/memory/README.md. */
+  image?: string;
 }
 
 export interface MemoryActivityConfig extends ActivityConfigBase {

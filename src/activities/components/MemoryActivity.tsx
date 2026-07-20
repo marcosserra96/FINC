@@ -17,12 +17,13 @@ interface Card {
   pairId: string;
   icon: string;
   label: string;
+  image?: string;
 }
 
 function buildDeck(pairs: MemoryCardPair[]): Card[] {
   const cards: Card[] = pairs.flatMap((pair) => [
-    { cardId: `${pair.id}-a`, pairId: pair.id, icon: pair.icon, label: pair.label },
-    { cardId: `${pair.id}-b`, pairId: pair.id, icon: pair.icon, label: pair.label }
+    { cardId: `${pair.id}-a`, pairId: pair.id, icon: pair.icon, label: pair.label, image: pair.image },
+    { cardId: `${pair.id}-b`, pairId: pair.id, icon: pair.icon, label: pair.label, image: pair.image }
   ]);
   return shuffle(cards);
 }
@@ -62,6 +63,10 @@ export function MemoryActivity({ activity, onComplete }: MemoryActivityProps) {
   const [finished, setFinished] = useState(false);
   const [activeTip, setActiveTip] = useState<string | null>(null);
   const [peeking, setPeeking] = useState(true);
+  // Se o arquivo de imagem de uma carta não existir (ainda não foi
+  // adicionado em public/images/memory/), cai pro ícone/crachá normal em
+  // vez de mostrar um ícone de imagem quebrada.
+  const [imageErrors, setImageErrors] = useState<Set<string>>(new Set());
 
   // Contadores em ref: o resultado final é lido no mesmo tick em que o
   // último par é resolvido, então depender de state aqui reabriria a
@@ -161,6 +166,7 @@ export function MemoryActivity({ activity, onComplete }: MemoryActivityProps) {
           const isMatched = matched.has(card.pairId);
           const isFlipped = peeking || flipped.includes(card.cardId) || isMatched;
           const isWrong = wrongPair.includes(card.cardId);
+          const showImage = card.image && !imageErrors.has(card.image);
           return (
             <button
               key={card.cardId}
@@ -175,10 +181,24 @@ export function MemoryActivity({ activity, onComplete }: MemoryActivityProps) {
                   <Icon name="bolt" size={22} />
                 </div>
                 <div className="memory-activity__card-face memory-activity__card-face--front">
-                  <span className="memory-activity__card-icon" style={{ background: colorForKey(card.icon) }}>
-                    <Icon name={card.icon as IconName} size={26} strokeWidth={1.8} color="#fff" />
-                  </span>
-                  <span className="memory-activity__card-label">{card.label}</span>
+                  {showImage ? (
+                    <>
+                      <img
+                        src={`${import.meta.env.BASE_URL}${card.image}`}
+                        alt=""
+                        className="memory-activity__card-image"
+                        onError={() => setImageErrors((prev) => new Set(prev).add(card.image!))}
+                      />
+                      <span className="memory-activity__card-caption">{card.label}</span>
+                    </>
+                  ) : (
+                    <div className="memory-activity__card-content">
+                      <span className="memory-activity__card-icon" style={{ background: colorForKey(card.icon) }}>
+                        <Icon name={card.icon as IconName} size={26} strokeWidth={1.8} color="#fff" />
+                      </span>
+                      <span className="memory-activity__card-label">{card.label}</span>
+                    </div>
+                  )}
                 </div>
               </div>
             </button>
