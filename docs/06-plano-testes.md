@@ -1,5 +1,15 @@
 # 6. Plano de testes
 
+## Tela de atração mais limpa e logo institucional em todas as telas
+
+Pedido do usuário: tirar os três ícones flutuantes (casa, lâmpada, geladeira) da tela de atração, subir um pouco o botão "Toque na tela para começar" para abrir espaço, aumentar a logo institucional do rodapé nessa tela — e, já que ela ia crescer, fazer ela aparecer em todas as telas do fluxo público (maior na inicial, um pouco menor nas demais).
+
+Removidos os três `.attract__icon-tile` (e o bloco `.attract__icons`) de `AttractScreen.tsx`/`.css` — CSS morta correspondente (`.attract__icon-tile`, variantes `--2`/`--3`, media query que escondia em telas estreitas) também removida. `.attract__cta` ganhou `margin-bottom: var(--space-7)` (64px): como o grupo (ticker + título + botão) fica centralizado verticalmente como um bloco só, essa margem extra no último item empurra o bloco visível inteiro pra cima, sobrando espaço embaixo pra logo maior sem disputar espaço com o botão.
+
+A logo (`InstitutionalCredit`) deixou de ser renderizada só na Atração e passou a ser responsabilidade do `ScreenShell` (componente usado pelas 10 telas do fluxo público) — um `<div className="screen-shell__credit">` fixo no rodapé, centralizado, com `onClick` que interrompe a propagação (mesma proteção que já existia na Atração, pra não iniciar o fluxo sem querer ao tocar na logo — inofensivo nas demais telas, que não têm clique na tela inteira). Ganhou um prop `creditSize?: 'lg' | 'sm'` (padrão `'sm'`), repassado a um novo prop equivalente em `InstitutionalCredit`, que aplica a classe `institutional-credit--lg`. Só a Atração passa `creditSize="lg"`. Tamanhos ajustados em `InstitutionalCredit.css`: padrão (as 9 outras telas) caiu de 48px para 32px de altura (24px são pequenos demais, 48px era grande demais fora do contexto da tela de abertura); `--lg` (Atração) subiu para 64px — nitidamente maior que antes.
+
+Testado visualmente: Atração sem os ícones, botão visivelmente mais alto, logo grande e legível no rodapé; Seleção de atividade e Organize os Hábitos com a logo pequena no rodapé, sem sobrepor cards ou colunas; alternância de tema clara/escura não quebrou o posicionamento em nenhuma das duas.
+
 ## Modo claro/escuro com alternância discreta
 
 Pergunta do usuário sobre deixar as cartas mais profissionais levou a uma pergunta exploratória — "o que acha de um modo claro? assim podemos colocar um botão de alternância em cima discreto" — motivada pela arte do estande do evento às vezes ser clara, e a equipe querer o totem combinando com a decoração. Escopo definido deliberadamente só pro fluxo público (visitante); o painel administrativo já usa cores próprias, fixas, independentes do tema, e não foi tocado.

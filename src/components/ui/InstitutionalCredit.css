@@ -1,12 +1,20 @@
 .institutional-credit {
-  height: 48px;
+  height: 32px;
   width: auto;
   display: block;
   opacity: 0.95;
 }
 
+.institutional-credit--lg {
+  height: 64px;
+}
+
 @media (max-width: 860px) {
   .institutional-credit {
-    height: 36px;
+    height: 26px;
+  }
+
+  .institutional-credit--lg {
+    height: 46px;
   }
 }

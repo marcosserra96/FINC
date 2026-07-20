@@ -1,5 +1,9 @@
 import './InstitutionalCredit.css';
 
+interface InstitutionalCreditProps {
+  size?: 'lg' | 'sm';
+}
+
 /**
  * Créditos institucionais (Energisa + PEE + ANEEL), exigidos em materiais de
  * programas de eficiência energética regulados pela ANEEL — logo fornecida
@@ -9,12 +13,12 @@ import './InstitutionalCredit.css';
  * potrace, preservando o layout e as formas exatas — apenas convertendo
  * pixels em curvas vetoriais para ficar nítido em qualquer resolução.
  */
-export function InstitutionalCredit() {
+export function InstitutionalCredit({ size = 'sm' }: InstitutionalCreditProps) {
   return (
     <img
       src={`${import.meta.env.BASE_URL}institutional/energisa-pee-aneel.svg`}
       alt="Energisa — PEE Programa de Eficiência Energética — ANEEL Agência Nacional de Energia Elétrica"
-      className="institutional-credit"
+      className={`institutional-credit${size === 'lg' ? ' institutional-credit--lg' : ''}`}
     />
   );
 }

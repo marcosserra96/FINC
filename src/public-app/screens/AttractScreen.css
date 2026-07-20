@@ -36,33 +36,10 @@
   color: transparent;
 }
 
-.attract__icons {
-  display: flex;
-  gap: var(--space-5);
-}
-
-.attract__icon-tile {
-  width: 88px;
-  height: 88px;
-  border-radius: var(--radius-lg);
-  background: var(--surface-glass);
-  border: 1px solid var(--surface-glass-border);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--color-blue-light);
-}
-
-.attract__icon-tile--2 {
-  animation-delay: 1.2s;
-  color: var(--color-orange-light);
-}
-
-.attract__icon-tile--3 {
-  animation-delay: 2.1s;
-}
-
 .attract__cta {
+  /* Sobe o botão em relação ao centro do bloco, abrindo espaço embaixo
+     pra logo institucional (maior nesta tela) não disputar espaço. */
+  margin-bottom: var(--space-7);
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -81,27 +58,6 @@
   inset: 0;
   border-radius: var(--radius-full);
   animation: pulseGlow 2.2s ease-out infinite;
-}
-
-@media (max-width: 900px) {
-  .attract__icons {
-    display: none;
-  }
-}
-
-.attract__credit {
-  position: absolute;
-  left: 50%;
-  bottom: var(--space-4);
-  transform: translateX(-50%);
-  z-index: 5;
-  cursor: default;
-}
-
-@media (max-width: 900px) {
-  .attract__credit {
-    bottom: var(--space-3);
-  }
 }
 
 .attract__fullscreen {

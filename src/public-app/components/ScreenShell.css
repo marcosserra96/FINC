@@ -25,3 +25,18 @@
     padding: var(--space-5) var(--space-4);
   }
 }
+
+.screen-shell__credit {
+  position: absolute;
+  left: 50%;
+  bottom: var(--space-3);
+  transform: translateX(-50%);
+  z-index: 5;
+  cursor: default;
+}
+
+@media (max-width: 900px) {
+  .screen-shell__credit {
+    bottom: var(--space-2);
+  }
+}

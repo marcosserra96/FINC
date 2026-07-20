@@ -2,7 +2,6 @@ import { motion } from 'framer-motion';
 import { ScreenShell } from '../components/ScreenShell';
 import { AdminAccessTrigger } from '../components/AdminAccessTrigger';
 import { Icon } from '@/components/ui/Icon';
-import { InstitutionalCredit } from '@/components/ui/InstitutionalCredit';
 import { AttractTicker } from '../components/AttractTicker';
 import { useApp } from '@/store/AppContext';
 import { useFullscreen } from '@/hooks/useFullscreen';
@@ -31,7 +30,7 @@ export function AttractScreen() {
   };
 
   return (
-    <ScreenShell padded={false}>
+    <ScreenShell padded={false} creditSize="lg">
       <AdminAccessTrigger />
       {!isFullscreen && (
         <button
@@ -55,12 +54,6 @@ export function AttractScreen() {
           ))}
         </h1>
 
-        <div className="attract__icons" aria-hidden="true">
-          <div className="attract__icon-tile attract__icon-tile--1 anim-float"><Icon name="house" size={40} /></div>
-          <div className="attract__icon-tile attract__icon-tile--2 anim-float"><Icon name="bulb" size={36} /></div>
-          <div className="attract__icon-tile attract__icon-tile--3 anim-float"><Icon name="fridge" size={38} /></div>
-        </div>
-
         <motion.div
           className="attract__cta"
           animate={state.config.reducedMotion ? undefined : { scale: [1, 1.04, 1] }}
@@ -70,10 +63,6 @@ export function AttractScreen() {
           <Icon name="bolt" size={22} />
           <span>{texts.attractSubtitle}</span>
         </motion.div>
-      </div>
-
-      <div className="attract__credit" onClick={(e) => e.stopPropagation()}>
-        <InstitutionalCredit />
       </div>
     </ScreenShell>
   );
