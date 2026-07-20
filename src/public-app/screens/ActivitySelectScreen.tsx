@@ -6,6 +6,15 @@ import type { IconName } from '@/components/ui/Icon';
 import { useApp } from '@/store/AppContext';
 import './ActivitySelectScreen.css';
 
+// Abaixo de 90s continua em segundos (mesmo padrão já usado, ex: "~75s"),
+// pois é o que dá pra estimar; a partir daí vira minutos — "~150s" pra 10
+// perguntas do Quiz seria mais difícil de "sentir" de relance do que "~3min".
+function formatDuration(seconds: number): string {
+  const rounded = Math.round(seconds / 15) * 15;
+  if (rounded < 90) return `~${rounded}s`;
+  return `~${Math.round(rounded / 60)}min`;
+}
+
 export function ActivitySelectScreen() {
   const { state, selectActivity } = useApp();
   const activities = state.activities.filter((a) => a.active).sort((a, b) => a.order - b.order);
@@ -31,7 +40,7 @@ export function ActivitySelectScreen() {
               <p className="activity-select__desc">{activity.shortDescription}</p>
               <div className="activity-select__meta">
                 <Icon name="clock" size={16} />
-                <span>~{Math.round(activity.estimatedDurationSeconds / 15) * 15}s</span>
+                <span>{formatDuration(activity.estimatedDurationSeconds)}</span>
               </div>
             </Card>
           ))}

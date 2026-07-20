@@ -1,5 +1,13 @@
 # 6. Plano de testes
 
+## Quiz Relâmpago e Casa Eficiente: 4 → 10 perguntas/situações por sessão
+
+Pedido do usuário: aumentar de 4 para 10 o padrão de perguntas/situações sorteadas por sessão, mantendo aleatório e sem repetir. Os dois bancos de conteúdo (`src/data/activitiesData.ts`) já tinham exatamente 10 itens cada (`q1`–`q10` no Quiz, `c1`–`c10` na Casa Eficiente) — o mecanismo de sorteio (`shuffle(pool).slice(0, count)`, um Fisher-Yates não-mutante) já garante itens distintos, sem repetição, então só foi preciso alterar os padrões `quizQuestionCount`/`scenarioCaseCount` de 4 para 10 em `src/services/configService.ts` (o painel admin já permitia esse valor, `max={10}` já configurado em `BehaviorSection.tsx`).
+
+Como consequência direta, o tempo estimado dessas duas atividades passou de ~60s (4 itens) para ~150s (10 itens, mesma proporção de ~15s por item) — atualizado em `estimatedDurationSeconds` na `activitiesData.ts`. Isso expôs um problema de exibição: o card de seleção mostrava segundos crus (`~150s`), difícil de "sentir" de relance. Adicionado `formatDuration()` em `ActivitySelectScreen.tsx`: abaixo de 90s continua em segundos (mantém o padrão já usado, ex: "~75s" da Memória), a partir daí mostra minutos arredondados ("~3min").
+
+Testado jogando as duas atividades até o fim via script: Quiz Relâmpago apresentou exatamente 10 perguntas distintas (nenhuma repetida) antes de ir para o resultado; Casa Eficiente, o mesmo com 10 situações. Confirmado visualmente que os cards de seleção mostram "~3min" para as duas, sem alterar a exibição das outras duas atividades ("~75s" e "~60s", inalteradas).
+
 ## Cartas de hábito com altura uniforme (Organize os Hábitos)
 
 Pergunta do usuário: "alguma melhoria para deixar mais profissional?" nas cartas. Medindo o layout real: cada fileira já esticava corretamente pra bater com o card de texto mais longo dela (`align-items: stretch` do flex-wrap funcionando certo), mas as duas fileiras entre si tinham alturas diferentes (166px vs 185px, variando a cada sessão conforme o sorteio dos hábitos) — a grade não tinha bordas retas de ponta a ponta.

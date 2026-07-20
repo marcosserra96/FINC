@@ -8,7 +8,7 @@ Nove conceitos foram avaliados contra os critérios do projeto (rápido, visual,
 
 - **Objetivo educativo:** reforçar hábitos corretos do dia a dia com energia.
 - **Público mais adequado:** todos os públicos, inclusive baixa familiaridade digital.
-- **Tempo médio:** 45–60s (4 perguntas de um banco de 6).
+- **Tempo médio:** ~2min30s (10 perguntas de um banco de 10, configurável no admin).
 - **Como funciona:** afirmação na tela, visitante toca em Verdadeiro ou Falso, recebe explicação curta na hora.
 - **Nível de dificuldade:** fácil.
 - **Potencial de engajamento:** alto — resposta imediata, ritmo rápido.
@@ -52,7 +52,7 @@ Nove conceitos foram avaliados contra os critérios do projeto (rápido, visual,
 
 - **Objetivo educativo:** treinar a decisão certa em situações reais do dia a dia (ligar o ar-condicionado, sair do quarto, terminar de carregar o celular...).
 - **Público mais adequado:** todos — é a atividade mais "de lógica" das quatro, sem exigir nenhuma coordenação motora fina.
-- **Tempo médio:** 45–60s (4 situações de um banco de 6).
+- **Tempo médio:** ~2min30s (10 situações de um banco de 10, configurável no admin).
 - **Como funciona:** uma situação curta aparece com um ícone; o visitante toca em uma das duas atitudes possíveis e recebe a explicação na hora — a mesma mecânica de escolha simples usada no Quiz Relâmpago, mas com uma decisão prática em vez de Verdadeiro/Falso.
 - **Nível de dificuldade:** fácil.
 - **Potencial de engajamento:** alto — cada cenário é reconhecível ("isso já aconteceu comigo"), o que prende mais do que uma afirmação abstrata.

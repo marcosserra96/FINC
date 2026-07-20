@@ -21,8 +21,8 @@ export const DEFAULT_CONFIG: AppConfig = {
   soundEnabled: true,
   reducedMotion: false,
   intenseAnimationsEnabled: true,
-  quizQuestionCount: 4,
-  scenarioCaseCount: 4,
+  quizQuestionCount: 10,
+  scenarioCaseCount: 10,
   attractCuriosities: [
     // Eficiência energética no dia a dia
     'Você sabia? Trocar lâmpadas antigas por modelos LED costuma reduzir bastante o consumo para a mesma iluminação.',
