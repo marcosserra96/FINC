@@ -70,6 +70,16 @@ export function TextsSection() {
       </div>
 
       <div className="admin-card">
+        <h2>Tempo esgotado</h2>
+        <FormRow label="Título" hint="Mostrado quando o limite de tempo da atividade (configurado em Comportamento) é atingido">
+          <TextInput value={draft.texts.timeUpTitle} onChange={(v) => setText('timeUpTitle', v)} />
+        </FormRow>
+        <FormRow label="Mensagem">
+          <TextAreaInput value={draft.texts.timeUpMessage} onChange={(v) => setText('timeUpMessage', v)} />
+        </FormRow>
+      </div>
+
+      <div className="admin-card">
         <h2>Brindes e encerramento</h2>
         <FormRow label="Instruções de retirada do brinde">
           <TextAreaInput value={draft.texts.giftInstructions} onChange={(v) => setText('giftInstructions', v)} />

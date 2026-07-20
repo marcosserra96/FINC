@@ -29,7 +29,7 @@ Todo componente de atividade recebe `(activity, onComplete)` e devolve um `Activ
 
 ## Máquina de estados da sessão
 
-`src/store/appReducer.ts` modela a sessão como uma máquina de estados explícita (`SessionScreen`): `attract → ageSelect → activitySelect → activityPrepare → activityRunning → result → completion|noGifts → giftInstructions → closing → attract`. Cada transição é uma ação do reducer; não existe navegação livre entre telas fora dessas transições, o que evita estados inconsistentes (ex: "resultado" sem atividade selecionada).
+`src/store/appReducer.ts` modela a sessão como uma máquina de estados explícita (`SessionScreen`): `attract → ageSelect → activitySelect → activityPrepare → activityRunning → (timeUp |) result → completion|noGifts → giftInstructions → closing → attract`. `activityRunning` pode desviar pra `timeUp` (limite de tempo por atividade estourado) em vez de seguir pra `result`, voltando direto pra `attract` a partir dali. Cada transição é uma ação do reducer; não existe navegação livre entre telas fora dessas transições, o que evita estados inconsistentes (ex: "resultado" sem atividade selecionada).
 
 ## Persistência e dados
 

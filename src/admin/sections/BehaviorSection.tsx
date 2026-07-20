@@ -43,6 +43,13 @@ export function BehaviorSection() {
       </div>
 
       <div className="admin-card">
+        <h2>Tempo por atividade</h2>
+        <FormRow label="Limite de tempo dentro da atividade" hint="Gestão de fila do evento — passado esse tempo, a tela avisa e volta pro início. Um anel de contagem regressiva fica visível durante o jogo">
+          <NumberInput value={config.activityTimeLimitSeconds} min={60} max={600} step={15} suffix="segundos" onChange={(v) => patch({ activityTimeLimitSeconds: v })} />
+        </FormRow>
+      </div>
+
+      <div className="admin-card">
         <h2>Sons e animações</h2>
         <FormRow label="Sons de interface">
           <Toggle checked={config.soundEnabled} onChange={(v) => patch({ soundEnabled: v })} />

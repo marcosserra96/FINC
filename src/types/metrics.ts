@@ -10,6 +10,7 @@ export type MetricsEventType =
   | 'gift_released'
   | 'gift_delivered'
   | 'idle_reset'
+  | 'activity_timeout'
   | 'error';
 
 export interface MetricsEvent {

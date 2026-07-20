@@ -6,6 +6,7 @@ import { AgeSelectScreen } from './screens/AgeSelectScreen';
 import { ActivitySelectScreen } from './screens/ActivitySelectScreen';
 import { ActivityPrepareScreen } from './screens/ActivityPrepareScreen';
 import { ActivityRunnerScreen } from './screens/ActivityRunnerScreen';
+import { TimeUpScreen } from './screens/TimeUpScreen';
 import { ResultScreen } from './screens/ResultScreen';
 import { CompletionScreen } from './screens/CompletionScreen';
 import { GiftInstructionsScreen } from './screens/GiftInstructionsScreen';
@@ -25,6 +26,7 @@ export function PublicApp() {
       {screen === 'activitySelect' && <ActivitySelectScreen key="select" />}
       {screen === 'activityPrepare' && <ActivityPrepareScreen key="prepare" />}
       {screen === 'activityRunning' && <ActivityRunnerScreen key="running" />}
+      {screen === 'timeUp' && <TimeUpScreen key="timeup" />}
       {screen === 'result' && <ResultScreen key="result" />}
       {screen === 'completion' && <CompletionScreen key="completion" />}
       {screen === 'giftInstructions' && <GiftInstructionsScreen key="gift" />}

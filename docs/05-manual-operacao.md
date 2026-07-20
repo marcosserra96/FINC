@@ -21,7 +21,7 @@ No painel, seção **Textos e mensagens**: coloque o nome do evento.
 
 Na seção **Brindes**: por padrão, o sistema de brindes vem **desativado** em todas as atividades (nenhum código é gerado, nenhuma tela de brinde aparece — o visitante vai direto do resultado pro encerramento). Se o evento for distribuir brindes, ative "Brindes habilitados" e confira "Total de brindes do evento" e "Estoque atual disponível", ajustando para a quantidade real que vocês têm na mesa.
 
-Na seção **Comportamento**: se o ambiente for muito barulhento ou tiver fila grande, considere reduzir o "Voltar para a tela inicial após" para algo entre 30–45s.
+Na seção **Comportamento**: se o ambiente for muito barulhento ou tiver fila grande, considere reduzir o "Voltar para a tela inicial após" para algo entre 30–45s. Também dá pra ajustar o "Limite de tempo dentro da atividade" (padrão 3 minutos) — se a fila estiver grande, reduza um pouco para não deixar ninguém preso no totem por muito tempo; um anel de contagem regressiva discreto aparece no cabeçalho do jogo, e ao zerar leva o visitante direto pra uma tela avisando pra voltar pra fila e tentar de novo.
 
 ## Durante o evento — entregando brindes
 

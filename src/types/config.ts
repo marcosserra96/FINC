@@ -11,6 +11,8 @@ export interface AppTexts {
   giftInstructions: string;
   noGiftsMessage: string;
   closingMessage: string;
+  timeUpTitle: string;
+  timeUpMessage: string;
 }
 
 export interface GiftConfig {
@@ -27,6 +29,7 @@ export interface AppConfig {
   appVersion: string;
   texts: AppTexts;
   idleTimeoutSeconds: number;
+  activityTimeLimitSeconds: number;
   activitySelectionMode: ActivitySelectionMode;
   soundEnabled: boolean;
   reducedMotion: boolean;

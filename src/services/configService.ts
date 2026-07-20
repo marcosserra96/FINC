@@ -15,9 +15,12 @@ export const DEFAULT_CONFIG: AppConfig = {
     completionMessage: 'Você concluiu o desafio e aprendeu algo novo sobre consumo consciente.',
     giftInstructions: 'Mostre este código para a nossa equipe e retire seu brinde.',
     noGiftsMessage: 'Os brindes de hoje acabaram, mas o aprendizado fica com você. Obrigado por participar!',
-    closingMessage: 'Obrigado por participar! Até a próxima.'
+    closingMessage: 'Obrigado por participar! Até a próxima.',
+    timeUpTitle: 'Tempo esgotado!',
+    timeUpMessage: 'Sem problema — volte para a fila e tente de novo quando quiser.'
   },
   idleTimeoutSeconds: 45,
+  activityTimeLimitSeconds: 180,
   activitySelectionMode: 'visitorChoice',
   soundEnabled: true,
   reducedMotion: false,

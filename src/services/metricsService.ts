@@ -45,6 +45,7 @@ export interface MetricsSummary {
   giftsReleased: number;
   giftsDelivered: number;
   idleResets: number;
+  activityTimeouts: number;
   avgDurationMsByActivity: Record<string, number>;
   completionByActivity: Record<string, { started: number; completed: number }>;
   ageRangeCounts: Record<string, number>;
@@ -60,6 +61,7 @@ export function getSummary(): MetricsSummary {
     giftsReleased: 0,
     giftsDelivered: 0,
     idleResets: 0,
+    activityTimeouts: 0,
     avgDurationMsByActivity: {},
     completionByActivity: {},
     ageRangeCounts: {}
@@ -106,6 +108,9 @@ export function getSummary(): MetricsSummary {
         break;
       case 'idle_reset':
         summary.idleResets += 1;
+        break;
+      case 'activity_timeout':
+        summary.activityTimeouts += 1;
         break;
     }
   }

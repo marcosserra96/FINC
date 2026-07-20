@@ -6,9 +6,12 @@ interface CountdownRingProps {
 }
 
 /**
- * Anel de contagem regressiva usado só onde faz sentido (expiração do
- * código de brinde, aviso de inatividade) — nunca dentro das atividades,
- * para não gerar pressão de tempo em quem está aprendendo.
+ * Anel de contagem regressiva. Usado na expiração do código de brinde e,
+ * por pedido explícito do usuário, também dentro da atividade (limite de
+ * tempo por sessão, `ActivityRunnerScreen`) — uma exceção deliberada ao
+ * princípio de "sem pressão de tempo durante o aprendizado", motivada por
+ * gestão de fila do evento, não por querer apressar o visitante. Ver nota
+ * em docs/03-fluxo-e-telas.md.
  */
 export function CountdownRing({ secondsLeft, totalSeconds, size = 96, color = 'var(--color-orange)' }: CountdownRingProps) {
   const radius = (size - 12) / 2;

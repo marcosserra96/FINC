@@ -6,6 +6,7 @@ export type SessionScreen =
   | 'activitySelect'
   | 'activityPrepare'
   | 'activityRunning'
+  | 'timeUp'
   | 'result'
   | 'completion'
   | 'giftInstructions'

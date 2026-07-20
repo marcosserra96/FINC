@@ -17,6 +17,7 @@ interface AppContextValue {
   selectActivity: (id: ActivityId) => void;
   beginActivity: () => void;
   finishActivity: (result: ActivityRunResult) => void;
+  activityTimeUp: () => void;
   proceedAfterResult: () => void;
   acknowledgeGiftInstructions: () => void;
   goToClosing: () => void;
@@ -133,6 +134,20 @@ export function AppProvider({ children }: { children: ReactNode }) {
     [state.session.activityId, state.session.sessionId, state.config]
   );
 
+  // Estourou o tempo máximo por atividade (gestão de fila do evento, não
+  // punição) — leva pra uma tela amigável de "volte e tente de novo" em
+  // vez de simplesmente cortar de volta pra Atração sem explicação.
+  const activityTimeUp = useCallback(() => {
+    dispatch({ type: 'ACTIVITY_TIME_UP' });
+    logEvent({
+      type: 'activity_timeout',
+      eventName: state.config.eventName,
+      appVersion: state.config.appVersion,
+      sessionId: state.session.sessionId,
+      activityId: state.session.activityId ?? undefined
+    });
+  }, [state.config, state.session.sessionId, state.session.activityId]);
+
   const proceedAfterResult = useCallback(() => {
     const activityId = state.session.activityId;
     const { passed } = state.session;
@@ -208,6 +223,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       selectActivity,
       beginActivity,
       finishActivity,
+      activityTimeUp,
       proceedAfterResult,
       acknowledgeGiftInstructions,
       goToClosing,
@@ -226,6 +242,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       selectActivity,
       beginActivity,
       finishActivity,
+      activityTimeUp,
       proceedAfterResult,
       acknowledgeGiftInstructions,
       goToClosing,

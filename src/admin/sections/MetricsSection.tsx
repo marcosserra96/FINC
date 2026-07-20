@@ -45,6 +45,7 @@ export function MetricsSection() {
         <div className="admin-stat"><strong>{summary.giftsReleased}</strong><span>brindes liberados</span></div>
         <div className="admin-stat"><strong>{summary.giftsDelivered}</strong><span>brindes entregues</span></div>
         <div className="admin-stat"><strong>{summary.idleResets}</strong><span>reinícios por inatividade</span></div>
+        <div className="admin-stat"><strong>{summary.activityTimeouts}</strong><span>tempo esgotado na atividade</span></div>
       </div>
 
       <div className="admin-card">

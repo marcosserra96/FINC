@@ -20,6 +20,7 @@ export type AppAction =
   | { type: 'SELECT_ACTIVITY'; activityId: ActivityId }
   | { type: 'BEGIN_ACTIVITY' }
   | { type: 'FINISH_ACTIVITY'; result: ActivityRunResult }
+  | { type: 'ACTIVITY_TIME_UP' }
   | { type: 'GO_TO_COMPLETION'; giftCode: string; expiresAt: number }
   | { type: 'GO_TO_NO_GIFTS' }
   | { type: 'GO_TO_GIFT_INSTRUCTIONS' }
@@ -103,6 +104,9 @@ export function appReducer(state: AppState, action: AppAction): AppState {
         }
       };
     }
+
+    case 'ACTIVITY_TIME_UP':
+      return { ...state, session: { ...state.session, screen: 'timeUp', lastInteractionAt: Date.now() } };
 
     case 'GO_TO_COMPLETION':
       return {
