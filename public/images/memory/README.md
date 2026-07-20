@@ -8,11 +8,11 @@ automaticamente, sem precisar mexer em código:
 | Arquivo | Hábito |
 |---|---|
 | `bulb.png` | Lâmpada LED |
-| `charger.png` | Carregador |
-| `ac.png` | Ar-condicionado |
+| `shower.png` | Chuveiro |
+| `fan.png` | Ventilador |
 | `fridge.png` | Geladeira |
 | `tv.png` | Televisão |
-| `iron.png` | Ferro elétrico |
+| `window.png` | Luz natural |
 
 ## Recomendações
 
