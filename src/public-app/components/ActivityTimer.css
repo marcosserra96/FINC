@@ -1,0 +1,41 @@
+.activity-timer {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+  z-index: 5;
+  display: flex;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--surface-glass-border);
+  color: #fff;
+  padding: 4px;
+  transition: box-shadow var(--dur-medium) var(--ease-standard);
+}
+
+.activity-timer--warning {
+  animation: activityTimerPulseWarning 1.8s ease-in-out infinite;
+}
+
+.activity-timer--critical {
+  animation: activityTimerPulseCritical 0.8s ease-in-out infinite;
+}
+
+@keyframes activityTimerPulseWarning {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+
+@keyframes activityTimerPulseCritical {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(214, 69, 69, 0.55); }
+  50% { transform: scale(1.14); box-shadow: 0 0 0 12px rgba(214, 69, 69, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .activity-timer {
+    animation: none !important;
+  }
+}
+
+[data-reduced-motion='true'] .activity-timer {
+  animation: none !important;
+}

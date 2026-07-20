@@ -20,7 +20,7 @@ export const DEFAULT_CONFIG: AppConfig = {
     timeUpMessage: 'Sem problema — volte para a fila e tente de novo quando quiser.'
   },
   idleTimeoutSeconds: 45,
-  activityTimeLimitSeconds: 180,
+  activityTimeLimitMultiplier: 2,
   activitySelectionMode: 'visitorChoice',
   soundEnabled: true,
   reducedMotion: false,

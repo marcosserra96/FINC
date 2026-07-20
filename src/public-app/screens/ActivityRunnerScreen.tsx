@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { ScreenShell } from '../components/ScreenShell';
 import { RestartCorner } from '../components/RestartCorner';
+import { ActivityTimer } from '../components/ActivityTimer';
 import { Icon } from '@/components/ui/Icon';
 import type { IconName } from '@/components/ui/Icon';
-import { CountdownRing } from '@/components/ui/CountdownRing';
 import { useApp } from '@/store/AppContext';
 import { QuizActivity } from '@/activities/components/QuizActivity';
 import { MemoryActivity } from '@/activities/components/MemoryActivity';
@@ -15,7 +15,13 @@ import './ActivityRunnerScreen.css';
 export function ActivityRunnerScreen() {
   const { state, finishActivity, activityTimeUp } = useApp();
   const activity = state.activities.find((a) => a.id === state.session.activityId);
-  const limitSeconds = state.config.activityTimeLimitSeconds;
+  // Cada atividade tem seu próprio tempo estimado (varia de ~1min a ~3min);
+  // o limite real é esse valor multiplicado, não um número fixo igual pra
+  // todas — evita cortar atividades longas cedo demais ou dar tempo
+  // exagerado pras curtas.
+  const limitSeconds = activity
+    ? Math.round(activity.estimatedDurationSeconds * state.config.activityTimeLimitMultiplier)
+    : 0;
   const startedAt = state.session.activityStartedAt;
   const [secondsLeft, setSecondsLeft] = useState(limitSeconds);
 
@@ -41,6 +47,7 @@ export function ActivityRunnerScreen() {
   return (
     <ScreenShell>
       <RestartCorner />
+      <ActivityTimer secondsLeft={secondsLeft} totalSeconds={limitSeconds} />
       <div className="activity-runner">
         <div className="activity-runner__header">
           <span className="activity-runner__header-icon" style={{ background: activity.themeColor }}>
@@ -49,9 +56,6 @@ export function ActivityRunnerScreen() {
           <div className="activity-runner__info">
             <strong>{activity.name}</strong>
             <span>{activity.instructions}</span>
-          </div>
-          <div className="activity-runner__timer" aria-hidden="true">
-            <CountdownRing secondsLeft={secondsLeft} totalSeconds={limitSeconds} size={40} />
           </div>
         </div>
 

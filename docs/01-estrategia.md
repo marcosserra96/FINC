@@ -20,7 +20,7 @@ Um totem touch que qualquer visitante — criança, adulto, idoso, alguém sem i
 
 1. **Uma decisão por tela.** Nunca dois CTAs concorrendo.
 2. **Sessão curta por design.** Toda atividade cabe em 45–90s; o totem inteiro (do toque inicial ao brinde) fica entre 2 e 3 minutos.
-3. **Feedback nunca constrange.** Sem "errado" em vermelho, sem placar público, sem pressão de tempo dentro das atividades como regra geral. Exceção deliberada: um limite de tempo por atividade (configurável, padrão 3 min, com anel de contagem regressiva visível) existe só pra gestão de fila do evento, não pra apressar o aprendizado — ao estourar, leva a uma tela amigável convidando a tentar de novo, nunca uma mensagem de "perdeu". Ver docs/03-fluxo-e-telas.md.
+3. **Feedback nunca constrange.** Sem "errado" em vermelho, sem placar público, sem pressão de tempo dentro das atividades como regra geral. Exceção deliberada: um limite de tempo por atividade (configurável como múltiplo do tempo estimado de cada uma, padrão 2x, com anel de contagem regressiva grande e chamativo) existe só pra gestão de fila do evento, não pra apressar o aprendizado — ao estourar, leva a uma tela amigável convidando a tentar de novo, nunca uma mensagem de "perdeu". Ver docs/03-fluxo-e-telas.md.
 4. **Conclusão é ganha, não assumida.** Só quem de fato interage o suficiente (critério configurável por atividade) é considerado "concluiu", e só isso libera brinde.
 5. **Sempre existe uma saída.** Botão "Recomeçar" discreto em toda tela, inatividade sempre volta pro início.
 6. **Configurável sem programar.** Textos, tempos, critérios e regras de brinde vivem no painel admin, não no código.

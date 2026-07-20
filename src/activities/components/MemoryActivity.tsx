@@ -182,15 +182,12 @@ export function MemoryActivity({ activity, onComplete }: MemoryActivityProps) {
                 </div>
                 <div className="memory-activity__card-face memory-activity__card-face--front">
                   {showImage ? (
-                    <>
-                      <img
-                        src={`${import.meta.env.BASE_URL}${card.image}`}
-                        alt=""
-                        className="memory-activity__card-image"
-                        onError={() => setImageErrors((prev) => new Set(prev).add(card.image!))}
-                      />
-                      <span className="memory-activity__card-caption">{card.label}</span>
-                    </>
+                    <img
+                      src={`${import.meta.env.BASE_URL}${card.image}`}
+                      alt=""
+                      className="memory-activity__card-image"
+                      onError={() => setImageErrors((prev) => new Set(prev).add(card.image!))}
+                    />
                   ) : (
                     <div className="memory-activity__card-content">
                       <span className="memory-activity__card-icon" style={{ background: colorForKey(card.icon) }}>

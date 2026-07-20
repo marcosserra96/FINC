@@ -1,5 +1,15 @@
 # 6. Plano de testes
 
+## Timer de atividade redesenhado, legenda das cartas removida, tempo por atividade individualizado
+
+Três ajustes de feedback do usuário depois de ver o limite de tempo por atividade e as imagens do jogo da memória em uso:
+
+**1) Legenda removida das cartas de imagem.** O nome do hábito (ex: "Geladeira") numa faixa translúcida sobre o rodapé da imagem foi removido — a ilustração já comunica sozinha. Simplificado em `MemoryActivity.tsx`/`.css`: sem a `<span>` de legenda, `<img>` renderiza sozinha preenchendo o card (`object-fit: cover`), acessibilidade mantida via `aria-label` do botão (que já existia, inalterado).
+
+**2) Timer redesenhado: maior, no canto, adaptativo por cor.** O anel de 40px dentro do cabeçalho da atividade era pequeno demais pra cumprir o papel de "avisar sem precisar ler". Criado `src/public-app/components/ActivityTimer.tsx` — reaproveita o `CountdownRing` já existente, mas em 72px, fixo no canto superior direito da tela (mesmo tratamento posicional do `RestartCorner` no canto oposto), com três estados visuais conforme a proporção de tempo restante: normal (azul, >40% do tempo), aviso (laranja, ≤40%, pulso suave) e crítico (vermelho, ≤15%, pulso mais rápido com "brilho" saindo do anel). Estados normal e crítico confirmados visualmente via teste com o multiplicador de tempo temporariamente reduzido. Animações respeitam tanto `prefers-reduced-motion` do sistema quanto o toggle de movimento reduzido do app (`[data-reduced-motion='true']`), mesmo padrão já usado em outros elementos animados.
+
+**3) Tempo por atividade deixou de ser um valor fixo.** O limite de 180s era igual para as 4 atividades, mas cada uma tem um tempo estimado bem diferente (Quiz/Casa Eficiente ~150s pra 10 perguntas/situações, Memória ~75s, Organize os Hábitos ~60s) — um valor fixo nunca bate bem com todas ao mesmo tempo. `AppConfig.activityTimeLimitSeconds` (valor absoluto) trocado por `activityTimeLimitMultiplier` (multiplicador, padrão 2x) — o limite real de cada atividade agora é `activity.estimatedDurationSeconds * multiplier`, calculado em `ActivityRunnerScreen.tsx`. Um só número no admin (**Comportamento → Tempo por atividade**) continua controlando todas as atividades proporcionalmente, sem precisar de um campo por atividade. Testado alterando o multiplicador via `localStorage` para valores bem pequenos (gera limites de poucos segundos) e confirmando que o tempo exibido no anel bate com `estimatedDurationSeconds × multiplier` para a atividade aberta (testado com Memória da Energia, estimativa 75s).
+
 ## Imagens reais adicionadas às cartas do jogo da memória
 
 Seguindo a preparação da seção abaixo, o usuário mandou 6 ilustrações (geradas em outra ferramenta) e pediu para colocá-las no jogo. Duas delas (chuveiro com relógio, cortina com sol) não correspondiam a nenhum dos pares existentes na época (Carregador, Ar-condicionado, Ferro elétrico) — perguntado como resolver, o usuário confirmou trocar o conteúdo desses pares para bater com as imagens.

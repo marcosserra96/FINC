@@ -13,7 +13,7 @@
   background: var(--surface-glass);
   border: 1px solid var(--surface-glass-border);
   border-radius: var(--radius-full);
-  padding: var(--space-2) var(--space-3) var(--space-2) var(--space-2);
+  padding: var(--space-2) var(--space-4) var(--space-2) var(--space-2);
   max-width: 100%;
 }
 
@@ -34,12 +34,6 @@
   line-height: 1.25;
   text-align: left;
   min-width: 0;
-}
-
-.activity-runner__timer {
-  flex-shrink: 0;
-  margin-left: var(--space-2);
-  color: var(--text-on-dark-muted);
 }
 
 .activity-runner__header strong {

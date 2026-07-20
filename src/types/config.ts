@@ -29,7 +29,10 @@ export interface AppConfig {
   appVersion: string;
   texts: AppTexts;
   idleTimeoutSeconds: number;
-  activityTimeLimitSeconds: number;
+  /** Multiplicador sobre `estimatedDurationSeconds` de cada atividade —
+   *  o limite de tempo real é calculado por atividade (`estimate * multiplier`),
+   *  não um valor fixo igual para todas. */
+  activityTimeLimitMultiplier: number;
   activitySelectionMode: ActivitySelectionMode;
   soundEnabled: boolean;
   reducedMotion: boolean;

@@ -44,8 +44,8 @@ export function BehaviorSection() {
 
       <div className="admin-card">
         <h2>Tempo por atividade</h2>
-        <FormRow label="Limite de tempo dentro da atividade" hint="Gestão de fila do evento — passado esse tempo, a tela avisa e volta pro início. Um anel de contagem regressiva fica visível durante o jogo">
-          <NumberInput value={config.activityTimeLimitSeconds} min={60} max={600} step={15} suffix="segundos" onChange={(v) => patch({ activityTimeLimitSeconds: v })} />
+        <FormRow label="Limite de tempo, em múltiplos do tempo estimado" hint="Gestão de fila do evento — cada atividade tem seu próprio tempo estimado (ex: ~1min, ~3min), e o limite real é esse valor multiplicado. Passado o limite, a tela avisa e volta pro início; um anel de contagem regressiva no canto fica cada vez mais chamativo conforme o tempo acaba">
+          <NumberInput value={config.activityTimeLimitMultiplier} min={1.5} max={4} step={0.5} suffix="x o tempo estimado" onChange={(v) => patch({ activityTimeLimitMultiplier: v })} />
         </FormRow>
       </div>
 
