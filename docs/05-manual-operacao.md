@@ -8,6 +8,7 @@ Guia para quem vai operar o totem no dia do evento, sem precisar entender de pro
 2. Abra o totem na tela cheia (peça para o time técnico deixar isso pronto antes do evento).
 3. Se possível, deixe instalado como aplicativo (PWA) — assim ele abre direto, sem barra de navegador.
 4. Toque na tela de atração uma vez para confirmar que está tudo respondendo.
+5. Se a arte do estande for clara e você quiser o totem combinando, toque no ícone de sol/lua discreto no topo da tela para trocar entre modo escuro (padrão) e modo claro. A escolha fica salva no equipamento.
 
 ## Acessando o painel administrativo
 

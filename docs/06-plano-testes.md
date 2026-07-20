@@ -1,5 +1,19 @@
 # 6. Plano de testes
 
+## Modo claro/escuro com alternância discreta
+
+Pergunta do usuário sobre deixar as cartas mais profissionais levou a uma pergunta exploratória — "o que acha de um modo claro? assim podemos colocar um botão de alternância em cima discreto" — motivada pela arte do estande do evento às vezes ser clara, e a equipe querer o totem combinando com a decoração. Escopo definido deliberadamente só pro fluxo público (visitante); o painel administrativo já usa cores próprias, fixas, independentes do tema, e não foi tocado.
+
+Implementado reaproveitando o mesmo padrão já usado pelo modo de movimento reduzido: um atributo `data-theme` (`'dark' | 'light'`) que sobrescreve os tokens de cor em `src/styles/theme.css` (`--surface-bg-*`, `--text-on-dark*`, `--surface-glass*`) dentro de um bloco `[data-theme='light'] { ... }` — como os nomes dos tokens descrevem o *papel* da cor ("texto sobre o fundo principal"), não uma cor fixa, qualquer componente que já consome esses tokens se adapta sozinho, sem precisar tocar em cada um. Ajustes pontuais além dos tokens: cor das linhas decorativas tracejadas (`ScreenBackground.css`, ficavam desbotadas sobre fundo claro), fundo de `.btn--secondary`, `.progress-bar__track` e `.restart-corner` (usavam branco translúcido hardcoded, invisível sobre fundo claro).
+
+Preferência persiste em `localStorage` (`theme`, via o mesmo serviço `storage.ts` dos outros toggles) e carrega no boot do app (`AppContext.tsx`), como os demais. Estado e ação vivem em `appReducer.ts` (`THEME_LOADED`, `TOGGLE_THEME`), com `toggleTheme()` exposto pelo contexto.
+
+Botão (`src/public-app/components/ThemeToggle.tsx`) fixo no topo-centro de toda tela pública, ícone sol/lua (`lucide-react`), bem discreto (opacidade 0.28 em repouso) — posicionado no centro para não conflitar com a área secreta de acesso admin (canto, na Atração) nem com o botão "Recomeçar" (canto oposto, nas demais telas).
+
+**Bug real encontrado durante o teste:** a primeira versão só aplicava `data-theme` no `.app-shell` (a div logo abaixo de `#root`). O título da Atração continuou branco mesmo em modo claro. Causa: a cor de `body` (`color: var(--text-on-dark)`, em `global.css`) é resolvida na *própria* variável de `body` — e `body` é ANCESTRAL de `.app-shell` no DOM (`html > body > #root > .app-shell`), não descendente. Sobrescrita de variável CSS via seletor de atributo só alcança descendentes do elemento marcado, então a troca de tema nunca chegava em `body`. Corrigido aplicando o atributo também em `document.documentElement` (`<html>`, ancestral de tudo) via `useEffect` em `App.tsx`. Confirmado via `getComputedStyle` que o texto passou a resolver a cor escura correta.
+
+Testado ponta a ponta em todas as telas do fluxo público (Atração, Seleção, Organize os Hábitos, Memória da Energia, Quiz Relâmpago, Casa Eficiente, Resultado, Encerramento) com o tema claro ativo — texto legível, fundo claro consistente, cards e botões com contraste adequado em todas. Alternado de volta para escuro: aparência original idêntica, sem regressão, preferência salva corretamente em `localStorage`.
+
 ## Quiz Relâmpago e Casa Eficiente: 4 → 10 perguntas/situações por sessão
 
 Pedido do usuário: aumentar de 4 para 10 o padrão de perguntas/situações sorteadas por sessão, mantendo aleatório e sem repetir. Os dois bancos de conteúdo (`src/data/activitiesData.ts`) já tinham exatamente 10 itens cada (`q1`–`q10` no Quiz, `c1`–`c10` na Casa Eficiente) — o mecanismo de sorteio (`shuffle(pool).slice(0, count)`, um Fisher-Yates não-mutante) já garante itens distintos, sem repetição, então só foi preciso alterar os padrões `quizQuestionCount`/`scenarioCaseCount` de 4 para 10 em `src/services/configService.ts` (o painel admin já permitia esse valor, `max={10}` já configurado em `BehaviorSection.tsx`).

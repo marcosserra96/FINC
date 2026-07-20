@@ -20,3 +20,7 @@
 .restart-corner:active {
   transform: scale(0.96);
 }
+
+[data-theme='light'] .restart-corner {
+  background: rgba(0, 48, 58, 0.06);
+}
