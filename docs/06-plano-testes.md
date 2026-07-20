@@ -1,5 +1,13 @@
 # 6. Plano de testes
 
+## Imagens reais adicionadas às cartas do jogo da memória
+
+Seguindo a preparação da seção abaixo, o usuário mandou 6 ilustrações (geradas em outra ferramenta) e pediu para colocá-las no jogo. Duas delas (chuveiro com relógio, cortina com sol) não correspondiam a nenhum dos pares existentes na época (Carregador, Ar-condicionado, Ferro elétrico) — perguntado como resolver, o usuário confirmou trocar o conteúdo desses pares para bater com as imagens.
+
+`src/data/activitiesData.ts`: pares atualizados para Lâmpada LED, **Chuveiro** (era Carregador), **Ventilador** (era Ar-condicionado), Geladeira, Televisão, **Luz natural** (era Ferro elétrico) — com dicas novas para os três trocados. Adicionado o ícone `fan` (Lucide) em `src/components/ui/Icon.tsx` para o fallback do novo par Ventilador (os outros dois reaproveitam ícones já existentes: `shower` e `window`, já usados em textos do Quiz com o mesmo tema).
+
+Usuário informou o caminho das imagens no computador (`~/Desktop/Fotos`, 6 capturas de tela). Identificadas visualmente uma a uma e copiadas com os nomes corretos para `public/images/memory/`: `bulb.png`, `shower.png`, `fan.png`, `fridge.png`, `tv.png`, `window.png`. Rebuild confirmou as imagens entrando no precache do PWA (subiu de 20 para 26 entradas, ~700KB → ~1,7MB — ainda bem dentro do razoável para carregar localmente num evento). Testado no navegador: cartas viradas mostram a ilustração preenchendo o card com a legenda numa faixa translúcida no rodapé, confirmado para os pares Geladeira e Chuveiro via inspeção do DOM (`<img>` presente, `aria-label` correto) e captura de tela.
+
 ## Código preparado para receber imagens reais nas cartas do jogo da memória
 
 Usuário perguntou se havia alguma skill de geração de imagem disponível pra criar versões melhores dos cards (mandou referências de ilustrações estilo cartoon para os pares do jogo da memória). Não há nenhuma ferramenta de geração de imagem disponível neste ambiente — resposta dada diretamente. Como o usuário confirmou querer o código pronto pra só encaixar os arquivos depois (gerados em outra ferramenta), preparado o caminho completo sem alterar o comportamento atual.
