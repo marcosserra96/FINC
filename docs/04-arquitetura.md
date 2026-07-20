@@ -11,7 +11,7 @@
 | `qrcode` | Necessário para gerar o QR de verdade do código de conclusão; biblioteca pequena e sem dependências pesadas |
 | `vite-plugin-pwa` | PWA, cache offline e instalação no equipamento são requisitos explícitos |
 | `lucide-react` | Biblioteca de ícones madura (MIT, usada em produção por milhares de projetos) — trocou um sistema de SVGs desenhados à mão que não atingia o acabamento visual esperado; tree-shaking mantém o bundle enxuto mesmo importando só os ~40 ícones usados |
-| Fonte do sistema (não fonte customizada baixada) | O totem precisa funcionar 100% offline sem risco de "flash sem estilo" no meio de um evento; a stack de fontes do sistema (Segoe UI/-apple-system/Roboto conforme o SO) já é grande, legível e teoria zero de rede |
+| `@fontsource/dm-sans` (fonte empacotada localmente, não CDN) | Identidade visual pede DM Sans, mas o totem precisa funcionar 100% offline sem risco de "flash sem estilo" no meio de um evento — um `<link>` pro Google Fonts dependeria de rede; o pacote local entra no build normal e vai pro cache do PWA como qualquer outro asset. Pilha de fontes do sistema como fallback |
 | `localStorage` como persistência (sem backend obrigatório) | Pedido explícito de rodar sem servidor; estrutura dos serviços já isola o acesso a dados (`src/services/`) para trocar por Firebase/Supabase/API própria depois sem tocar nas telas |
 
 ## Estrutura modular de atividades

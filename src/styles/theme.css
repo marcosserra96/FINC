@@ -55,11 +55,13 @@
   --shadow-glow-blue: 0 0 0 0 rgba(0, 159, 194, 0.5);
   --shadow-glow-orange: 0 0 32px rgba(243, 112, 33, 0.45);
 
-  /* Tipografia: stack de sistema — evita depender de fonte externa
-     baixada por rede, essencial para um totem que precisa funcionar
-     offline sem risco de FOUT/flash sem fonte no meio de um evento. */
-  --font-display: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
-  --font-body: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+  /* Tipografia: DM Sans, empacotada localmente via @fontsource (não é
+     CDN/Google Fonts) — entra no build normal e fica no cache do PWA,
+     então não depende de rede em nenhum momento. Stack de sistema como
+     fallback, caso a fonte ainda não tenha carregado ou falhe por algum
+     motivo. */
+  --font-display: 'DM Sans', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+  --font-body: 'DM Sans', 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
 
   --fs-display: clamp(2.75rem, 4vw + 1rem, 5rem);
   --fs-h1: clamp(2rem, 2.6vw + 1rem, 3.25rem);

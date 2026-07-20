@@ -131,7 +131,7 @@ const organizeHabitos: SortActivityConfig = {
   shortDescription: 'Separe atitudes eficientes de desperdícios',
   instructions: 'Arraste o hábito até a coluna certa (ou toque nele e depois na coluna).',
   icon: 'sort',
-  themeColor: '#005061',
+  themeColor: '#F37021',
   active: true,
   order: 3,
   estimatedDurationSeconds: 60,

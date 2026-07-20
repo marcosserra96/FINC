@@ -14,6 +14,6 @@ export interface AgeRangeOption {
 export const AGE_RANGES: AgeRangeOption[] = [
   { id: 'child', label: 'Criança', range: 'até 12 anos', accentColor: 'var(--color-blue)' },
   { id: 'teen', label: 'Adolescente', range: '13 a 17 anos', accentColor: 'var(--color-orange)' },
-  { id: 'adult', label: 'Adulto', range: '18 a 59 anos', accentColor: 'var(--color-blue-dark)' },
-  { id: 'senior', label: 'Idoso', range: '60 anos ou mais', accentColor: 'var(--color-orange-dark)' }
+  { id: 'adult', label: 'Adulto', range: '18 a 59 anos', accentColor: 'var(--color-blue)' },
+  { id: 'senior', label: 'Idoso', range: '60 anos ou mais', accentColor: 'var(--color-orange)' }
 ];

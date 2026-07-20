@@ -1,10 +1,9 @@
 // Paleta derivada da marca Energisa — usada para dar cor aos crachás de
 // ícone nas atividades, sem inventar tons fora da identidade visual.
+// Só as duas cores puras da marca, sem variantes claras/escuras.
 const BADGE_PALETTE = [
   'var(--color-blue)',
-  'var(--color-orange)',
-  'var(--color-blue-dark)',
-  'var(--color-orange-dark)'
+  'var(--color-orange)'
 ];
 
 /**
