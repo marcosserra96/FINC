@@ -1,5 +1,5 @@
 import { storage, STORAGE_KEYS } from './storage';
-import type { MetricsEvent, MetricsEventType, ActivityId } from '@/types';
+import type { MetricsEvent, MetricsEventType, ActivityId, AgeRangeId } from '@/types';
 
 const MAX_EVENTS = 5000;
 
@@ -13,6 +13,7 @@ interface LogEventInput {
   appVersion: string;
   sessionId: string;
   activityId?: ActivityId;
+  ageRange?: AgeRangeId;
   durationMs?: number;
   correct?: number;
   incorrect?: number;
@@ -46,6 +47,7 @@ export interface MetricsSummary {
   idleResets: number;
   avgDurationMsByActivity: Record<string, number>;
   completionByActivity: Record<string, { started: number; completed: number }>;
+  ageRangeCounts: Record<string, number>;
 }
 
 export function getSummary(): MetricsSummary {
@@ -59,7 +61,8 @@ export function getSummary(): MetricsSummary {
     giftsDelivered: 0,
     idleResets: 0,
     avgDurationMsByActivity: {},
-    completionByActivity: {}
+    completionByActivity: {},
+    ageRangeCounts: {}
   };
 
   const durationsByActivity: Record<string, number[]> = {};
@@ -68,6 +71,11 @@ export function getSummary(): MetricsSummary {
     switch (event.type) {
       case 'session_start':
         summary.totalSessions += 1;
+        break;
+      case 'age_selected':
+        if (event.ageRange) {
+          summary.ageRangeCounts[event.ageRange] = (summary.ageRangeCounts[event.ageRange] ?? 0) + 1;
+        }
         break;
       case 'activity_start':
         summary.activitiesStarted += 1;
@@ -125,6 +133,7 @@ export function exportEventsAsJSON(): string {
 }
 
 const DEMO_ACTIVITY_IDS: ActivityId[] = ['quiz-relampago', 'memoria-energia', 'organize-habitos', 'casa-eficiente'];
+const DEMO_AGE_RANGES: AgeRangeId[] = ['child', 'teen', 'adult', 'senior'];
 
 /**
  * Popula o painel de métricas com dados fictícios para demonstração e
@@ -138,11 +147,13 @@ export function seedDemoData(eventName: string, appVersion: string): void {
   for (let i = 0; i < 40; i++) {
     const sessionId = `demo_${i}`;
     const activityId = DEMO_ACTIVITY_IDS[i % DEMO_ACTIVITY_IDS.length];
+    const ageRange = DEMO_AGE_RANGES[i % DEMO_AGE_RANGES.length];
     const timestamp = now - Math.round(Math.random() * 6 * 60 * 60 * 1000);
     const completed = Math.random() > 0.25;
 
     events.push(
       { id: `demo_${i}_a`, type: 'session_start', timestamp, eventName, appVersion, sessionId, deviceType: 'touch' },
+      { id: `demo_${i}_age`, type: 'age_selected', timestamp: timestamp + 1000, eventName, appVersion, sessionId, ageRange, deviceType: 'touch' },
       { id: `demo_${i}_b`, type: 'activity_start', timestamp: timestamp + 2000, eventName, appVersion, sessionId, activityId, deviceType: 'touch' }
     );
 

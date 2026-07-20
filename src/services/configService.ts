@@ -9,6 +9,7 @@ export const DEFAULT_CONFIG: AppConfig = {
     attractTitle: 'Vamos falar de\nenergia?',
     attractSubtitle: 'Toque na tela para começar',
     startCta: 'Toque para começar',
+    ageSelectTitle: 'Antes de começar, qual é a sua faixa de idade?',
     activitySelectTitle: 'Escolha um desafio',
     completionTitle: 'Muito bem!',
     completionMessage: 'Você concluiu o desafio e aprendeu algo novo sobre consumo consciente.',

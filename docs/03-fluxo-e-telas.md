@@ -6,6 +6,9 @@
 Atração (vitrine, animada, idle)
    │ toque em qualquer lugar
    ▼
+Faixa etária (4 cards: Criança/Adolescente/Adulto/Idoso — registro de público, sempre aparece)
+   │ toque num card
+   ▼
 [conforme modo configurado no admin]
    ├─ Visitante escolhe → Seleção de atividade (grade de cards, já com nome/descrição/duração)
    │                          │ toque num card
@@ -40,7 +43,7 @@ Resultado (placar não punitivo + "O que você aprendeu")
       volta para Atração
 ```
 
-> **Decisão de design:** a primeira versão tinha uma tela de boas-vindas ("Vamos lá") entre a Atração e a Seleção, e uma tela de introdução com botão "Começar" entre a Seleção e a Execução — 4 toques até o jogo realmente começar. Cortamos o toque de boas-vindas (a Atração já leva direto pra escolha, ou já sorteia/inicia, conforme o modo) e trocamos o botão "Começar" por uma contagem regressiva ("3, 2, 1, Vamos!") que avança sozinha — dá o respiro de orientação (nome, ícone, instrução no cabeçalho) e um momento lúdico antes de começar, sem exigir nenhum toque. Quem já conhece a atividade pode tocar em qualquer lugar da tela pra pular direto. Resultado: no máximo 2 toques até jogar (Atração → card), nenhum toque extra pra "confirmar começar".
+> **Decisão de design:** a primeira versão tinha uma tela de boas-vindas ("Vamos lá") entre a Atração e a Seleção, e uma tela de introdução com botão "Começar" entre a Seleção e a Execução — 4 toques até o jogo realmente começar. Cortamos o toque de boas-vindas (a Atração já leva direto pra escolha, ou já sorteia/inicia, conforme o modo) e trocamos o botão "Começar" por uma contagem regressiva ("3, 2, 1, Vamos!") que avança sozinha — dá o respiro de orientação (nome, ícone, instrução no cabeçalho) e um momento lúdico antes de começar, sem exigir nenhum toque. Quem já conhece a atividade pode tocar em qualquer lugar da tela pra pular direto. Resultado (antes da tela de faixa etária): no máximo 2 toques até jogar (Atração → card), nenhum toque extra pra "confirmar começar". A tela de faixa etária, adicionada depois para registrar o público do evento, soma +1 toque obrigatório a esse total.
 
 ### Estados especiais
 
@@ -53,7 +56,8 @@ Resultado (placar não punitivo + "O que você aprendeu")
 
 | Tela | Arquivo | Função |
 |---|---|---|
-| Atração | `AttractScreen` | Vitrine animada, chamada para tocar (já decide o próximo passo conforme o modo configurado), acesso admin oculto (5 toques no canto) |
+| Atração | `AttractScreen` | Vitrine animada, chamada para tocar, acesso admin oculto (5 toques no canto) |
+| Faixa etária | `AgeSelectScreen` | 4 cards (Criança/Adolescente/Adulto/Idoso) para registrar o público — sempre aparece, antes da lógica de seleção de atividade decidir o próximo passo |
 | Seleção de atividade | `ActivitySelectScreen` | Grade de cards das atividades ativas — só aparece no modo "visitante escolhe" |
 | Prepare-se | `ActivityPrepareScreen` | Contagem regressiva "3, 2, 1, Vamos!" com cabeçalho de nome+instrução; avança sozinha (ou no toque, pra quem quiser pular) |
 | Execução | `ActivityRunnerScreen` | Cabeçalho fixo com nome + instrução, e o componente da atividade escolhida |

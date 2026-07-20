@@ -4,6 +4,7 @@ export interface AppTexts {
   attractTitle: string;
   attractSubtitle: string;
   startCta: string;
+  ageSelectTitle: string;
   activitySelectTitle: string;
   completionTitle: string;
   completionMessage: string;

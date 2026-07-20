@@ -1,4 +1,4 @@
-import type { ActivityConfig, ActivityId, ActivityRunResult, AppConfig, SessionState } from '@/types';
+import type { ActivityConfig, ActivityId, ActivityRunResult, AgeRangeId, AppConfig, SessionState } from '@/types';
 import { createEmptySession } from '@/types';
 import { generateSessionId } from '@/services/idGenerator';
 
@@ -14,6 +14,8 @@ export type AppAction =
   | { type: 'CONFIG_UPDATED'; config: AppConfig }
   | { type: 'ACTIVITIES_UPDATED'; activities: ActivityConfig[] }
   | { type: 'TOUCH' }
+  | { type: 'GO_TO_AGE_SELECT' }
+  | { type: 'SELECT_AGE_RANGE'; ageRange: AgeRangeId }
   | { type: 'GO_TO_ACTIVITY_SELECT' }
   | { type: 'SELECT_ACTIVITY'; activityId: ActivityId }
   | { type: 'BEGIN_ACTIVITY' }
@@ -47,6 +49,12 @@ export function appReducer(state: AppState, action: AppAction): AppState {
 
     case 'TOUCH':
       return { ...state, session: { ...state.session, lastInteractionAt: Date.now() } };
+
+    case 'GO_TO_AGE_SELECT':
+      return { ...state, session: { ...state.session, screen: 'ageSelect', lastInteractionAt: Date.now() } };
+
+    case 'SELECT_AGE_RANGE':
+      return { ...state, session: { ...state.session, ageRange: action.ageRange, lastInteractionAt: Date.now() } };
 
     case 'GO_TO_ACTIVITY_SELECT':
       return { ...state, session: { ...state.session, screen: 'activitySelect', lastInteractionAt: Date.now() } };

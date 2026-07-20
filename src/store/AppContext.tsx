@@ -1,7 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useReducer } from 'react';
 import type { ReactNode } from 'react';
 import { appReducer, initialState } from './appReducer';
-import type { ActivityId, ActivityRunResult, AppConfig } from '@/types';
+import type { ActivityId, ActivityRunResult, AgeRangeId, AppConfig } from '@/types';
 import { loadConfig, saveConfig } from '@/services/configService';
 import { getAllActivities, getActivityById } from '@/services/activitiesService';
 import { logEvent } from '@/services/metricsService';
@@ -10,6 +10,8 @@ import { checkEligibility, releaseGift } from '@/services/prizeService';
 interface AppContextValue {
   state: ReturnType<typeof initialState>;
   touch: () => void;
+  goToAgeSelect: () => void;
+  selectAgeRange: (ageRange: AgeRangeId) => void;
   goToActivitySelect: () => void;
   pickRandomActivity: () => void;
   selectActivity: (id: ActivityId) => void;
@@ -48,6 +50,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   }, [state.session.sessionId, state.configLoaded]);
 
   const touch = useCallback(() => dispatch({ type: 'TOUCH' }), []);
+  const goToAgeSelect = useCallback(() => dispatch({ type: 'GO_TO_AGE_SELECT' }), []);
   const goToActivitySelect = useCallback(() => dispatch({ type: 'GO_TO_ACTIVITY_SELECT' }), []);
 
   const selectActivity = useCallback((id: ActivityId) => {
@@ -60,6 +63,35 @@ export function AppProvider({ children }: { children: ReactNode }) {
     const pick = active[Math.floor(Math.random() * active.length)];
     selectActivity(pick.id);
   }, [state.activities, selectActivity]);
+
+  // Registra a faixa etária e então segue a mesma decisão que a Atração
+  // fazia sozinha ao ser tocada: sorteia, pega a ordem fixa, ou mostra a
+  // seleção — sem exigir nenhum toque extra além da escolha da faixa.
+  const selectAgeRange = useCallback(
+    (ageRange: AgeRangeId) => {
+      dispatch({ type: 'SELECT_AGE_RANGE', ageRange });
+      logEvent({
+        type: 'age_selected',
+        eventName: state.config.eventName,
+        appVersion: state.config.appVersion,
+        sessionId: state.session.sessionId,
+        ageRange
+      });
+
+      const mode = state.config.activitySelectionMode;
+      if (mode === 'random') {
+        pickRandomActivity();
+        return;
+      }
+      if (mode === 'fixedOrder') {
+        const active = state.activities.filter((a) => a.active).sort((a, b) => a.order - b.order);
+        if (active[0]) selectActivity(active[0].id);
+        return;
+      }
+      goToActivitySelect();
+    },
+    [state.config, state.activities, state.session.sessionId, pickRandomActivity, selectActivity, goToActivitySelect]
+  );
 
   // Chamado pela tela de "prepare-se" sozinha, depois de um instante — o
   // visitante não precisa tocar em nada pra isso acontecer.
@@ -169,6 +201,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
     () => ({
       state,
       touch,
+      goToAgeSelect,
+      selectAgeRange,
       goToActivitySelect,
       pickRandomActivity,
       selectActivity,
@@ -185,6 +219,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
     [
       state,
       touch,
+      goToAgeSelect,
+      selectAgeRange,
       goToActivitySelect,
       pickRandomActivity,
       selectActivity,

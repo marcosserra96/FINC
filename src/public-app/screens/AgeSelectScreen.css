@@ -1,0 +1,54 @@
+.age-select {
+  width: 100%;
+  max-width: 760px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-5);
+}
+
+.age-select__title {
+  font-family: var(--font-display);
+  font-size: var(--fs-h1);
+  font-weight: 800;
+  text-align: center;
+}
+
+.age-select__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-4);
+  width: 100%;
+}
+
+.age-select__card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  text-align: center;
+  min-height: 160px;
+  justify-content: center;
+}
+
+.age-select__icon {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  margin-bottom: var(--space-1);
+}
+
+.age-select__label {
+  font-family: var(--font-display);
+  font-size: var(--fs-h2);
+  font-weight: 800;
+}
+
+.age-select__range {
+  color: var(--text-on-light-muted);
+  font-size: var(--fs-body);
+}

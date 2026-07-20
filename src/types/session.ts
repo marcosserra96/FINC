@@ -2,6 +2,7 @@ import type { ActivityId, ActivityRunResult } from './activity';
 
 export type SessionScreen =
   | 'attract'
+  | 'ageSelect'
   | 'activitySelect'
   | 'activityPrepare'
   | 'activityRunning'
@@ -12,9 +13,12 @@ export type SessionScreen =
   | 'closing'
   | 'error';
 
+export type AgeRangeId = 'child' | 'teen' | 'adult' | 'senior';
+
 export interface SessionState {
   sessionId: string;
   screen: SessionScreen;
+  ageRange: AgeRangeId | null;
   activityId: ActivityId | null;
   startedAt: number;
   activityStartedAt: number | null;
@@ -29,6 +33,7 @@ export interface SessionState {
 export const createEmptySession = (sessionId: string): SessionState => ({
   sessionId,
   screen: 'attract',
+  ageRange: null,
   activityId: null,
   startedAt: Date.now(),
   activityStartedAt: null,

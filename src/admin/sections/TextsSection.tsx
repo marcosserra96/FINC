@@ -55,6 +55,9 @@ export function TextsSection() {
 
       <div className="admin-card">
         <h2>Seleção e conclusão</h2>
+        <FormRow label="Título da seleção de faixa etária">
+          <TextInput value={draft.texts.ageSelectTitle} onChange={(v) => setText('ageSelectTitle', v)} />
+        </FormRow>
         <FormRow label="Título da seleção de atividade">
           <TextInput value={draft.texts.activitySelectTitle} onChange={(v) => setText('activitySelectTitle', v)} />
         </FormRow>

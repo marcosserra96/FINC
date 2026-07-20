@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Icon } from '@/components/ui/Icon';
 import { getSummary, exportEventsAsJSON, exportEventsAsCSV, clearAllMetrics, seedDemoData } from '@/services/metricsService';
+import { AGE_RANGES } from '@/data/ageRanges';
 import { useApp } from '@/store/AppContext';
 import './section.css';
 
@@ -58,6 +59,21 @@ export function MetricsSection() {
               <span>{c?.started ?? 0} iniciadas</span>
               <span>{c?.completed ?? 0} concluídas ({rate}%)</span>
               <span>{avg ? `${Math.round(avg / 1000)}s média` : '—'}</span>
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="admin-card">
+        <h2>Faixa etária do público</h2>
+        {AGE_RANGES.map((option) => {
+          const count = summary.ageRangeCounts[option.id] ?? 0;
+          const total = Object.values(summary.ageRangeCounts).reduce((a, b) => a + b, 0);
+          const pct = total > 0 ? Math.round((count / total) * 100) : 0;
+          return (
+            <div key={option.id} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid #eef3f4', fontSize: 'var(--fs-small)' }}>
+              <span style={{ fontWeight: 700 }}>{option.label} <span style={{ fontWeight: 400, color: 'var(--text-on-light-muted)' }}>({option.range})</span></span>
+              <span>{count} {count === 1 ? 'pessoa' : 'pessoas'} ({pct}%)</span>
             </div>
           );
         })}

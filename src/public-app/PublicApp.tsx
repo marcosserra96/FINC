@@ -2,6 +2,7 @@ import { AnimatePresence } from 'framer-motion';
 import { useApp } from '@/store/AppContext';
 import { useIdleTimer } from '@/hooks/useIdleTimer';
 import { AttractScreen } from './screens/AttractScreen';
+import { AgeSelectScreen } from './screens/AgeSelectScreen';
 import { ActivitySelectScreen } from './screens/ActivitySelectScreen';
 import { ActivityPrepareScreen } from './screens/ActivityPrepareScreen';
 import { ActivityRunnerScreen } from './screens/ActivityRunnerScreen';
@@ -20,6 +21,7 @@ export function PublicApp() {
   return (
     <AnimatePresence mode="wait">
       {screen === 'attract' && <AttractScreen key="attract" />}
+      {screen === 'ageSelect' && <AgeSelectScreen key="age" />}
       {screen === 'activitySelect' && <ActivitySelectScreen key="select" />}
       {screen === 'activityPrepare' && <ActivityPrepareScreen key="prepare" />}
       {screen === 'activityRunning' && <ActivityRunnerScreen key="running" />}

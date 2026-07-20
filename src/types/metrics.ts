@@ -1,7 +1,9 @@
 import type { ActivityId } from './activity';
+import type { AgeRangeId } from './session';
 
 export type MetricsEventType =
   | 'session_start'
+  | 'age_selected'
   | 'activity_start'
   | 'activity_complete'
   | 'activity_abandon'
@@ -18,6 +20,7 @@ export interface MetricsEvent {
   appVersion: string;
   sessionId: string;
   activityId?: ActivityId;
+  ageRange?: AgeRangeId;
   durationMs?: number;
   correct?: number;
   incorrect?: number;

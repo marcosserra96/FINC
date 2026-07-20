@@ -8,26 +8,10 @@ import { useFullscreen } from '@/hooks/useFullscreen';
 import './AttractScreen.css';
 
 export function AttractScreen() {
-  const { state, goToActivitySelect, pickRandomActivity, selectActivity } = useApp();
+  const { state, goToAgeSelect } = useApp();
   const { texts } = state.config;
   const titleLines = texts.attractTitle.split('\n');
   const { isFullscreen, requestFullscreen } = useFullscreen();
-
-  // Um só toque já leva direto pro jogo: sorteia, pega a ordem fixa, ou
-  // mostra a seleção — sem tela de boas-vindas intermediária.
-  const handleStart = () => {
-    const mode = state.config.activitySelectionMode;
-    if (mode === 'random') {
-      pickRandomActivity();
-      return;
-    }
-    if (mode === 'fixedOrder') {
-      const active = state.activities.filter((a) => a.active).sort((a, b) => a.order - b.order);
-      if (active[0]) selectActivity(active[0].id);
-      return;
-    }
-    goToActivitySelect();
-  };
 
   return (
     <ScreenShell padded={false} creditSize="lg">
@@ -42,8 +26,8 @@ export function AttractScreen() {
           <Icon name="expand" size={20} />
         </button>
       )}
-      <div className="attract" onClick={handleStart} role="button" tabIndex={0}
-        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleStart(); }}>
+      <div className="attract" onClick={goToAgeSelect} role="button" tabIndex={0}
+        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') goToAgeSelect(); }}>
         <div className="anim-fade-in">
           <AttractTicker />
         </div>
