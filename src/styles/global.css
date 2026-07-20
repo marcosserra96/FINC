@@ -22,7 +22,7 @@ body {
   font-family: var(--font-body);
   font-size: var(--fs-body);
   color: var(--text-on-dark);
-  background: var(--surface-bg-bottom);
+  background: var(--surface-bg-mid);
   /* Totem: nada de seleção de texto acidental, callout de iOS ou arrastar imagem. */
   -webkit-user-select: none;
   user-select: none;

@@ -6,14 +6,14 @@
 
   /* Derivadas — geradas a partir da marca, não cores soltas */
   --color-blue-light: #5fd3ec;
-  --color-blue-deepest: #00303a;
   --color-orange-light: #ff9a5c;
   --color-orange-dark: #c9550f;
 
-  /* Superfícies */
-  --surface-bg-top: #003b47;
-  --surface-bg-bottom: #005061;
-  --surface-bg-edge: var(--color-blue-deepest);
+  /* Superfícies — degradê diagonal do brandbook institucional
+     (azul -> verde-água -> verde-limão), de baixo-esquerda pra cima-direita. */
+  --surface-bg-start: #0d6f95;
+  --surface-bg-mid: #1f9f82;
+  --surface-bg-end: #c3db3c;
   --surface-card: #ffffff;
   --surface-card-alt: #f2fbfd;
   --surface-glass: rgba(255, 255, 255, 0.08);
@@ -94,22 +94,4 @@
   --dur-fast: 1ms;
   --dur-medium: 1ms;
   --dur-slow: 1ms;
-}
-
-/* Modo claro — pensado pra quando a arte do estande for clara e o totem
-   precisar combinar com a decoração do evento. Reaproveita os MESMOS
-   nomes de token que o resto do app já consome (--text-on-dark,
-   --surface-glass etc.) — o nome descreve o papel original ("texto sobre
-   o fundo principal"), não uma cor fixa; aqui eles só passam a resolver
-   pra tons claros. Isso evita ter que tocar em cada componente: qualquer
-   coisa que já usa os tokens se adapta sozinha. */
-[data-theme='light'] {
-  --surface-bg-top: #eaf7fb;
-  --surface-bg-bottom: #d7edf3;
-  --surface-bg-edge: #a9dbe8;
-  --surface-glass: rgba(0, 48, 58, 0.05);
-  --surface-glass-border: rgba(0, 48, 58, 0.14);
-  --text-on-dark: #0c2b31;
-  --text-on-dark-muted: #4a6a70;
-  color-scheme: light;
 }

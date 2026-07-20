@@ -7,15 +7,12 @@ export interface AppState {
   activities: ActivityConfig[];
   session: SessionState;
   configLoaded: boolean;
-  theme: 'dark' | 'light';
 }
 
 export type AppAction =
   | { type: 'CONFIG_LOADED'; config: AppConfig; activities: ActivityConfig[] }
   | { type: 'CONFIG_UPDATED'; config: AppConfig }
   | { type: 'ACTIVITIES_UPDATED'; activities: ActivityConfig[] }
-  | { type: 'THEME_LOADED'; theme: 'dark' | 'light' }
-  | { type: 'TOGGLE_THEME' }
   | { type: 'TOUCH' }
   | { type: 'GO_TO_ACTIVITY_SELECT' }
   | { type: 'SELECT_ACTIVITY'; activityId: ActivityId }
@@ -33,8 +30,7 @@ export function initialState(): AppState {
     config: null as unknown as AppConfig,
     activities: [],
     session: createEmptySession(generateSessionId()),
-    configLoaded: false,
-    theme: 'dark'
+    configLoaded: false
   };
 }
 
@@ -48,12 +44,6 @@ export function appReducer(state: AppState, action: AppAction): AppState {
 
     case 'ACTIVITIES_UPDATED':
       return { ...state, activities: action.activities };
-
-    case 'THEME_LOADED':
-      return { ...state, theme: action.theme };
-
-    case 'TOGGLE_THEME':
-      return { ...state, theme: state.theme === 'dark' ? 'light' : 'dark' };
 
     case 'TOUCH':
       return { ...state, session: { ...state.session, lastInteractionAt: Date.now() } };

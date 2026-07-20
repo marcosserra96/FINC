@@ -5,7 +5,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: radial-gradient(120% 100% at 50% -10%, var(--surface-bg-top) 0%, var(--surface-bg-bottom) 60%, var(--color-blue-deepest) 100%);
+  background: linear-gradient(to top right, var(--surface-bg-start) 0%, var(--surface-bg-mid) 55%, var(--surface-bg-end) 100%);
 }
 
 .admin-login__back {

@@ -2,7 +2,7 @@
   position: absolute;
   inset: 0;
   overflow: hidden;
-  background: radial-gradient(120% 100% at 50% -10%, var(--surface-bg-top) 0%, var(--surface-bg-bottom) 55%, var(--surface-bg-edge) 100%);
+  background: linear-gradient(to top right, var(--surface-bg-start) 0%, var(--surface-bg-mid) 55%, var(--surface-bg-end) 100%);
   z-index: 0;
 }
 
@@ -51,17 +51,6 @@
   stroke: var(--color-orange-light);
   animation-duration: 18s;
   animation-direction: reverse;
-}
-
-/* --color-blue-light/--color-orange-light são pensados pra saltar aos
-   olhos sobre o fundo escuro — sobre um fundo claro, ficam desbotados
-   quase até sumir. Usa as cores de marca "cheias" nesse caso. */
-[data-theme='light'] .screen-bg__line {
-  stroke: var(--color-blue);
-}
-
-[data-theme='light'] .screen-bg__line--delay {
-  stroke: var(--color-orange);
 }
 
 @media (prefers-reduced-motion: reduce) {

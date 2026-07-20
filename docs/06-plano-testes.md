@@ -1,5 +1,15 @@
 # 6. Plano de testes
 
+## Fundo passa a usar o degradê oficial do brandbook; alternância de tema removida
+
+O usuário enviou um print do brandbook institucional consolidado da Energisa (`ENERGISA_BRANDBOOK_CONSOLIDADO_V02_FINAL.pdf`) com um degradê diagonal azul → verde-água → verde-limão e pediu pra usar exatamente essas cores no fundo do app, e para remover o botão de alternância clara/escura (ver seção "Modo claro/escuro com alternância discreta" abaixo) — o app passa a ter um único visual fixo, sem alternância.
+
+Removido por completo o sistema de tema: componente `ThemeToggle`, estado `theme`/ações `THEME_LOADED`/`TOGGLE_THEME` (`appReducer.ts`), `toggleTheme`/leitura de `localStorage` no boot (`AppContext.tsx`), chave `theme` em `STORAGE_KEYS` (`storage.ts`), o `useEffect` que aplicava `data-theme` em `<html>` (`App.tsx`), os ícones `sun`/`moon` (`Icon.tsx`, que ficaram sem uso) e todos os blocos `[data-theme='light']` espalhados pelo CSS (`theme.css`, `ScreenBackground.css`, `Button.css`, `ProgressBar.css`, `RestartCorner.css`).
+
+Os tokens de fundo (`--surface-bg-top`/`--surface-bg-bottom`/`--surface-bg-edge`, usados num `radial-gradient` centrado acima da tela) foram substituídos por `--surface-bg-start`/`--surface-bg-mid`/`--surface-bg-end` num `linear-gradient(to top right, ...)` — mudança de forma (radial vinheta → diagonal reto) necessária pra reproduzir o visual real do brandbook, não só a paleta. Aplicado tanto no fundo principal (`ScreenBackground.css`) quanto no login do admin (`AdminLogin.css`, que reaproveitava os mesmos tokens).
+
+**Ajuste feito durante o teste:** a primeira tentativa usou os tons exatamente como aparecem no brandbook (`#0d6f95` → `#1f9f82` → `#c3db3c`, bem claros/saturados, pensados pra uma capa de slide) e depois foi escurecida por iniciativa própria pra garantir contraste do texto branco/título — o usuário pediu explicitamente pra desfazer esse escurecimento e manter as cores originais do brandbook. Mantido como pedido; testado visualmente em várias telas (Atração, Seleção, Organize os Hábitos) e o texto continua legível porque os títulos ficam concentrados na faixa central azul-esverdeada do degradê, não na ponta mais clara (canto superior direito, onde não há texto sobreposto).
+
 ## Tela de atração mais limpa e logo institucional em todas as telas
 
 Pedido do usuário: tirar os três ícones flutuantes (casa, lâmpada, geladeira) da tela de atração, subir um pouco o botão "Toque na tela para começar" para abrir espaço, aumentar a logo institucional do rodapé nessa tela — e, já que ela ia crescer, fazer ela aparecer em todas as telas do fluxo público (maior na inicial, um pouco menor nas demais).

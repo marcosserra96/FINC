@@ -6,7 +6,6 @@ import { loadConfig, saveConfig } from '@/services/configService';
 import { getAllActivities, getActivityById } from '@/services/activitiesService';
 import { logEvent } from '@/services/metricsService';
 import { checkEligibility, releaseGift } from '@/services/prizeService';
-import { storage, STORAGE_KEYS } from '@/services/storage';
 
 interface AppContextValue {
   state: ReturnType<typeof initialState>;
@@ -23,7 +22,6 @@ interface AppContextValue {
   reportError: (message: string) => void;
   updateConfig: (config: AppConfig) => void;
   reloadActivities: () => void;
-  toggleTheme: () => void;
 }
 
 const AppContext = createContext<AppContextValue | null>(null);
@@ -35,8 +33,6 @@ export function AppProvider({ children }: { children: ReactNode }) {
     const config = loadConfig();
     const activities = getAllActivities();
     dispatch({ type: 'CONFIG_LOADED', config, activities });
-    const savedTheme = storage.get<'dark' | 'light'>(STORAGE_KEYS.theme, 'dark');
-    dispatch({ type: 'THEME_LOADED', theme: savedTheme });
   }, []);
 
   useEffect(() => {
@@ -169,11 +165,6 @@ export function AppProvider({ children }: { children: ReactNode }) {
     dispatch({ type: 'ACTIVITIES_UPDATED', activities: getAllActivities() });
   }, []);
 
-  const toggleTheme = useCallback(() => {
-    dispatch({ type: 'TOGGLE_THEME' });
-    storage.set(STORAGE_KEYS.theme, state.theme === 'dark' ? 'light' : 'dark');
-  }, [state.theme]);
-
   const value = useMemo<AppContextValue>(
     () => ({
       state,
@@ -189,8 +180,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       resetToAttract,
       reportError,
       updateConfig,
-      reloadActivities,
-      toggleTheme
+      reloadActivities
     }),
     [
       state,
@@ -206,8 +196,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       resetToAttract,
       reportError,
       updateConfig,
-      reloadActivities,
-      toggleTheme
+      reloadActivities
     ]
   );
 

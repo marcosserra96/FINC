@@ -52,6 +52,5 @@ export const STORAGE_KEYS = {
   metricsEvents: 'metrics-events',
   giftRecords: 'gift-records',
   lastGiftDeviceTimestamp: 'last-gift-device-ts',
-  adminSession: 'admin-session',
-  theme: 'theme'
+  adminSession: 'admin-session'
 } as const;
