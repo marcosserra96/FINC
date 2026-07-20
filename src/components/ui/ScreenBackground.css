@@ -6,31 +6,6 @@
   z-index: 0;
 }
 
-.screen-bg__glow {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(70px);
-  opacity: 0.35;
-}
-
-.screen-bg__glow--orange {
-  width: 46vw;
-  height: 46vw;
-  background: var(--color-orange);
-  top: -12%;
-  right: -8%;
-  animation: floatY 9s ease-in-out infinite;
-}
-
-.screen-bg__glow--blue {
-  width: 38vw;
-  height: 38vw;
-  background: var(--color-blue);
-  bottom: -10%;
-  left: -6%;
-  animation: floatY 11s ease-in-out infinite reverse;
-}
-
 .screen-bg__lines {
   position: absolute;
   inset: 0;
@@ -54,13 +29,11 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .screen-bg__glow,
   .screen-bg__line {
     animation: none;
   }
 }
 
-[data-reduced-motion='true'] .screen-bg__glow,
 [data-reduced-motion='true'] .screen-bg__line {
   animation: none;
 }
