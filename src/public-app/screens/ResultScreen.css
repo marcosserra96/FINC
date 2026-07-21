@@ -63,3 +63,24 @@
   font-size: var(--fs-body-lg);
   line-height: 1.4;
 }
+
+.result-screen__gift {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: linear-gradient(135deg, var(--color-orange), var(--color-orange-dark));
+  color: #fff;
+  border-radius: var(--radius-full);
+  padding: var(--space-3) var(--space-5);
+  box-shadow: var(--shadow-md);
+}
+
+.result-screen__gift svg {
+  flex-shrink: 0;
+}
+
+.result-screen__gift p {
+  text-align: left;
+  font-weight: 700;
+  font-size: var(--fs-body);
+}

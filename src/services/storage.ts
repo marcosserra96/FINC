@@ -50,7 +50,5 @@ export const STORAGE_KEYS = {
   appConfig: 'app-config',
   activities: 'activities',
   metricsEvents: 'metrics-events',
-  giftRecords: 'gift-records',
-  lastGiftDeviceTimestamp: 'last-gift-device-ts',
   adminSession: 'admin-session'
 } as const;

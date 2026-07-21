@@ -42,8 +42,7 @@ export interface MetricsSummary {
   activitiesStarted: number;
   activitiesCompleted: number;
   abandoned: number;
-  giftsReleased: number;
-  giftsDelivered: number;
+  giftsWon: number;
   idleResets: number;
   activityTimeouts: number;
   avgDurationMsByActivity: Record<string, number>;
@@ -58,8 +57,7 @@ export function getSummary(): MetricsSummary {
     activitiesStarted: 0,
     activitiesCompleted: 0,
     abandoned: 0,
-    giftsReleased: 0,
-    giftsDelivered: 0,
+    giftsWon: 0,
     idleResets: 0,
     activityTimeouts: 0,
     avgDurationMsByActivity: {},
@@ -100,11 +98,8 @@ export function getSummary(): MetricsSummary {
       case 'activity_abandon':
         summary.abandoned += 1;
         break;
-      case 'gift_released':
-        summary.giftsReleased += 1;
-        break;
-      case 'gift_delivered':
-        summary.giftsDelivered += 1;
+      case 'gift_won':
+        summary.giftsWon += 1;
         break;
       case 'idle_reset':
         summary.idleResets += 1;
@@ -180,7 +175,7 @@ export function seedDemoData(eventName: string, appVersion: string): void {
       if (Math.random() > 0.3) {
         events.push({
           id: `demo_${i}_d`,
-          type: 'gift_released',
+          type: 'gift_won',
           timestamp: timestamp + 2000 + durationMs + 1000,
           eventName,
           appVersion,

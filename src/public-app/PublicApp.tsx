@@ -8,9 +8,6 @@ import { ActivityPrepareScreen } from './screens/ActivityPrepareScreen';
 import { ActivityRunnerScreen } from './screens/ActivityRunnerScreen';
 import { TimeUpScreen } from './screens/TimeUpScreen';
 import { ResultScreen } from './screens/ResultScreen';
-import { CompletionScreen } from './screens/CompletionScreen';
-import { GiftInstructionsScreen } from './screens/GiftInstructionsScreen';
-import { NoGiftsScreen } from './screens/NoGiftsScreen';
 import { ClosingScreen } from './screens/ClosingScreen';
 import { ErrorScreen } from './screens/ErrorScreen';
 
@@ -28,9 +25,6 @@ export function PublicApp() {
       {screen === 'activityRunning' && <ActivityRunnerScreen key="running" />}
       {screen === 'timeUp' && <TimeUpScreen key="timeup" />}
       {screen === 'result' && <ResultScreen key="result" />}
-      {screen === 'completion' && <CompletionScreen key="completion" />}
-      {screen === 'giftInstructions' && <GiftInstructionsScreen key="gift" />}
-      {screen === 'noGifts' && <NoGiftsScreen key="nogifts" />}
       {screen === 'closing' && <ClosingScreen key="closing" />}
       {screen === 'error' && <ErrorScreen key="error" />}
     </AnimatePresence>

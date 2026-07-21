@@ -8,7 +8,6 @@
 | `HashRouter` (não `BrowserRouter`) | O totem precisa rodar em hospedagem estática (GitHub Pages, pasta local, qualquer host sem configurar rewrite de servidor) sem 404 ao recarregar |
 | Context + `useReducer` (não Redux/Zustand) | O estado é uma máquina de estados de sessão relativamente simples; uma dependência de gerenciamento de estado externa seria peso desnecessário |
 | `framer-motion` | Requisito explícito de "animações com propósito" (transições, celebração, microinterações) — implementar isso à mão em CSS puro seria mais frágil e mais código |
-| `qrcode` | Necessário para gerar o QR de verdade do código de conclusão; biblioteca pequena e sem dependências pesadas |
 | `vite-plugin-pwa` | PWA, cache offline e instalação no equipamento são requisitos explícitos |
 | `lucide-react` | Biblioteca de ícones madura (MIT, usada em produção por milhares de projetos) — trocou um sistema de SVGs desenhados à mão que não atingia o acabamento visual esperado; tree-shaking mantém o bundle enxuto mesmo importando só os ~40 ícones usados |
 | `@fontsource/dm-sans` (fonte empacotada localmente, não CDN) | Identidade visual pede DM Sans, mas o totem precisa funcionar 100% offline sem risco de "flash sem estilo" no meio de um evento — um `<link>` pro Google Fonts dependeria de rede; o pacote local entra no build normal e vai pro cache do PWA como qualquer outro asset. Pilha de fontes do sistema como fallback |
@@ -30,7 +29,7 @@ Todo componente de atividade recebe `(activity, onComplete)` e devolve um `Activ
 
 ## Máquina de estados da sessão
 
-`src/store/appReducer.ts` modela a sessão como uma máquina de estados explícita (`SessionScreen`): `attract → ageSelect → activitySelect → activityPrepare → activityRunning → (timeUp |) result → completion|noGifts → giftInstructions → closing → attract`. `activityRunning` pode desviar pra `timeUp` (limite de tempo por atividade estourado) em vez de seguir pra `result`, voltando direto pra `attract` a partir dali. Cada transição é uma ação do reducer; não existe navegação livre entre telas fora dessas transições, o que evita estados inconsistentes (ex: "resultado" sem atividade selecionada).
+`src/store/appReducer.ts` modela a sessão como uma máquina de estados explícita (`SessionScreen`): `attract → ageSelect → activitySelect → activityPrepare → activityRunning → (timeUp |) result → closing → attract`. `activityRunning` pode desviar pra `timeUp` (limite de tempo por atividade estourado) em vez de seguir pra `result`, voltando direto pra `attract` a partir dali. Cada transição é uma ação do reducer; não existe navegação livre entre telas fora dessas transições, o que evita estados inconsistentes (ex: "resultado" sem atividade selecionada). O brinde (quando ganho) não tem tela própria — é decidido e exibido dentro do próprio `result`, não é mais um desvio de estado (ver `docs/06-plano-testes.md`).
 
 ## Persistência e dados
 

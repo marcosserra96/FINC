@@ -264,8 +264,12 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
-  max-height: 42vh;
+  /* Bem mais alto que antes (era 42vh) — a maioria das sessões erra
+     poucos hábitos e cabe inteira sem rolar; quando não cabe, o aviso
+     "role para ver mais" abaixo deixa claro que tem mais conteúdo. */
+  max-height: 58vh;
   overflow-y: auto;
+  padding-right: 2px;
 }
 
 .sort-activity__review-item {
@@ -274,14 +278,14 @@
   gap: var(--space-2);
   background: var(--surface-card);
   border-radius: var(--radius-md);
-  padding: var(--space-3);
+  padding: var(--space-2) var(--space-3);
   text-align: left;
   box-shadow: var(--shadow-sm);
 }
 
 .sort-activity__review-icon {
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -293,11 +297,63 @@
 .sort-activity__review-text strong {
   display: block;
   color: var(--text-on-light);
-  margin-bottom: 2px;
+  margin-bottom: var(--space-1);
+}
+
+.sort-activity__review-compare {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  margin-bottom: var(--space-1);
+}
+
+.sort-activity__review-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border-radius: var(--radius-full);
+  padding: 2px var(--space-2);
+  font-size: var(--fs-small);
+  font-weight: 700;
+}
+
+.sort-activity__review-chip--wrong {
+  background: var(--color-attention-bg);
+  color: var(--color-orange-dark);
+}
+
+.sort-activity__review-chip--right {
+  background: var(--color-success-bg);
+  color: var(--color-success);
 }
 
 .sort-activity__review-text p {
   color: var(--text-on-light-muted);
   font-size: var(--fs-small);
   line-height: 1.35;
+}
+
+.sort-activity__review-more {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  color: var(--text-on-dark-muted);
+  font-size: var(--fs-small);
+  font-weight: 700;
+  margin-top: calc(-1 * var(--space-2));
+  animation: sortReviewMoreBounce 1.2s ease-in-out infinite;
+}
+
+.sort-activity__review-more svg {
+  transform: rotate(90deg);
+}
+
+@keyframes sortReviewMoreBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(3px); }
+}
+
+[data-reduced-motion='true'] .sort-activity__review-more {
+  animation: none;
 }

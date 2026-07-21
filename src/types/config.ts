@@ -6,22 +6,17 @@ export interface AppTexts {
   startCta: string;
   ageSelectTitle: string;
   activitySelectTitle: string;
-  completionTitle: string;
-  completionMessage: string;
-  giftInstructions: string;
-  noGiftsMessage: string;
+  giftWonMessage: string;
   closingMessage: string;
   timeUpTitle: string;
   timeUpMessage: string;
 }
 
 export interface GiftConfig {
+  /** Sem código, sem estoque digital — a equipe acompanha o jogo ao vivo
+   *  e entrega o brinde na hora. Esse toggle só liga/desliga o aviso na
+   *  tela de resultado. */
   enabled: boolean;
-  totalAvailable: number;
-  remaining: number;
-  codeExpiryMinutes: number;
-  cooldownMinutes: number;
-  requireStaffConfirmation: boolean;
 }
 
 export interface AppConfig {

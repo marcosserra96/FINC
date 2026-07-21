@@ -1,6 +1,7 @@
 import { ScreenShell } from '../components/ScreenShell';
 import { Button } from '@/components/ui/Button';
 import { Icon } from '@/components/ui/Icon';
+import { Celebration } from '@/components/ui/Celebration';
 import { useApp } from '@/store/AppContext';
 import './ResultScreen.css';
 
@@ -8,7 +9,7 @@ const TITLES = { perfect: 'Perfeito!', good: 'Muito bem!', needsWork: 'Bom come�
 const BADGE_ICONS = { perfect: 'star', good: 'check', needsWork: 'bolt' } as const;
 
 export function ResultScreen() {
-  const { state, proceedAfterResult } = useApp();
+  const { state, goToClosing } = useApp();
   const { result, passed, activityId } = state.session;
   const activity = state.activities.find((a) => a.id === activityId);
 
@@ -21,8 +22,14 @@ export function ResultScreen() {
   const tier = ratio >= 1 ? 'perfect' : passed ? 'good' : 'needsWork';
   const message = activity.resultMessages[tier];
 
+  // Sem código nem tela separada — a equipe acompanha o jogo ao vivo e
+  // entrega o brinde na hora, então o aviso de "ganhou" já entra direto
+  // aqui, junto com o resultado, em vez de uma tela própria depois.
+  const wonGift = passed && activity.giftEligible && state.config.giftConfig.enabled;
+
   return (
     <ScreenShell>
+      {wonGift && <Celebration />}
       <div className="result-screen">
         <div className={`result-screen__badge ${passed ? 'result-screen__badge--good' : 'result-screen__badge--soft'} anim-slide-up`}>
           <Icon name={BADGE_ICONS[tier]} size={40} />
@@ -43,7 +50,14 @@ export function ResultScreen() {
           <p>{message}</p>
         </div>
 
-        <Button onPress={proceedAfterResult} icon={<Icon name="chevronRight" size={22} />}>
+        {wonGift && (
+          <div className="result-screen__gift anim-slide-up">
+            <Icon name="gift" size={22} />
+            <p>{state.config.texts.giftWonMessage}</p>
+          </div>
+        )}
+
+        <Button onPress={goToClosing} icon={<Icon name="chevronRight" size={22} />}>
           Continuar
         </Button>
       </div>

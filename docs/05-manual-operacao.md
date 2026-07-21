@@ -19,21 +19,15 @@ Guia para quem vai operar o totem no dia do evento, sem precisar entender de pro
 
 No painel, seção **Textos e mensagens**: coloque o nome do evento.
 
-Na seção **Brindes**: os brindes vêm **ativados** por padrão, valendo pra três das quatro atividades (Quiz Relâmpago, Organize os Hábitos, Casa Eficiente — a Memória da Energia fica de fora, ver docs/02-atividades.md). O critério pra ganhar é acertar pelo menos 70% em uma dessas atividades (ajustável por atividade em **Atividades → Acerto mínimo para concluir**); quem não atinge vê a tela "Bom começo!", não-punitiva, convidando a tentar de novo. Se não for pra distribuir brindes no evento, desative em "Brindes habilitados". Confira também "Total de brindes do evento" e "Estoque atual disponível", ajustando para a quantidade real que vocês têm na mesa.
+Na seção **Brindes**: os brindes vêm **ativados** por padrão, valendo pra três das quatro atividades (Quiz Relâmpago, Organize os Hábitos, Casa Eficiente — a Memória da Energia fica de fora, ver docs/02-atividades.md). O critério pra ganhar é acertar pelo menos 70% em uma dessas atividades (ajustável por atividade em **Atividades → Acerto mínimo para concluir**); quem não atinge vê a tela "Bom começo!", não-punitiva, convidando a tentar de novo. Se não for pra distribuir brindes no evento, desative em "Brindes habilitados". **Não há código nem estoque digital pra gerenciar** — a equipe acompanha o jogo ao vivo e entrega o brinde na hora, então essa seção é só o interruptor de ligar/desligar.
 
 Na seção **Comportamento**: se o ambiente for muito barulhento ou tiver fila grande, considere reduzir o "Voltar para a tela inicial após" para algo entre 30–45s. Também dá pra ajustar o "Limite de tempo, em múltiplos do tempo estimado" (padrão 2x) — cada atividade já tem seu próprio tempo estimado, então o limite real varia por atividade automaticamente; se a fila estiver grande, reduza o multiplicador para não deixar ninguém preso no totem por muito tempo. Um anel grande no canto superior direito da tela muda de cor conforme o tempo vai acabando (azul → laranja → vermelho pulsando), e ao zerar leva o visitante direto pra uma tela avisando pra voltar pra fila e tentar de novo.
 
 ## Durante o evento — entregando brindes
 
-1. O visitante, ao concluir o desafio, verá um **código de 5 caracteres** e um QR code na tela.
-2. Peça para o visitante mostrar o código (ele fica visível por alguns minutos, com contagem regressiva na tela dele).
-3. No painel admin → **Brindes** → campo "Confirmar entrega": digite o código e toque em "Confirmar".
-4. Só depois de confirmar, entregue o brinde. Isso garante que o estoque no painel fica sempre correto.
-5. Se o código não for encontrado ou já tiver sido usado, o sistema avisa na hora — nesse caso, não entregue um brinde novo.
-
-## Quando os brindes acabarem
-
-O totem detecta sozinho quando o estoque chega a zero e mostra uma mensagem alternativa para o visitante (sem brinde, mas com o aprendizado). Vocês podem repor o estoque a qualquer momento em **Brindes → Estoque atual disponível**.
+1. A pessoa da equipe acompanha o jogo ao vivo, do lado do visitante (ou olhando a tela).
+2. Se o visitante atingir o critério mínimo numa atividade elegível a brinde, a própria tela de resultado já mostra confete e o aviso "Você ganhou um brinde! Chame nossa equipe pra retirar" — sem código, sem QR, sem tela extra.
+3. Entregue o brinde na hora. Não existe confirmação nem registro de código no painel — a equipe decide na prática (ex: não repetir brinde pra quem já jogou na sua frente).
 
 ## Se algo travar ou parecer estranho
 
@@ -48,23 +42,23 @@ O totem detecta sozinho quando o estoque chega a zero e mostra uma mensagem alte
 No painel admin → **Modo evento e dados**:
 - Você pode exportar as métricas em **Métricas → Exportar JSON/CSV** antes de encerrar, se quiser guardar os números do dia.
 - "Limpar dados de teste" some com o histórico de métricas (útil ao começar um novo evento do zero).
-- "Apagar todos os dados" é uma ação mais forte: some com métricas, brindes e configurações — pede confirmação em dois toques. Use apenas se for realmente recomeçar o painel do zero.
+- "Apagar todos os dados" é uma ação mais forte: some com métricas e configurações — pede confirmação em dois toques. Use apenas se for realmente recomeçar o painel do zero.
 
 ## Referência rápida — PIN e configurações sensíveis
 
 - PIN administrativo padrão: `2025`. Recomenda-se trocá-lo diretamente com o time técnico antes de eventos com equipe rotativa (o PIN vive no código-fonte, não é editável pela própria tela de admin no MVP — ver [evoluções futuras](07-evolucoes-futuras.md)).
-- Nenhum dado pessoal é coletado por padrão. O código do brinde é anônimo e não identifica o visitante.
+- Nenhum dado pessoal é coletado por padrão. Brindes não têm código nem identificam o visitante — a entrega é acompanhada pela equipe ao vivo, não pelo sistema.
 
 ## Lista completa de configurações disponíveis no admin
 
 **Atividades** (por atividade): ativa/inativa · ordem de exibição · duração estimada · acerto mínimo para concluir (%) · etapas mínimas realizadas.
 
-**Textos e mensagens:** nome do evento · título e chamada da tela de atração · curiosidades do banner da vitrine (uma por linha, revezam sozinhas) · título da seleção de faixa etária · título da seleção de atividade · título e mensagem de conclusão · título e mensagem de tempo esgotado · instruções de retirada do brinde · mensagem de brindes esgotados · mensagem de encerramento.
+**Textos e mensagens:** nome do evento · título e chamada da tela de atração · curiosidades do banner da vitrine (uma por linha, revezam sozinhas) · título da seleção de faixa etária · título da seleção de atividade · título e mensagem de tempo esgotado · mensagem ao ganhar um brinde · mensagem de encerramento.
 
 **Comportamento:** modo de escolha da atividade (visitante escolhe / sorteio aleatório / ordem fixa) · quantidade de perguntas no Quiz Relâmpago · quantidade de situações na Casa Eficiente · tempo de inatividade até reiniciar · limite de tempo por atividade (múltiplo do tempo estimado de cada uma) · som ambiente durante as atividades (on/off) · animações mais intensas (on/off) · movimento reduzido (on/off).
 
-**Brindes:** brindes habilitados (on/off) · total de brindes do evento · estoque atual disponível · validade do código (minutos) · intervalo mínimo entre brindes no mesmo aparelho · exigir confirmação da equipe (on/off) · ferramenta de confirmação manual de entrega · histórico dos últimos brindes liberados.
+**Brindes:** brindes habilitados (on/off) — sem estoque nem código pra gerenciar.
 
-**Métricas:** sessões iniciadas · atividades iniciadas/concluídas/abandonadas · brindes liberados/entregues · reinícios por inatividade · desempenho por atividade (taxa de conclusão, tempo médio) · exportar em JSON/CSV · gerar dados de demonstração · limpar dados de teste.
+**Métricas:** sessões iniciadas · atividades iniciadas/concluídas/abandonadas · brindes ganhos · reinícios por inatividade · tempo esgotado na atividade · desempenho por atividade (taxa de conclusão, tempo médio) · exportar em JSON/CSV · gerar dados de demonstração · limpar dados de teste.
 
 **Modo evento e dados:** modo evento ativo (on/off) · dias de retenção de dados · reiniciar sessão atual · aplicar retenção agora · restaurar atividades padrão · restaurar textos e comportamento padrão · apagar todos os dados do dispositivo · versão do sistema.

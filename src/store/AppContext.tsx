@@ -5,7 +5,6 @@ import type { ActivityId, ActivityRunResult, AgeRangeId, AppConfig } from '@/typ
 import { loadConfig, saveConfig } from '@/services/configService';
 import { getAllActivities, getActivityById } from '@/services/activitiesService';
 import { logEvent } from '@/services/metricsService';
-import { checkEligibility, releaseGift } from '@/services/prizeService';
 
 interface AppContextValue {
   state: ReturnType<typeof initialState>;
@@ -18,8 +17,6 @@ interface AppContextValue {
   beginActivity: () => void;
   finishActivity: (result: ActivityRunResult) => void;
   activityTimeUp: () => void;
-  proceedAfterResult: () => void;
-  acknowledgeGiftInstructions: () => void;
   goToClosing: () => void;
   resetToAttract: () => void;
   reportError: (message: string) => void;
@@ -130,6 +127,18 @@ export function AppProvider({ children }: { children: ReactNode }) {
         correct: result.correct,
         incorrect: result.incorrect
       });
+
+      // Sem código nem estoque digital — só um aviso na tela de resultado,
+      // pra equipe (acompanhando o jogo ao vivo) entregar o brinde na hora.
+      if (passed && activity?.giftEligible && state.config.giftConfig.enabled) {
+        logEvent({
+          type: 'gift_won',
+          eventName: state.config.eventName,
+          appVersion: state.config.appVersion,
+          sessionId: state.session.sessionId,
+          activityId
+        });
+      }
     },
     [state.session.activityId, state.session.sessionId, state.config]
   );
@@ -147,49 +156,6 @@ export function AppProvider({ children }: { children: ReactNode }) {
       activityId: state.session.activityId ?? undefined
     });
   }, [state.config, state.session.sessionId, state.session.activityId]);
-
-  const proceedAfterResult = useCallback(() => {
-    const activityId = state.session.activityId;
-    const { passed } = state.session;
-    if (!activityId || passed === null) {
-      dispatch({ type: 'GO_TO_CLOSING' });
-      return;
-    }
-    const activity = getActivityById(activityId);
-
-    if (!passed || !activity?.giftEligible || !state.config.giftConfig.enabled) {
-      dispatch({ type: 'GO_TO_CLOSING' });
-      return;
-    }
-
-    const eligibility = checkEligibility(state.config.giftConfig);
-    if (!eligibility.eligible) {
-      dispatch({ type: 'GO_TO_NO_GIFTS' });
-      return;
-    }
-
-    const record = releaseGift(state.session.sessionId, activityId, state.config.giftConfig);
-    logEvent({
-      type: 'gift_released',
-      eventName: state.config.eventName,
-      appVersion: state.config.appVersion,
-      sessionId: state.session.sessionId,
-      activityId
-    });
-
-    const updatedConfig: AppConfig = {
-      ...state.config,
-      giftConfig: { ...state.config.giftConfig, remaining: Math.max(0, state.config.giftConfig.remaining - 1) }
-    };
-    saveConfig(updatedConfig);
-    dispatch({ type: 'CONFIG_UPDATED', config: updatedConfig });
-
-    dispatch({ type: 'GO_TO_COMPLETION', giftCode: record.code, expiresAt: record.expiresAt });
-  }, [state.session, state.config]);
-
-  const acknowledgeGiftInstructions = useCallback(() => {
-    dispatch({ type: 'GO_TO_GIFT_INSTRUCTIONS' });
-  }, []);
 
   const goToClosing = useCallback(() => {
     dispatch({ type: 'GO_TO_CLOSING' });
@@ -224,8 +190,6 @@ export function AppProvider({ children }: { children: ReactNode }) {
       beginActivity,
       finishActivity,
       activityTimeUp,
-      proceedAfterResult,
-      acknowledgeGiftInstructions,
       goToClosing,
       resetToAttract,
       reportError,
@@ -243,8 +207,6 @@ export function AppProvider({ children }: { children: ReactNode }) {
       beginActivity,
       finishActivity,
       activityTimeUp,
-      proceedAfterResult,
-      acknowledgeGiftInstructions,
       goToClosing,
       resetToAttract,
       reportError,

@@ -1,5 +1,33 @@
 # 6. Plano de testes
 
+## Brinde sem código (equipe entrega ao vivo) + revisão de erros mais clara
+
+Dois ajustes de feedback depois de ver o fluxo de brinde e a tela de revisão de erros em uso.
+
+**1) Removido o sistema de código/QR do brinde — simplificação grande.** O usuário explicou o motivo: vai ter uma pessoa da equipe acompanhando o jogo ao vivo e entregando o brinde na hora, então nem código de verificação nem controle de estoque digital fazem sentido — bastava um aviso na tela avisando "peça pra equipe". Perguntado o que fazer com a ferramenta de "confirmar entrega por código" do admin (que ficaria sem sentido sem código) — usuário respondeu que nem controle de estoque precisa mais existir.
+
+Isso removeu um bloco inteiro do sistema:
+- `src/services/prizeService.ts` (geração/validação de código, estoque, cooldown) — deletado.
+- `src/components/ui/QrCode.tsx` — deletado (e a dependência `qrcode`/`@types/qrcode` desinstalada do `package.json`).
+- Três telas — `CompletionScreen`, `GiftInstructionsScreen`, `NoGiftsScreen` — deletadas. O aviso de brinde (confete + mensagem) passou a aparecer **dentro do próprio `ResultScreen`**, junto com o placar e o aprendizado, quando `passed && activity.giftEligible && giftConfig.enabled` — sem tela extra, um toque a menos até o encerramento.
+- `GiftConfig` caiu de 6 campos (estoque, validade, cooldown, confirmação da equipe...) pra só `{ enabled: boolean }`. `GiftsSection.tsx` no admin virou um único toggle.
+- `SessionState` perdeu `giftCode`/`giftCodeExpiresAt` (não existe mais código pra guardar). `AppContext.proceedAfterResult`/`acknowledgeGiftInstructions` removidos — o botão "Continuar" do resultado agora chama `goToClosing` direto.
+- Métrica `gift_released`/`gift_delivered` (duas etapas: liberar e confirmar entrega) virou só `gift_won` (uma etapa: ganhou, registrado direto em `finishActivity`) — sem separar "liberado" de "entregue", já que não existe mais confirmação em duas etapas.
+- Textos `completionTitle`/`completionMessage` (só apareciam na extinta `CompletionScreen`) e `giftInstructions`/`noGiftsMessage` (extintas `GiftInstructionsScreen`/`NoGiftsScreen`) removidos de `AppTexts`; novo campo único `giftWonMessage`.
+
+Corrigido de quebra um bug de infraestrutura descoberto ao desinstalar `qrcode`: `vite.config.ts` usa `node:path`/`__dirname`, mas o projeto nunca teve `@types/node` como dependência explícita — só funcionava porque `@types/qrcode` puxava ele de carona como transitiva. Adicionado `@types/node` como devDependency direta.
+
+Testado ponta a ponta: uma classificação 100% correta no Organize os Hábitos levou direto pro `ResultScreen` com "Perfeito!", confete e o aviso de brinde na mesma tela; um toque em "Continuar" foi direto pro encerramento (nenhuma tela intermediária). Confirmado no admin que "Brindes" virou só o toggle, "Textos e mensagens" reflete os novos campos, e "Métricas" mostra "brindes ganhos" corretamente.
+
+**2) Tela de revisão de erros ficou confusa.** O usuário testou e reportou: "falou que foram 5 erros, mas só mostrou 3 na correção". A causa era o container da lista (`max-height: 42vh; overflow-y: auto`) — numa janela mais baixa, só cabiam ~3 itens antes de precisar rolar, sem nenhum indício visual de que havia mais abaixo. Também pedido: indicação mais clara do que a pessoa escolheu vs. o certo, e explicação mais simples, "pensando sempre no público" (o totem atende crianças, idosos e pessoas com pouca familiaridade digital).
+
+Correções em `SortActivity.tsx`/`.css`:
+- Cada item da revisão ganhou dois "chips" coloridos comparando a escolha: `✕ Você: Hábito eficiente` (laranja) e `✓ Certo: Desperdício` (verde) — visual, não precisa ler a explicação toda pra entender o que errou.
+- `max-height` da lista subiu de 42vh pra 58vh (cabe mais sem rolar) e cada item ficou mais compacto (ícone menor, padding menor).
+- Um aviso "role para ver mais" (com seta pulsando) só aparece quando a lista realmente não cabe inteira — detectado comparando `scrollHeight`/`clientHeight` do container via `useEffect`, não um aviso fixo que apareceria até quando não faz sentido.
+
+Testado com 3 erros (lista cabe inteira, sem aviso de rolagem) e com sessões maiores — confirmado visualmente que os chips de comparação ficam claros e que o aviso de rolagem só aparece quando necessário.
+
 ## Organize os Hábitos redesenhado, brindes de volta com 70%, mensagens variadas, som ambiente
 
 Cinco pedidos numa mesma leva de feedback. Os dois mais estruturais (tela de revisão de erros e o critério de "não atingiu") foram confirmados com o usuário antes de implementar, porque mudavam a mecânica de uma atividade e a interpretação da pontuação pra brinde.

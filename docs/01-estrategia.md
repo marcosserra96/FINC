@@ -11,7 +11,7 @@ Um totem touch que qualquer visitante — criança, adulto, idoso, alguém sem i
 | Visitante não sabe como começar | Tela de atração com um único CTA gigante, sem outras opções concorrendo por atenção |
 | Fila/ambiente barulhento, pouca paciência | Sessões de 45–90s, textos curtos, feedback visual (não depende só de som) |
 | Criança e idoso na mesma fila | Nenhuma atividade exige leitura longa, cálculo ou jargão técnico; toque grande (mín. 48px, a maioria 56–64px) |
-| Alguém repete a atividade só para ganhar outro brinde | Critério de conclusão real (mínimo de acertos + etapas), cooldown por aparelho, código com validade curta e baixa manual da equipe |
+| Alguém repete a atividade só para ganhar outro brinde | Critério de conclusão real (mínimo de acertos + etapas); sem código nem estoque digital, a equipe acompanha o jogo ao vivo e decide na prática (não repetir brinde pra quem já jogou na frente dela) |
 | Painel trava ou perde conexão no meio do evento | 100% funcional offline (PWA), estado local, tela de erro amigável com botão de recomeçar, sem depender de rede para nada essencial |
 | Equipe do estande não é técnica | Painel admin com toggles e campos simples, sem jargão, PIN de 4-6 dígitos ao invés de login complexo |
 | Visual "genérico de template" | Sistema visual próprio com paleta Energisa, ícones da biblioteca Lucide (consistentes e profissionais), gradientes e animações com propósito |
@@ -29,8 +29,7 @@ Um totem touch que qualquer visitante — criança, adulto, idoso, alguém sem i
 
 - Atração → início do desafio: até 10s de decisão.
 - Atividade: 45–90s (configurável por atividade no admin).
-- Resultado + aprendizado: 10–15s de leitura.
-- Retirada do brinde: até 15s (mostrar código pra equipe).
+- Resultado + aprendizado (e brinde, se ganhou, direto na mesma tela): 10–15s de leitura.
 - **Total: ~2 a 3 minutos por visitante**, compatível com fila de evento.
 
 ## Atividades propostas e seleção do MVP

@@ -7,8 +7,7 @@ export type MetricsEventType =
   | 'activity_start'
   | 'activity_complete'
   | 'activity_abandon'
-  | 'gift_released'
-  | 'gift_delivered'
+  | 'gift_won'
   | 'idle_reset'
   | 'activity_timeout'
   | 'error';
@@ -26,13 +25,4 @@ export interface MetricsEvent {
   correct?: number;
   incorrect?: number;
   deviceType: 'touch' | 'desktop';
-}
-
-export interface GiftRecord {
-  code: string;
-  sessionId: string;
-  activityId: ActivityId;
-  releasedAt: number;
-  expiresAt: number;
-  deliveredAt: number | null;
 }

@@ -54,18 +54,12 @@ export function TextsSection() {
       </div>
 
       <div className="admin-card">
-        <h2>Seleção e conclusão</h2>
+        <h2>Seleção</h2>
         <FormRow label="Título da seleção de faixa etária">
           <TextInput value={draft.texts.ageSelectTitle} onChange={(v) => setText('ageSelectTitle', v)} />
         </FormRow>
         <FormRow label="Título da seleção de atividade">
           <TextInput value={draft.texts.activitySelectTitle} onChange={(v) => setText('activitySelectTitle', v)} />
-        </FormRow>
-        <FormRow label="Título de conclusão">
-          <TextInput value={draft.texts.completionTitle} onChange={(v) => setText('completionTitle', v)} />
-        </FormRow>
-        <FormRow label="Mensagem de conclusão">
-          <TextAreaInput value={draft.texts.completionMessage} onChange={(v) => setText('completionMessage', v)} />
         </FormRow>
       </div>
 
@@ -81,11 +75,8 @@ export function TextsSection() {
 
       <div className="admin-card">
         <h2>Brindes e encerramento</h2>
-        <FormRow label="Instruções de retirada do brinde">
-          <TextAreaInput value={draft.texts.giftInstructions} onChange={(v) => setText('giftInstructions', v)} />
-        </FormRow>
-        <FormRow label="Mensagem sem brindes disponíveis">
-          <TextAreaInput value={draft.texts.noGiftsMessage} onChange={(v) => setText('noGiftsMessage', v)} />
+        <FormRow label="Mensagem ao ganhar um brinde" hint="Aparece junto com o resultado, com confete — sem código, a equipe entrega na hora">
+          <TextAreaInput value={draft.texts.giftWonMessage} onChange={(v) => setText('giftWonMessage', v)} />
         </FormRow>
         <FormRow label="Mensagem de encerramento">
           <TextInput value={draft.texts.closingMessage} onChange={(v) => setText('closingMessage', v)} />

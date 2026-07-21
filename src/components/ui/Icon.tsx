@@ -22,7 +22,6 @@ import {
   X,
   Gift,
   Clock,
-  QrCode,
   RotateCw,
   Shield,
   ChevronRight,
@@ -66,7 +65,6 @@ export type IconName =
   | 'close'
   | 'gift'
   | 'clock'
-  | 'qrcode'
   | 'refresh'
   | 'shield'
   | 'chevronRight'
@@ -117,7 +115,6 @@ const COMPONENTS = {
   close: X,
   gift: Gift,
   clock: Clock,
-  qrcode: QrCode,
   refresh: RotateCw,
   shield: Shield,
   chevronRight: ChevronRight,

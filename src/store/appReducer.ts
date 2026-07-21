@@ -21,9 +21,6 @@ export type AppAction =
   | { type: 'BEGIN_ACTIVITY' }
   | { type: 'FINISH_ACTIVITY'; result: ActivityRunResult }
   | { type: 'ACTIVITY_TIME_UP' }
-  | { type: 'GO_TO_COMPLETION'; giftCode: string; expiresAt: number }
-  | { type: 'GO_TO_NO_GIFTS' }
-  | { type: 'GO_TO_GIFT_INSTRUCTIONS' }
   | { type: 'GO_TO_CLOSING' }
   | { type: 'RESET_TO_ATTRACT' }
   | { type: 'ERROR'; message: string };
@@ -107,24 +104,6 @@ export function appReducer(state: AppState, action: AppAction): AppState {
 
     case 'ACTIVITY_TIME_UP':
       return { ...state, session: { ...state.session, screen: 'timeUp', lastInteractionAt: Date.now() } };
-
-    case 'GO_TO_COMPLETION':
-      return {
-        ...state,
-        session: {
-          ...state.session,
-          screen: 'completion',
-          giftCode: action.giftCode,
-          giftCodeExpiresAt: action.expiresAt,
-          lastInteractionAt: Date.now()
-        }
-      };
-
-    case 'GO_TO_GIFT_INSTRUCTIONS':
-      return { ...state, session: { ...state.session, screen: 'giftInstructions', lastInteractionAt: Date.now() } };
-
-    case 'GO_TO_NO_GIFTS':
-      return { ...state, session: { ...state.session, screen: 'noGifts', lastInteractionAt: Date.now() } };
 
     case 'GO_TO_CLOSING':
       return { ...state, session: { ...state.session, screen: 'closing', lastInteractionAt: Date.now() } };

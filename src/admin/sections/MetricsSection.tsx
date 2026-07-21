@@ -42,8 +42,7 @@ export function MetricsSection() {
         <div className="admin-stat"><strong>{summary.activitiesStarted}</strong><span>atividades iniciadas</span></div>
         <div className="admin-stat"><strong>{summary.activitiesCompleted}</strong><span>atividades concluídas</span></div>
         <div className="admin-stat"><strong>{summary.abandoned}</strong><span>atividades abandonadas</span></div>
-        <div className="admin-stat"><strong>{summary.giftsReleased}</strong><span>brindes liberados</span></div>
-        <div className="admin-stat"><strong>{summary.giftsDelivered}</strong><span>brindes entregues</span></div>
+        <div className="admin-stat"><strong>{summary.giftsWon}</strong><span>brindes ganhos</span></div>
         <div className="admin-stat"><strong>{summary.idleResets}</strong><span>reinícios por inatividade</span></div>
         <div className="admin-stat"><strong>{summary.activityTimeouts}</strong><span>tempo esgotado na atividade</span></div>
       </div>

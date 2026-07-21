@@ -26,23 +26,15 @@ Execução da atividade (cabeçalho com nome + instrução de 1 frase, sempre vi
    ▼
 Resultado (placar não punitivo + "O que você aprendeu")
    │
-   ├─ Não atingiu critério de conclusão ──────────────► Encerramento
+   ├─ Atingiu critério e atividade elegível a brinde ──► confete + aviso de brinde direto nesta mesma tela
+   │                                                       ("Chame nossa equipe pra retirar" — sem código, sem
+   │                                                       tela extra, a equipe acompanha o jogo ao vivo)
    │
-   ├─ Atingiu critério, mas sem brindes disponíveis ──► Sem brindes (mensagem alternativa) → Encerramento
-   │
-   └─ Atingiu critério e há brinde disponível
-          │
-          ▼
-      Conclusão (celebração + código + QR code)
-          │
-          ▼
-      Instruções de retirada (código grande + validade) → "Concluir"
-          │
-          ▼
-      Encerramento (mensagem de agradecimento)
-          │  4s automático, ou inatividade
-          ▼
-      volta para Atração
+   ▼
+Encerramento (mensagem de agradecimento)
+   │  4s automático, ou inatividade
+   ▼
+volta para Atração
 ```
 
 > **Decisão de design:** a primeira versão tinha uma tela de boas-vindas ("Vamos lá") entre a Atração e a Seleção, e uma tela de introdução com botão "Começar" entre a Seleção e a Execução — 4 toques até o jogo realmente começar. Cortamos o toque de boas-vindas (a Atração já leva direto pra escolha, ou já sorteia/inicia, conforme o modo) e trocamos o botão "Começar" por uma contagem regressiva ("3, 2, 1, Vamos!") que avança sozinha — dá o respiro de orientação (nome, ícone, instrução no cabeçalho) e um momento lúdico antes de começar, sem exigir nenhum toque. Quem já conhece a atividade pode tocar em qualquer lugar da tela pra pular direto. Resultado (antes da tela de faixa etária): no máximo 2 toques até jogar (Atração → card), nenhum toque extra pra "confirmar começar". A tela de faixa etária, adicionada depois para registrar o público do evento, soma +1 toque obrigatório a esse total.
@@ -55,7 +47,7 @@ Resultado (placar não punitivo + "O que você aprendeu")
 - **Tempo esgotado na atividade:** limite de tempo por atividade, calculado como um múltiplo (configurável, padrão 2x) do tempo estimado de cada uma — não é um número fixo igual para todas. Um anel grande no canto superior direito muda de cor conforme o tempo acaba (azul → laranja → vermelho pulsando). Ao zerar, mesmo que o visitante esteja ativamente jogando, leva pra uma tela dedicada de aviso amigável (não é tratado como erro nem como "perdeu"), com retorno automático em alguns segundos ou botão para voltar na hora. Métrica `activity_timeout` registrada. Ver nota sobre "sem pressão de tempo" abaixo.
 - **Erro inesperado:** qualquer falha não tratada leva a uma tela de erro amigável, sem jargão técnico, com botão único "Recomeçar" — nunca expõe stack trace ou mensagem de sistema ao visitante.
 - **Saída voluntária:** botão discreto "Recomeçar" no canto de toda tela pública (exceto Atração), sempre disponível.
-- **Sem brindes disponíveis:** mensagem alternativa, calorosa, que não faz o visitante sentir que "perdeu" — o aprendizado continua sendo o valor central.
+- **Brinde conquistado:** sem código nem QR — a equipe acompanha o jogo ao vivo e entrega o brinde na hora, então o próprio Resultado já mostra confete e um aviso ("Chame nossa equipe pra retirar") quando a atividade é elegível a brinde e o critério mínimo foi atingido. Ver `docs/06-plano-testes.md` para o histórico dessa simplificação (havia um fluxo por código antes).
 
 ## Mapa de telas — público
 
@@ -67,10 +59,7 @@ Resultado (placar não punitivo + "O que você aprendeu")
 | Prepare-se | `ActivityPrepareScreen` | Contagem regressiva "3, 2, 1, Vamos!" com cabeçalho de nome+instrução; avança sozinha (ou no toque, pra quem quiser pular) |
 | Execução | `ActivityRunnerScreen` | Cabeçalho fixo com nome + instrução, e o componente da atividade escolhida |
 | Tempo esgotado | `TimeUpScreen` | Aviso amigável ao estourar o limite de tempo da atividade — convite pra voltar pra fila e tentar de novo |
-| Resultado | `ResultScreen` | Placar não punitivo + aprendizado principal |
-| Conclusão | `CompletionScreen` | Celebração, código do brinde, QR code |
-| Instruções do brinde | `GiftInstructionsScreen` | Código grande, prazo de validade (anel regressivo) |
-| Sem brindes | `NoGiftsScreen` | Mensagem alternativa calorosa |
+| Resultado | `ResultScreen` | Placar não punitivo + aprendizado principal; se ganhou brinde, confete e aviso já aparecem aqui mesmo |
 | Encerramento | `ClosingScreen` | Agradecimento, retorno automático |
 | Erro | `ErrorScreen` | Mensagem amigável + recomeçar |
 
@@ -83,8 +72,8 @@ Acesso: rota `/admin` (direta ou via 5 toques no canto superior direito da tela 
 | Atividades | ativar/desativar, ordenar, duração estimada, critério de conclusão |
 | Textos e mensagens | nome do evento e todos os textos exibidos ao visitante |
 | Comportamento | modo de seleção de atividade, tempo de inatividade, sons, animações, quantidade de perguntas do quiz |
-| Brindes | estoque, validade do código, cooldown, confirmação manual de entrega, histórico |
-| Métricas | sessões, conclusões, abandonos, brindes, desempenho por atividade, exportar/limpar dados |
+| Brindes | brindes habilitados (on/off) — sem código nem estoque digital, a equipe entrega ao vivo |
+| Métricas | sessões, conclusões, abandonos, brindes ganhos, desempenho por atividade, exportar/limpar dados |
 | Modo evento e dados | ativar/desativar modo evento, retenção de dados, restaurar padrões, apagar tudo |
 
 O painel administrativo nunca aparece na navegação pública e não é acessível por link visível — apenas pela rota direta ou pelo gesto oculto.

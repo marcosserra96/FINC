@@ -11,10 +11,7 @@ export const DEFAULT_CONFIG: AppConfig = {
     startCta: 'Toque para começar',
     ageSelectTitle: 'Antes de começar, qual é a sua faixa de idade?',
     activitySelectTitle: 'Escolha um desafio',
-    completionTitle: 'Muito bem!',
-    completionMessage: 'Você concluiu o desafio e aprendeu algo novo sobre consumo consciente.',
-    giftInstructions: 'Mostre este código para a nossa equipe e retire seu brinde.',
-    noGiftsMessage: 'Os brindes de hoje acabaram, mas o aprendizado fica com você. Obrigado por participar!',
+    giftWonMessage: 'Você ganhou um brinde! Chame nossa equipe pra retirar.',
     closingMessage: 'Obrigado por participar! Até a próxima.',
     timeUpTitle: 'Tempo esgotado!',
     timeUpMessage: 'Sem problema — volte para a fila e tente de novo quando quiser.'
@@ -55,12 +52,7 @@ export const DEFAULT_CONFIG: AppConfig = {
     'Você sabia? A Energisa é um dos maiores grupos de distribuição de energia do Brasil, com capital 100% nacional.'
   ],
   giftConfig: {
-    enabled: true,
-    totalAvailable: 200,
-    remaining: 200,
-    codeExpiryMinutes: 10,
-    cooldownMinutes: 15,
-    requireStaffConfirmation: true
+    enabled: true
   },
   eventModeActive: true,
   dataRetentionDays: 30
