@@ -1,6 +1,6 @@
 .sort-activity {
   width: 100%;
-  max-width: 720px;
+  max-width: 760px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -15,39 +15,43 @@
 
 .sort-activity__pool {
   width: 100%;
-  min-height: 140px;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  /* Cartas na horizontal (ícone à esquerda, texto à direita) em vez de
+     quadrados verticais como as outras atividades — além de dar bem mais
+     espaço pro texto (os rótulos dos hábitos são frases longas, cortavam
+     nos cards quadrados antigos), fica visualmente diferente do jogo da
+     memória, reforçando a variedade entre as atividades. */
+  grid-template-columns: repeat(2, 1fr);
   gap: var(--space-2);
-  justify-content: center;
-  align-content: flex-start;
   background: var(--surface-glass);
   border: 1px solid var(--surface-glass-border);
   border-radius: var(--radius-lg);
-  padding: var(--space-4);
+  padding: var(--space-3);
+}
+
+@media (max-width: 560px) {
+  .sort-activity__pool {
+    grid-template-columns: 1fr;
+  }
 }
 
 .sort-activity__item {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
-  gap: var(--space-1);
-  width: 128px;
-  /* Altura fixa (não min-height) — antes cada fileira esticava pro
-     tamanho do texto mais longo dela, então a grade tinha duas alturas
-     de linha diferentes em vez de bordas retas de ponta a ponta. Com
-     altura travada + reticências no rótulo (abaixo), toda carta fica
-     igual, não importa o hábito. */
-  height: 152px;
+  gap: var(--space-2);
+  width: 100%;
+  /* Altura fixa — toda carta igual, não importa o tamanho do hábito,
+     mantendo a grade com bordas retas de ponta a ponta. */
+  height: 96px;
   background: var(--surface-card);
   color: var(--text-on-light);
   border: none;
   border-radius: var(--radius-md);
-  padding: var(--space-3) var(--space-2) var(--space-2);
+  padding: var(--space-2) var(--space-3);
   font-weight: 700;
   font-size: var(--fs-small);
-  text-align: center;
+  text-align: left;
   cursor: pointer;
   box-shadow: var(--shadow-sm);
   -webkit-tap-highlight-color: transparent;
@@ -75,14 +79,14 @@
 
 .sort-activity__item--selected {
   box-shadow: 0 0 0 4px var(--color-orange), var(--shadow-md);
-  transform: scale(1.04);
+  transform: scale(1.02);
 }
 
 .sort-activity__item--dragging {
   opacity: 0;
 }
 
-/* Some da tela mas continua ocupando o lugar no flex-wrap — é isso que
+/* Some da tela mas continua ocupando o lugar na grade — é isso que
    mantém o tamanho da caixa do grupo estável do primeiro ao último
    hábito, em vez de encolher e empurrar as colunas de lugar a cada acerto. */
 .sort-activity__item--done {
@@ -93,11 +97,12 @@
 .sort-activity__item--flying {
   position: fixed;
   z-index: 50;
+  width: 240px;
   /* centraliza no ponto x/y sem usar transform (o framer-motion já controla
      transform pra escala/rotação — uma regra CSS de transform aqui seria
      sobrescrita pelo style inline dele) */
-  margin-left: -64px;
-  margin-top: -52px;
+  margin-left: -120px;
+  margin-top: -48px;
   pointer-events: none;
   cursor: grabbing;
   box-shadow: 0 20px 40px rgba(0, 48, 58, 0.45);
@@ -212,32 +217,87 @@
   color: var(--text-on-light-muted);
 }
 
-/* Fora do fluxo (position: fixed), como a dica da Memória — flutua por
-   cima sem empurrar o pool/colunas de lugar quando aparece. */
-.sort-activity__mistake {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: var(--space-6);
-  margin: 0 auto;
-  width: fit-content;
-  z-index: 20;
+/* Tela de revisão — substitui o pool/colunas quando os 8 hábitos já
+   foram classificados, antes de seguir pro resultado. */
+.sort-activity__review {
+  width: 100%;
+  max-width: 620px;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: var(--space-2);
-  background: var(--surface-card);
-  color: var(--text-on-light);
-  border-radius: var(--radius-full);
-  padding: var(--space-2) var(--space-4);
-  box-shadow: var(--shadow-lg);
-  font-weight: 600;
-  font-size: var(--fs-small);
-  max-width: 90%;
-  text-align: left;
+  gap: var(--space-4);
+  text-align: center;
 }
 
-.sort-activity__mistake svg {
-  flex-shrink: 0;
+.sort-activity__review-title {
+  font-family: var(--font-display);
+  font-size: var(--fs-h2);
+  font-weight: 800;
+}
+
+.sort-activity__review-subtitle {
+  color: var(--text-on-dark-muted);
+  margin-top: calc(-1 * var(--space-3));
+}
+
+.sort-activity__review-perfect {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
   color: var(--color-orange);
 }
 
+.sort-activity__review-perfect h2 {
+  font-family: var(--font-display);
+  font-size: var(--fs-h2);
+  font-weight: 800;
+  color: var(--text-on-dark);
+}
+
+.sort-activity__review-perfect p {
+  color: var(--text-on-dark-muted);
+}
+
+.sort-activity__review-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  max-height: 42vh;
+  overflow-y: auto;
+}
+
+.sort-activity__review-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  background: var(--surface-card);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+  text-align: left;
+  box-shadow: var(--shadow-sm);
+}
+
+.sort-activity__review-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-sm);
+}
+
+.sort-activity__review-text strong {
+  display: block;
+  color: var(--text-on-light);
+  margin-bottom: 2px;
+}
+
+.sort-activity__review-text p {
+  color: var(--text-on-light-muted);
+  font-size: var(--fs-small);
+  line-height: 1.35;
+}

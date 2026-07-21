@@ -13,6 +13,17 @@ export interface ActivityCompletionCriteria {
   minStepsCompleted: number;
 }
 
+/** Mensagem exibida no resultado, variando conforme a pontuação — em vez
+ *  de uma única frase fixa igual pra qualquer desempenho. */
+export interface ActivityResultMessages {
+  /** 100% de acerto. */
+  perfect: string;
+  /** Passou no critério, mas não foi perfeito. */
+  good: string;
+  /** Não atingiu o critério mínimo — nunca soa como "errou", é um convite a tentar de novo. */
+  needsWork: string;
+}
+
 export interface ActivityConfigBase {
   id: ActivityId;
   name: string;
@@ -25,7 +36,7 @@ export interface ActivityConfigBase {
   estimatedDurationSeconds: number;
   difficulty: ActivityDifficulty;
   completionCriteria: ActivityCompletionCriteria;
-  learningMessage: string;
+  resultMessages: ActivityResultMessages;
   giftEligible: boolean;
 }
 

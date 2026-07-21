@@ -19,7 +19,7 @@ Guia para quem vai operar o totem no dia do evento, sem precisar entender de pro
 
 No painel, seção **Textos e mensagens**: coloque o nome do evento.
 
-Na seção **Brindes**: por padrão, o sistema de brindes vem **desativado** em todas as atividades (nenhum código é gerado, nenhuma tela de brinde aparece — o visitante vai direto do resultado pro encerramento). Se o evento for distribuir brindes, ative "Brindes habilitados" e confira "Total de brindes do evento" e "Estoque atual disponível", ajustando para a quantidade real que vocês têm na mesa.
+Na seção **Brindes**: os brindes vêm **ativados** por padrão, valendo pra três das quatro atividades (Quiz Relâmpago, Organize os Hábitos, Casa Eficiente — a Memória da Energia fica de fora, ver docs/02-atividades.md). O critério pra ganhar é acertar pelo menos 70% em uma dessas atividades (ajustável por atividade em **Atividades → Acerto mínimo para concluir**); quem não atinge vê a tela "Bom começo!", não-punitiva, convidando a tentar de novo. Se não for pra distribuir brindes no evento, desative em "Brindes habilitados". Confira também "Total de brindes do evento" e "Estoque atual disponível", ajustando para a quantidade real que vocês têm na mesa.
 
 Na seção **Comportamento**: se o ambiente for muito barulhento ou tiver fila grande, considere reduzir o "Voltar para a tela inicial após" para algo entre 30–45s. Também dá pra ajustar o "Limite de tempo, em múltiplos do tempo estimado" (padrão 2x) — cada atividade já tem seu próprio tempo estimado, então o limite real varia por atividade automaticamente; se a fila estiver grande, reduza o multiplicador para não deixar ninguém preso no totem por muito tempo. Um anel grande no canto superior direito da tela muda de cor conforme o tempo vai acabando (azul → laranja → vermelho pulsando), e ao zerar leva o visitante direto pra uma tela avisando pra voltar pra fila e tentar de novo.
 
@@ -59,9 +59,9 @@ No painel admin → **Modo evento e dados**:
 
 **Atividades** (por atividade): ativa/inativa · ordem de exibição · duração estimada · acerto mínimo para concluir (%) · etapas mínimas realizadas.
 
-**Textos e mensagens:** nome do evento · título e chamada da tela de atração · curiosidades do banner da vitrine (uma por linha, revezam sozinhas) · título da seleção de atividade · título e mensagem de conclusão · instruções de retirada do brinde · mensagem de brindes esgotados · mensagem de encerramento.
+**Textos e mensagens:** nome do evento · título e chamada da tela de atração · curiosidades do banner da vitrine (uma por linha, revezam sozinhas) · título da seleção de faixa etária · título da seleção de atividade · título e mensagem de conclusão · título e mensagem de tempo esgotado · instruções de retirada do brinde · mensagem de brindes esgotados · mensagem de encerramento.
 
-**Comportamento:** modo de escolha da atividade (visitante escolhe / sorteio aleatório / ordem fixa) · quantidade de perguntas no Quiz Relâmpago · quantidade de situações na Casa Eficiente · tempo de inatividade até reiniciar · sons de interface (on/off) · animações mais intensas (on/off) · movimento reduzido (on/off).
+**Comportamento:** modo de escolha da atividade (visitante escolhe / sorteio aleatório / ordem fixa) · quantidade de perguntas no Quiz Relâmpago · quantidade de situações na Casa Eficiente · tempo de inatividade até reiniciar · limite de tempo por atividade (múltiplo do tempo estimado de cada uma) · som ambiente durante as atividades (on/off) · animações mais intensas (on/off) · movimento reduzido (on/off).
 
 **Brindes:** brindes habilitados (on/off) · total de brindes do evento · estoque atual disponível · validade do código (minutos) · intervalo mínimo entre brindes no mesmo aparelho · exigir confirmação da equipe (on/off) · ferramenta de confirmação manual de entrega · histórico dos últimos brindes liberados.
 

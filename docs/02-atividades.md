@@ -16,7 +16,8 @@ Nove conceitos foram avaliados contra os critérios do projeto (rápido, visual,
 - **O que o visitante aprende:** hábitos de consumo consciente aplicáveis em casa.
 - **Complexidade de desenvolvimento:** baixa.
 - **Riscos de confusão/abandono:** baixíssimo.
-- **Critério de conclusão válida:** acerto mínimo configurável (padrão 50%) sobre as perguntas respondidas, com mínimo de perguntas respondidas.
+- **Critério de conclusão válida:** acerto mínimo configurável (padrão 70%) sobre as perguntas respondidas, com mínimo de perguntas respondidas.
+- **Elegível a brinde:** sim.
 
 ## 2. Memória da Energia — ✅ no MVP
 
@@ -31,6 +32,7 @@ Nove conceitos foram avaliados contra os critérios do projeto (rápido, visual,
 - **Complexidade de desenvolvimento:** baixa-média (grade de cartas com flip 3D via CSS, sem física).
 - **Riscos de confusão/abandono:** baixíssimo — grade pequena (12 cartas) mantém a sessão dentro do tempo alvo.
 - **Critério de conclusão válida:** encontrar uma proporção mínima de pares nas tentativas feitas (padrão 40%, calibrado para não punir tentativa e erro natural do jogo) com número mínimo de tentativas.
+- **Elegível a brinde:** não — pedido explícito do usuário ao reativar os brindes: só as três atividades de acerto único (Quiz, Organize os Hábitos, Casa Eficiente) valem brinde; a Memória fica de fora porque sua métrica é por tentativas, não por acerto de primeira, então não é diretamente comparável ao critério de 70% das outras.
 - **Imagens reais nas cartas (opcional):** as cartas usam ícone + crachá colorido por padrão, mas o código já está pronto pra usar ilustrações de verdade no lugar — basta adicionar os arquivos em `public/images/memory/` (nomes e instruções em `public/images/memory/README.md`). Sem os arquivos, cai automaticamente no ícone, sem quebrar nada.
 
 > Substituiu a "Caça ao Desperdício" (cena de casa com alvos para tocar), retirada do MVP por feedback de que a mecânica não estava explorando bem o potencial da tela touch nem tinha acabamento visual à altura das demais. Fica documentada como conceito de evolução futura mais abaixo.
@@ -40,14 +42,15 @@ Nove conceitos foram avaliados contra os critérios do projeto (rápido, visual,
 - **Objetivo educativo:** distinguir hábitos eficientes de hábitos de desperdício.
 - **Público mais adequado:** todos.
 - **Tempo médio:** 60s.
-- **Como funciona:** arrasta o hábito até a coluna certa ("Hábito eficiente" ou "Desperdício") — com destaque visual na coluna enquanto arrasta; alternativa sem arrastar: tocar no hábito e depois na coluna, para quem tem dificuldade motora fina.
+- **Como funciona:** arrasta o hábito até a coluna certa ("Hábito eficiente" ou "Desperdício") — com destaque visual na coluna enquanto arrasta; alternativa sem arrastar: tocar no hábito e depois na coluna, para quem tem dificuldade motora fina. Cada hábito é classificado uma única vez (sem tentar de novo na hora — mesmo padrão de acerto de primeira do Quiz e da Casa Eficiente); ao classificar os 8, uma tela de revisão explica os erros um por um, de forma didática, antes de seguir pro resultado (ou celebra se não houve nenhum erro).
 - **Nível de dificuldade:** fácil.
 - **Potencial de engajamento:** alto — arrastar é mais satisfatório e "de mão na massa" do que só tocar, principalmente para crianças.
 - **Facilidade de uso no touch:** alta, com fallback total — o arrasto usa Pointer Events (touch/mouse/caneta) e nunca é a única forma de interagir.
-- **O que o visitante aprende:** consumo consciente é feito de hábitos repetidos, não de uma ação única.
+- **O que o visitante aprende:** consumo consciente é feito de hábitos repetidos, não de uma ação única — reforçado individualmente na revisão de cada erro.
 - **Complexidade de desenvolvimento:** média (arrasto via Pointer Events + fallback de toque, mesmo padrão usado antes na Casa Eficiente).
 - **Riscos de confusão/abandono:** baixo — instrução muda de "arraste ou toque" para "toque na coluna" conforme o estado, e a coluna destaca visualmente quando o item passa por cima durante o arrasto.
-- **Critério de conclusão válida:** acerto mínimo (padrão 75%) sobre o total de hábitos categorizados.
+- **Critério de conclusão válida:** acerto mínimo (padrão 70%) sobre o total de hábitos categorizados, na primeira classificação.
+- **Elegível a brinde:** sim.
 
 ## 4. Casa Eficiente — ✅ no MVP
 
@@ -61,7 +64,8 @@ Nove conceitos foram avaliados contra os critérios do projeto (rápido, visual,
 - **O que o visitante aprende:** em cada situação do dia a dia existe uma escolha mais consciente.
 - **Complexidade de desenvolvimento:** baixa (reaproveita o mesmo padrão de pergunta+feedback do Quiz Relâmpago).
 - **Riscos de confusão/abandono:** baixíssimo.
-- **Critério de conclusão válida:** acerto mínimo (padrão 50%) sobre as situações respondidas, com mínimo de situações respondidas.
+- **Critério de conclusão válida:** acerto mínimo (padrão 70%) sobre as situações respondidas, com mínimo de situações respondidas.
+- **Elegível a brinde:** sim.
 
 > Versão anterior do projeto usava aqui uma mecânica de arrastar aparelhos até o cômodo certo. Trocamos pela versão de decisão por dois motivos: como jogo, o "para qual cômodo vai esse aparelho" ensinava pouco sobre consumo consciente (era mais teste de memória de layout de casa do que educação energética); e a mecânica de decisão ("o que fazer nessa situação") é mais direta, mais rápida de jogar e continua 100% acessível em touch sem depender de coordenação motora fina.
 

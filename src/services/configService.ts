@@ -55,7 +55,7 @@ export const DEFAULT_CONFIG: AppConfig = {
     'Você sabia? A Energisa é um dos maiores grupos de distribuição de energia do Brasil, com capital 100% nacional.'
   ],
   giftConfig: {
-    enabled: false,
+    enabled: true,
     totalAvailable: 200,
     remaining: 200,
     codeExpiryMinutes: 10,

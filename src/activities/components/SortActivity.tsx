@@ -1,8 +1,9 @@
 import { useMemo, useRef, useState } from 'react';
 import type { PointerEvent as ReactPointerEvent } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Icon } from '@/components/ui/Icon';
 import type { IconName } from '@/components/ui/Icon';
+import { Button } from '@/components/ui/Button';
 import { shuffle } from '@/utils/shuffle';
 import { colorForKey } from '@/utils/paletteColor';
 import type { ActivityRunResult, SortActivityConfig, SortItem } from '@/types';
@@ -15,6 +16,7 @@ interface SortActivityProps {
 
 type Outcome = 'correct' | 'incorrect';
 type Category = 'eficiente' | 'desperdicio';
+type Resolution = { category: Category; correct: boolean };
 const DRAG_THRESHOLD_PX = 8;
 // O card fica visível acima do dedo em vez de escondido embaixo dele.
 const FINGER_OFFSET_Y = 70;
@@ -23,7 +25,7 @@ function CardContent({ item }: { item: SortItem }) {
   return (
     <>
       <span className="sort-activity__item-icon" style={{ background: colorForKey(item.icon) }}>
-        <Icon name={item.icon as IconName} size={26} strokeWidth={1.8} color="#fff" />
+        <Icon name={item.icon as IconName} size={24} strokeWidth={1.8} color="#fff" />
       </span>
       <span className="sort-activity__item-label">{item.label}</span>
     </>
@@ -37,38 +39,32 @@ function CardContent({ item }: { item: SortItem }) {
  * literalmente uma cópia do próprio card (mesmo tamanho, mesma cor, mesmo
  * ícone) — o original some do lugar enquanto isso, para parecer que a
  * pessoa está de fato pegando e carregando aquele card, não um objeto à parte.
+ *
+ * Cada hábito é classificado uma única vez (sem tentar de novo na hora —
+ * mesmo padrão de acerto de primeira do Quiz e da Casa Eficiente). Ao
+ * classificar os 8, uma tela de revisão explica os erros de forma
+ * didática antes de seguir pro resultado.
  */
 export function SortActivity({ activity, onComplete }: SortActivityProps) {
   const startedAtRef = useRef(Date.now());
   const items = useMemo<SortItem[]>(() => shuffle(activity.items), [activity.items]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  // Só guarda os acertos — um erro não "consome" o hábito, ele volta pro
-  // grupo pra pessoa tentar de novo (ver resolveItem).
-  const [resolved, setResolved] = useState<Record<string, true>>({});
-  const [finished, setFinished] = useState(false);
+  const [resolved, setResolved] = useState<Record<string, Resolution>>({});
+  const [phase, setPhase] = useState<'sorting' | 'review'>('sorting');
   const [drag, setDrag] = useState<{ itemId: string; x: number; y: number; picking: boolean } | null>(null);
   const [dragOverCategory, setDragOverCategory] = useState<Category | null>(null);
   const [dropFeedback, setDropFeedback] = useState<{ category: Category; outcome: Outcome } | null>(null);
-  const [mistakeHint, setMistakeHint] = useState<string | null>(null);
   const dragMeta = useRef<{ itemId: string; startX: number; startY: number; moved: boolean } | null>(null);
-  // Tentativas erradas contam pro resultado final (não-punitivo, mas real),
-  // mesmo o hábito voltando pro grupo depois de errar.
-  const incorrectAttemptsRef = useRef(0);
 
   const pending = items.filter((item) => !resolved[item.id]);
+  const mistakes = items.filter((item) => resolved[item.id] && !resolved[item.id].correct);
 
-  // Recebe a contagem final como parâmetro em vez de ler `resolved` do
-  // estado — chamada dentro de um setTimeout, um closure sobre o estado do
-  // render atual leria o valor de ANTES do último acerto (a mesma corrida
-  // clássica de closure obsoleta já vista na Memória da Energia), sempre
-  // contando um a menos no resultado final.
-  const finish = (finalCorrectCount: number) => {
-    if (finished) return;
-    setFinished(true);
+  const finish = () => {
+    const correct = items.length - mistakes.length;
     onComplete({
-      correct: finalCorrectCount,
-      incorrect: incorrectAttemptsRef.current,
-      stepsCompleted: finalCorrectCount,
+      correct,
+      incorrect: mistakes.length,
+      stepsCompleted: items.length,
       totalSteps: items.length,
       durationMs: Date.now() - startedAtRef.current
     });
@@ -79,22 +75,11 @@ export function SortActivity({ activity, onComplete }: SortActivityProps) {
     setDropFeedback({ category, outcome });
     window.setTimeout(() => setDropFeedback(null), 550);
 
-    if (outcome === 'correct') {
-      const next = { ...resolved, [item.id]: true as const };
-      setResolved(next);
-      const nextCount = Object.keys(next).length;
-      if (nextCount >= items.length) {
-        window.setTimeout(() => finish(nextCount), 500);
-      }
-      return;
+    const next = { ...resolved, [item.id]: { category, correct: outcome === 'correct' } };
+    setResolved(next);
+    if (Object.keys(next).length >= items.length) {
+      window.setTimeout(() => setPhase('review'), 650);
     }
-
-    // Errou: não sai do grupo — só orienta o que está errado, pra pessoa
-    // arrastar de novo pro lugar certo, em vez de "resolver" por ela.
-    incorrectAttemptsRef.current += 1;
-    const correctLabel = item.category === 'eficiente' ? activity.categoryLabels.eficiente : activity.categoryLabels.desperdicio;
-    setMistakeHint(`${item.explanation} Vai em "${correctLabel}" — tenta de novo!`);
-    window.setTimeout(() => setMistakeHint(null), 4600);
   };
 
   const handlePickColumn = (category: Category) => {
@@ -158,6 +143,48 @@ export function SortActivity({ activity, onComplete }: SortActivityProps) {
   };
 
   const draggingItem = drag ? items.find((i) => i.id === drag.itemId) : null;
+
+  if (phase === 'review') {
+    return (
+      <div className="sort-activity">
+        <div className="sort-activity__review">
+          {mistakes.length === 0 ? (
+            <div className="sort-activity__review-perfect">
+              <Icon name="star" size={40} />
+              <h2>Mandou muito bem!</h2>
+              <p>Você classificou todos os hábitos certinho, sem nenhum erro.</p>
+            </div>
+          ) : (
+            <>
+              <h2 className="sort-activity__review-title">Vamos revisar juntos</h2>
+              <p className="sort-activity__review-subtitle">
+                {mistakes.length === 1 ? 'Só um hábito ficou na coluna errada:' : `${mistakes.length} hábitos ficaram na coluna errada:`}
+              </p>
+              <div className="sort-activity__review-list">
+                {mistakes.map((item) => {
+                  const correctLabel = item.category === 'eficiente' ? activity.categoryLabels.eficiente : activity.categoryLabels.desperdicio;
+                  return (
+                    <div key={item.id} className="sort-activity__review-item">
+                      <span className="sort-activity__review-icon" style={{ background: colorForKey(item.icon) }}>
+                        <Icon name={item.icon as IconName} size={22} strokeWidth={1.8} color="#fff" />
+                      </span>
+                      <div className="sort-activity__review-text">
+                        <strong>{item.label}</strong>
+                        <p>{item.explanation} O certo era "{correctLabel}".</p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </>
+          )}
+          <Button onPress={finish} icon={<Icon name="chevronRight" size={22} />}>
+            Continuar
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="sort-activity">
@@ -244,20 +271,6 @@ export function SortActivity({ activity, onComplete }: SortActivityProps) {
           <CardContent item={draggingItem} />
         </motion.div>
       )}
-
-      <AnimatePresence>
-        {mistakeHint && (
-          <motion.div
-            className="sort-activity__mistake"
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 12 }}
-          >
-            <Icon name="bulb" size={18} />
-            <span>{mistakeHint}</span>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </div>
   );
 }

@@ -5,6 +5,7 @@ import { ActivityTimer } from '../components/ActivityTimer';
 import { Icon } from '@/components/ui/Icon';
 import type { IconName } from '@/components/ui/Icon';
 import { useApp } from '@/store/AppContext';
+import { useAmbientNoise } from '@/hooks/useAmbientNoise';
 import { QuizActivity } from '@/activities/components/QuizActivity';
 import { MemoryActivity } from '@/activities/components/MemoryActivity';
 import { SortActivity } from '@/activities/components/SortActivity';
@@ -39,6 +40,8 @@ export function ActivityRunnerScreen() {
     }, 1000);
     return () => window.clearInterval(id);
   }, [startedAt, limitSeconds, activityTimeUp]);
+
+  useAmbientNoise(state.config.soundEnabled);
 
   if (!activity) return null;
 

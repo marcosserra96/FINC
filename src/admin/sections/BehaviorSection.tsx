@@ -51,7 +51,7 @@ export function BehaviorSection() {
 
       <div className="admin-card">
         <h2>Sons e animações</h2>
-        <FormRow label="Sons de interface">
+        <FormRow label="Som ambiente durante as atividades" hint="Ruído rosa suave, gerado localmente (sem depender de nenhum arquivo de áudio) — toca baixinho enquanto a pessoa joga">
           <Toggle checked={config.soundEnabled} onChange={(v) => patch({ soundEnabled: v })} />
         </FormRow>
         <FormRow label="Animações mais intensas" hint="Confete, brilho e pulsos de destaque">

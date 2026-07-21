@@ -22,9 +22,13 @@ const quizRelampago: QuizActivityConfig = {
   order: 1,
   estimatedDurationSeconds: 150,
   difficulty: 'facil',
-  completionCriteria: { minCorrectRatio: 0.5, minStepsCompleted: 4 },
-  learningMessage: 'Pequenos hábitos, repetidos todos os dias, fazem diferença no consumo de energia da casa.',
-  giftEligible: false,
+  completionCriteria: { minCorrectRatio: 0.7, minStepsCompleted: 4 },
+  resultMessages: {
+    perfect: 'Você acertou todas! Esses hábitos já fazem parte do seu dia a dia.',
+    good: 'Pequenos hábitos, repetidos todos os dias, fazem diferença no consumo de energia da casa.',
+    needsWork: 'Cada acerto é um hábito a mais pra guardar — vale tentar de novo e ver quanto você lembra.'
+  },
+  giftEligible: true,
   questions: [
     {
       id: 'q1',
@@ -112,7 +116,11 @@ const memoriaEnergia: MemoryActivityConfig = {
   estimatedDurationSeconds: 75,
   difficulty: 'facil',
   completionCriteria: { minCorrectRatio: 0.4, minStepsCompleted: 4 },
-  learningMessage: 'Cada aparelho tem um jeito simples de economizar — o segredo é lembrar deles no dia a dia.',
+  resultMessages: {
+    perfect: 'Memória afiada! Você lembrou de todos os pares — e das dicas junto.',
+    good: 'Cada aparelho tem um jeito simples de economizar — o segredo é lembrar deles no dia a dia.',
+    needsWork: 'Nem todo par precisa vir de primeira — o importante é ir se familiarizando com as dicas.'
+  },
   giftEligible: false,
   pairs: [
     { id: 'p1', icon: 'bulb', label: 'Lâmpada LED', tip: 'LED costuma consumir menos energia para o mesmo brilho.', image: 'images/memory/bulb.png' },
@@ -136,9 +144,13 @@ const organizeHabitos: SortActivityConfig = {
   order: 3,
   estimatedDurationSeconds: 60,
   difficulty: 'facil',
-  completionCriteria: { minCorrectRatio: 0.75, minStepsCompleted: 8 },
-  learningMessage: 'Consumo consciente é feito de hábitos simples repetidos no dia a dia.',
-  giftEligible: false,
+  completionCriteria: { minCorrectRatio: 0.7, minStepsCompleted: 8 },
+  resultMessages: {
+    perfect: 'Você separou tudo certinho! Já sabe identificar hábito eficiente de desperdício de cara.',
+    good: 'Consumo consciente é feito de hábitos simples repetidos no dia a dia.',
+    needsWork: 'Alguns hábitos confundem mesmo — a explicação de cada um ficou logo ali na revisão.'
+  },
+  giftEligible: true,
   categoryLabels: { eficiente: 'Hábito eficiente', desperdicio: 'Desperdício' },
   items: [
     {
@@ -212,9 +224,13 @@ const casaEficiente: ScenarioActivityConfig = {
   order: 4,
   estimatedDurationSeconds: 150,
   difficulty: 'facil',
-  completionCriteria: { minCorrectRatio: 0.5, minStepsCompleted: 4 },
-  learningMessage: 'Em cada situação do dia a dia existe uma escolha mais consciente — o segredo é ir prestando atenção nelas.',
-  giftEligible: false,
+  completionCriteria: { minCorrectRatio: 0.7, minStepsCompleted: 4 },
+  resultMessages: {
+    perfect: 'Você acertou todas as situações! Sua intuição pra escolhas conscientes está afiada.',
+    good: 'Em cada situação do dia a dia existe uma escolha mais consciente — o segredo é ir prestando atenção nelas.',
+    needsWork: 'Situações do dia a dia nem sempre têm resposta óbvia — vale tentar de novo pra pegar o jeito.'
+  },
+  giftEligible: true,
   cases: [
     {
       id: 'c1',
