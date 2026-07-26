@@ -34,15 +34,15 @@ export function ActivitiesSection() {
 
       {activities.map((activity, i) => (
         <div className="admin-card" key={activity.id}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
-            <div style={{ width: 44, height: 44, borderRadius: 12, background: activity.themeColor, color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div className="admin-activity-head">
+            <div className="admin-activity-head__icon" style={{ background: activity.themeColor }}>
               <Icon name={activity.icon as IconName} size={22} />
             </div>
-            <div style={{ flex: 1 }}>
-              <h2 style={{ margin: 0 }}>{activity.name}</h2>
-              <span style={{ color: 'var(--text-on-light-muted)', fontSize: 'var(--fs-small)' }}>{activity.shortDescription}</span>
+            <div className="admin-activity-head__info">
+              <h2>{activity.name}</h2>
+              <span>{activity.shortDescription}</span>
             </div>
-            <div style={{ display: 'flex', gap: 4 }}>
+            <div className="admin-activity-head__reorder">
               <button className="admin-btn admin-btn--neutral" type="button" onClick={() => move(activity.id, -1)} disabled={i === 0}>
                 <Icon name="chevronLeft" size={16} />
               </button>

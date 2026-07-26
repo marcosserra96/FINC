@@ -71,9 +71,8 @@ Acesso: rota `/admin` (direta ou via 5 toques no canto superior direito da tela 
 |---|---|
 | Atividades | ativar/desativar, ordenar, duração estimada, critério de conclusão |
 | Textos e mensagens | nome do evento e todos os textos exibidos ao visitante |
-| Comportamento | modo de seleção de atividade, tempo de inatividade, sons, animações, quantidade de perguntas do quiz |
-| Brindes | brindes habilitados (on/off) — sem código nem estoque digital, a equipe entrega ao vivo |
-| Métricas | sessões, conclusões, abandonos, brindes ganhos, desempenho por atividade, exportar/limpar dados |
-| Modo evento e dados | ativar/desativar modo evento, retenção de dados, restaurar padrões, apagar tudo |
+| Participação | total de participações, exportar CSV por faixa etária e data, limpar dados de teste |
+
+> Painel simplificado a pedido do usuário — só as três seções realmente usadas no dia a dia. As seções de Comportamento, Brindes, Métricas (visão detalhada) e Modo evento e dados existiram numa versão anterior; os ajustes que elas controlavam continuam funcionando com valores fixos no código (ver docs/06-plano-testes.md e docs/05-manual-operacao.md).
 
 O painel administrativo nunca aparece na navegação pública e não é acessível por link visível — apenas pela rota direta ou pelo gesto oculto.

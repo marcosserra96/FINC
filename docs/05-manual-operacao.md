@@ -17,11 +17,13 @@ Guia para quem vai operar o totem no dia do evento, sem precisar entender de pro
 
 ## O que configurar antes do evento
 
-No painel, seção **Textos e mensagens**: coloque o nome do evento.
+O painel foi simplificado a pedido do usuário para só as três coisas usadas no dia a dia: **Atividades**, **Textos e mensagens** e **Participação**. Tudo o mais (som ambiente, tempo de inatividade, brindes, retenção de dados...) continua funcionando normalmente, só que com valores fixos definidos no código em vez de uma tela própria — se precisar ajustar algo disso pra um evento específico, peça pro time técnico mudar direto no código (`src/services/configService.ts`) ou pra reincluir a seção correspondente no painel.
 
-Na seção **Brindes**: os brindes vêm **ativados** por padrão, valendo pras quatro atividades. Em Quiz Relâmpago, Organize os Hábitos e Casa Eficiente o critério é acertar pelo menos 70% (ajustável por atividade em **Atividades → Acerto mínimo para concluir**); na Memória da Energia o critério é diferente — como o jogo só termina quando todos os pares são encontrados, não existe um "70%" que faça sentido, então só ganha quem lembra de todos os pares sem nenhuma tentativa errada (ver docs/02-atividades.md). Quem não atinge o critério da sua atividade vê a tela "Bom começo!", não-punitiva, convidando a tentar de novo. Se não for pra distribuir brindes no evento, desative em "Brindes habilitados". **Não há código nem estoque digital pra gerenciar** — a equipe acompanha o jogo ao vivo e entrega o brinde na hora, então essa seção é só o interruptor de ligar/desligar.
+Na seção **Textos e mensagens**: coloque o nome do evento.
 
-Na seção **Comportamento**: se o ambiente for muito barulhento ou tiver fila grande, considere reduzir o "Voltar para a tela inicial após" para algo entre 30–45s. Também dá pra ajustar o "Limite de tempo, em múltiplos do tempo estimado" (padrão 2x) — cada atividade já tem seu próprio tempo estimado, então o limite real varia por atividade automaticamente; se a fila estiver grande, reduza o multiplicador para não deixar ninguém preso no totem por muito tempo. Um anel grande no canto superior direito da tela muda de cor conforme o tempo vai acabando (azul → laranja → vermelho pulsando), e ao zerar leva o visitante direto pra uma tela avisando pra voltar pra fila e tentar de novo.
+Na seção **Atividades**: os brindes vêm **ativados** por padrão para as quatro atividades (o toggle de habilitar/desabilitar brindes no geral foi removido do painel — hoje é sempre `true` no código). Em Quiz Relâmpago, Organize os Hábitos e Casa Eficiente o critério pra ganhar é acertar pelo menos 70% (ajustável por atividade em **Acerto mínimo para concluir**); na Memória da Energia o critério é diferente — como o jogo só termina quando todos os pares são encontrados, não existe um "70%" que faça sentido, então só ganha quem lembra de todos os pares sem nenhuma tentativa errada (ver docs/02-atividades.md). Quem não atinge o critério da sua atividade vê a tela "Bom começo!", não-punitiva, convidando a tentar de novo.
+
+O tempo de inatividade até reiniciar (padrão 45s), o limite de tempo por atividade (padrão 2x o tempo estimado de cada uma) e o som ambiente ficaram com valores fixos, sem tela própria — se o ambiente for muito barulhento ou tiver fila grande e isso precisar mudar pontualmente, é um ajuste rápido pro time técnico fazer no código antes do evento.
 
 ## Durante o evento — entregando brindes
 
@@ -39,10 +41,10 @@ Na seção **Comportamento**: se o ambiente for muito barulhento ou tiver fila g
 
 ## Ao final do evento
 
-No painel admin → **Modo evento e dados**:
-- Você pode exportar as métricas em **Métricas → Exportar JSON/CSV** antes de encerrar, se quiser guardar os números do dia.
-- "Limpar dados de teste" some com o histórico de métricas (útil ao começar um novo evento do zero).
-- "Apagar todos os dados" é uma ação mais forte: some com métricas e configurações — pede confirmação em dois toques. Use apenas se for realmente recomeçar o painel do zero.
+No painel admin → **Participação**:
+- Toque em **Exportar CSV** antes de encerrar, se quiser guardar os números do dia (uma linha por visitante, com data, hora e faixa etária).
+- **Limpar dados de teste** some com o histórico de participação (útil ao começar um novo evento do zero, ou pra tirar sessões de teste da equipe antes de exportar os números reais).
+- Não existe mais, direto no painel, um botão de "apagar todos os dados" (config + métricas) — se um dia for realmente necessário zerar tudo (ex: trocar de evento com configurações bem diferentes), o time técnico consegue fazer isso limpando o `localStorage` do navegador, ou a seção pode ser reincluída no painel a pedido.
 
 ## Referência rápida — PIN e configurações sensíveis
 
@@ -55,10 +57,6 @@ No painel admin → **Modo evento e dados**:
 
 **Textos e mensagens:** nome do evento · título e chamada da tela de atração · curiosidades do banner da vitrine (uma por linha, revezam sozinhas) · título da seleção de faixa etária · título da seleção de atividade · título e mensagem de tempo esgotado · mensagem ao ganhar um brinde · mensagem de encerramento.
 
-**Comportamento:** modo de escolha da atividade (visitante escolhe / sorteio aleatório / ordem fixa) · quantidade de perguntas no Quiz Relâmpago · quantidade de situações na Casa Eficiente · tempo de inatividade até reiniciar · limite de tempo por atividade (múltiplo do tempo estimado de cada uma) · som ambiente durante as atividades (on/off) · animações mais intensas (on/off) · movimento reduzido (on/off).
+**Participação:** total de participações registradas neste dispositivo · exportar CSV (data, hora, faixa etária) · limpar dados de teste.
 
-**Brindes:** brindes habilitados (on/off) — sem estoque nem código pra gerenciar.
-
-**Métricas:** sessões iniciadas · atividades iniciadas/concluídas/abandonadas · brindes ganhos · reinícios por inatividade · tempo esgotado na atividade · desempenho por atividade (taxa de conclusão, tempo médio) · exportar em JSON/CSV · gerar dados de demonstração · limpar dados de teste.
-
-**Modo evento e dados:** modo evento ativo (on/off) · dias de retenção de dados · reiniciar sessão atual · aplicar retenção agora · restaurar atividades padrão · restaurar textos e comportamento padrão · apagar todos os dados do dispositivo · versão do sistema.
+O painel já teve seções de Comportamento, Brindes, Métricas (visão detalhada) e Modo evento e dados — removidas a pedido do usuário pra simplificar o dia a dia (ver docs/06-plano-testes.md para o histórico). As configurações que elas controlavam continuam existindo no código com valores fixos, só não têm mais tela própria: modo de escolha da atividade, quantidade de perguntas/situações, tempo de inatividade, limite de tempo por atividade, som ambiente, animações, brindes habilitados, retenção de dados, restaurar padrões, apagar tudo.

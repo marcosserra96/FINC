@@ -6,21 +6,15 @@ import { logoutAdmin } from '@/services/adminAuth';
 import { useApp } from '@/store/AppContext';
 import { ActivitiesSection } from './sections/ActivitiesSection';
 import { TextsSection } from './sections/TextsSection';
-import { BehaviorSection } from './sections/BehaviorSection';
-import { GiftsSection } from './sections/GiftsSection';
-import { MetricsSection } from './sections/MetricsSection';
-import { EventModeSection } from './sections/EventModeSection';
+import { ParticipationSection } from './sections/ParticipationSection';
 import './AdminDashboard.css';
 
-type Tab = 'atividades' | 'textos' | 'comportamento' | 'brindes' | 'metricas' | 'evento';
+type Tab = 'atividades' | 'textos' | 'participacao';
 
 const TABS: { id: Tab; label: string; icon: IconName }[] = [
   { id: 'atividades', label: 'Atividades', icon: 'sort' },
   { id: 'textos', label: 'Textos e mensagens', icon: 'edit' },
-  { id: 'comportamento', label: 'Comportamento', icon: 'bolt' },
-  { id: 'brindes', label: 'Brindes', icon: 'gift' },
-  { id: 'metricas', label: 'Métricas', icon: 'users' },
-  { id: 'evento', label: 'Modo evento e dados', icon: 'shield' }
+  { id: 'participacao', label: 'Participação', icon: 'users' }
 ];
 
 export function AdminDashboard({ onLogout }: { onLogout: () => void }) {
@@ -37,7 +31,9 @@ export function AdminDashboard({ onLogout }: { onLogout: () => void }) {
     <div className="admin-dashboard" data-allow-selection="true">
       <aside className="admin-dashboard__sidebar">
         <div className="admin-dashboard__brand">
-          <Icon name="bolt" size={22} />
+          <span className="admin-dashboard__brand-icon">
+            <Icon name="bolt" size={18} />
+          </span>
           <div>
             <strong>Painel Admin</strong>
             <span>{state.config.eventName}</span>
@@ -53,17 +49,17 @@ export function AdminDashboard({ onLogout }: { onLogout: () => void }) {
               onClick={() => setTab(t.id)}
             >
               <Icon name={t.icon} size={20} />
-              {t.label}
+              <span>{t.label}</span>
             </button>
           ))}
         </nav>
 
         <div className="admin-dashboard__footer">
           <button type="button" className="admin-dashboard__ghost-btn" onClick={() => navigate('/')}>
-            <Icon name="chevronLeft" size={18} /> Ver painel público
+            <Icon name="chevronLeft" size={18} /> <span>Ver painel público</span>
           </button>
           <button type="button" className="admin-dashboard__ghost-btn" onClick={handleLogout}>
-            <Icon name="lock" size={18} /> Sair
+            <Icon name="lock" size={18} /> <span>Sair</span>
           </button>
           <span className="admin-dashboard__version">v{state.config.appVersion}</span>
         </div>
@@ -72,10 +68,7 @@ export function AdminDashboard({ onLogout }: { onLogout: () => void }) {
       <main className="admin-dashboard__content">
         {tab === 'atividades' && <ActivitiesSection />}
         {tab === 'textos' && <TextsSection />}
-        {tab === 'comportamento' && <BehaviorSection />}
-        {tab === 'brindes' && <GiftsSection />}
-        {tab === 'metricas' && <MetricsSection />}
-        {tab === 'evento' && <EventModeSection />}
+        {tab === 'participacao' && <ParticipationSection />}
       </main>
     </div>
   );

@@ -39,6 +39,11 @@
   transition: background var(--dur-fast) var(--ease-standard);
 }
 
+.toggle:focus-visible {
+  outline: 2px solid var(--color-blue-dark);
+  outline-offset: 2px;
+}
+
 .toggle--on {
   background: var(--color-blue);
 }
@@ -75,8 +80,22 @@
   padding: var(--space-2) var(--space-3);
   font-size: var(--fs-body);
   font-family: inherit;
-  color: var(--text-on-light);
   min-height: 44px;
+  transition: border-color var(--dur-fast) var(--ease-standard), box-shadow var(--dur-fast) var(--ease-standard);
+}
+
+.number-input input:hover,
+.text-input:hover,
+.select-input:hover {
+  border-color: #b9cdd1;
+}
+
+.number-input input:focus,
+.text-input:focus,
+.select-input:focus {
+  outline: none;
+  border-color: var(--color-blue);
+  box-shadow: 0 0 0 3px rgba(0, 149, 218, 0.15);
 }
 
 .number-input input {

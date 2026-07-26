@@ -210,3 +210,30 @@ export function exportEventsAsCSV(): string {
   );
   return [headers.join(','), ...rows].join('\n');
 }
+
+const AGE_RANGE_LABELS: Record<AgeRangeId, string> = {
+  child: 'Criança',
+  teen: 'Adolescente',
+  adult: 'Adulto',
+  senior: 'Idoso'
+};
+
+/** Quantas vezes alguém escolheu uma faixa etária — a melhor aproximação de "participações", já que é o primeiro passo de toda sessão. */
+export function countParticipations(): number {
+  return getEvents().filter((e) => e.type === 'age_selected').length;
+}
+
+/** Uma linha por participação: data, hora e faixa etária — pensado pra abrir direto no Excel/Sheets e montar tabelas dinâmicas por dia ou por faixa. */
+export function exportParticipationCSV(): string {
+  const rows = getEvents()
+    .filter((e) => e.type === 'age_selected' && e.ageRange)
+    .map((e) => {
+      const d = new Date(e.timestamp);
+      const data = d.toLocaleDateString('pt-BR');
+      const hora = d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+      const faixa = AGE_RANGE_LABELS[e.ageRange as AgeRangeId] ?? e.ageRange;
+      return `${data},${hora},${faixa}`;
+    });
+  if (rows.length === 0) return 'sem dados';
+  return ['data,hora,faixa_etaria', ...rows].join('\n');
+}

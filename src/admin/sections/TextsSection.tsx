@@ -65,7 +65,7 @@ export function TextsSection() {
 
       <div className="admin-card">
         <h2>Tempo esgotado</h2>
-        <FormRow label="Título" hint="Mostrado quando o limite de tempo da atividade (configurado em Comportamento) é atingido">
+        <FormRow label="Título" hint="Mostrado quando o limite de tempo da atividade é atingido">
           <TextInput value={draft.texts.timeUpTitle} onChange={(v) => setText('timeUpTitle', v)} />
         </FormRow>
         <FormRow label="Mensagem">

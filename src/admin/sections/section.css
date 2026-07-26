@@ -2,7 +2,12 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
-  max-width: 900px;
+  max-width: 960px;
+}
+
+.admin-section__header {
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid #dde8ea;
 }
 
 .admin-section__header h1 {
@@ -10,6 +15,7 @@
   font-size: var(--fs-h2);
   font-weight: 800;
   color: var(--color-blue-dark);
+  letter-spacing: -0.01em;
 }
 
 .admin-section__header p {
@@ -19,6 +25,7 @@
 
 .admin-card {
   background: #fff;
+  border: 1px solid #e3ecee;
   border-radius: var(--radius-md);
   padding: var(--space-4) var(--space-5);
   box-shadow: var(--shadow-sm);
@@ -27,8 +34,17 @@
 .admin-card h2 {
   font-size: var(--fs-body-lg);
   font-weight: 800;
-  margin-bottom: var(--space-2);
+  margin-bottom: var(--space-3);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid #eef3f4;
   color: var(--text-on-light);
+}
+
+.admin-card__note {
+  color: var(--text-on-light-muted);
+  font-size: var(--fs-small);
+  line-height: 1.45;
+  margin-bottom: var(--space-3);
 }
 
 .admin-actions {
@@ -40,7 +56,7 @@
 .admin-btn {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-1);
+  gap: var(--space-2);
   border: none;
   border-radius: var(--radius-full);
   padding: var(--space-2) var(--space-4);
@@ -48,11 +64,26 @@
   font-weight: 700;
   cursor: pointer;
   font-size: var(--fs-small);
+  transition: filter var(--dur-fast) var(--ease-standard), box-shadow var(--dur-fast) var(--ease-standard), transform var(--dur-fast) var(--ease-standard);
+}
+
+.admin-btn:hover {
+  filter: brightness(1.05);
+}
+
+.admin-btn:active {
+  transform: scale(0.98);
+}
+
+.admin-btn:focus-visible {
+  outline: 2px solid var(--color-blue-dark);
+  outline-offset: 2px;
 }
 
 .admin-btn--primary {
   background: var(--color-blue);
   color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 95, 154, 0.25);
 }
 
 .admin-btn--danger {
@@ -65,6 +96,49 @@
   color: var(--text-on-light);
 }
 
+.admin-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  filter: none;
+}
+
+/* Destaque de um único número importante (ex: total de participações),
+   em vez de uma grade de vários tiles idênticos sem hierarquia. */
+.admin-highlight {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.admin-highlight__icon {
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-md);
+  background: #e8f2fb;
+  color: var(--color-blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-highlight__text {
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-highlight__text strong {
+  font-family: var(--font-display);
+  font-size: var(--fs-h1);
+  color: var(--color-blue-dark);
+  line-height: 1.1;
+}
+
+.admin-highlight__text span {
+  color: var(--text-on-light-muted);
+  font-size: var(--fs-small);
+}
+
 .admin-stat-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -73,6 +147,7 @@
 
 .admin-stat {
   background: #fff;
+  border: 1px solid #e3ecee;
   border-radius: var(--radius-md);
   padding: var(--space-4);
   box-shadow: var(--shadow-sm);
@@ -92,7 +167,61 @@
 }
 
 .admin-confirm {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
   color: var(--color-success);
   font-weight: 700;
   font-size: var(--fs-small);
+}
+
+/* Cabeçalho de uma atividade dentro do card (ícone + nome + descrição +
+   reordenar) — usado por ActivitiesSection. */
+.admin-activity-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid #eef3f4;
+}
+
+.admin-activity-head__icon {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-activity-head__info {
+  flex: 1;
+  min-width: 0;
+}
+
+.admin-activity-head__info h2 {
+  margin: 0;
+  padding: 0;
+  border: none;
+  font-size: var(--fs-body-lg);
+}
+
+.admin-activity-head__info span {
+  color: var(--text-on-light-muted);
+  font-size: var(--fs-small);
+}
+
+.admin-activity-head__reorder {
+  display: flex;
+  gap: 4px;
+}
+
+.admin-activity-head__reorder .admin-btn {
+  padding: 0;
+  width: 36px;
+  min-height: 36px;
+  justify-content: center;
 }
