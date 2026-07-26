@@ -115,13 +115,18 @@ const memoriaEnergia: MemoryActivityConfig = {
   order: 2,
   estimatedDurationSeconds: 75,
   difficulty: 'facil',
-  completionCriteria: { minCorrectRatio: 0.4, minStepsCompleted: 4 },
+  // O jogo da memória só termina quando todos os pares são encontrados —
+  // "correct" sempre chega ao total, então a taxa de acerto real é medida
+  // pelas tentativas erradas no caminho. Não existe um "70% razoável" aqui
+  // como nas outras atividades: pra ganhar brinde, tem que acertar todos
+  // os pares sem nenhuma tentativa errada (minCorrectRatio: 1).
+  completionCriteria: { minCorrectRatio: 1, minStepsCompleted: 6 },
   resultMessages: {
     perfect: 'Memória afiada! Você lembrou de todos os pares — e das dicas junto.',
     good: 'Cada aparelho tem um jeito simples de economizar — o segredo é lembrar deles no dia a dia.',
     needsWork: 'Nem todo par precisa vir de primeira — o importante é ir se familiarizando com as dicas.'
   },
-  giftEligible: false,
+  giftEligible: true,
   pairs: [
     { id: 'p1', icon: 'bulb', label: 'Lâmpada LED', tip: 'LED costuma consumir menos energia para o mesmo brilho.', image: 'images/memory/bulb.png' },
     { id: 'p2', icon: 'shower', label: 'Chuveiro', tip: 'Um banho mais rápido é uma das formas mais simples de economizar energia.', image: 'images/memory/shower.png' },

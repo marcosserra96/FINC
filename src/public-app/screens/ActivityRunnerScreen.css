@@ -3,7 +3,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-4);
+  /* Encolhe em telas baixas — sobra mais altura pro conteúdo da
+     atividade (ex: revisão de erros do Organize os Hábitos). */
+  gap: clamp(8px, 3vh, var(--space-4));
 }
 
 .activity-runner__header {
@@ -13,14 +15,14 @@
   background: var(--surface-glass);
   border: 1px solid var(--surface-glass-border);
   border-radius: var(--radius-full);
-  padding: var(--space-2) var(--space-4) var(--space-2) var(--space-2);
+  padding: clamp(4px, 1vh, var(--space-2)) clamp(10px, 2vh, var(--space-4)) clamp(4px, 1vh, var(--space-2)) clamp(4px, 1vh, var(--space-2));
   max-width: 100%;
 }
 
 .activity-runner__header-icon {
   flex-shrink: 0;
-  width: 34px;
-  height: 34px;
+  width: clamp(24px, 4.5vh, 34px);
+  height: clamp(24px, 4.5vh, 34px);
   border-radius: 50%;
   display: flex;
   align-items: center;

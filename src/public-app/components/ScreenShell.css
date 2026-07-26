@@ -40,3 +40,9 @@
     bottom: var(--space-2);
   }
 }
+
+@media (max-height: 650px) {
+  .screen-shell__credit {
+    bottom: var(--space-1);
+  }
+}

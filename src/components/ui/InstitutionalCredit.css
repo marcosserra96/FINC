@@ -18,3 +18,13 @@
     height: 46px;
   }
 }
+
+@media (max-height: 650px) {
+  .institutional-credit {
+    height: 20px;
+  }
+
+  .institutional-credit--lg {
+    height: 36px;
+  }
+}

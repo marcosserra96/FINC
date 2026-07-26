@@ -18,7 +18,7 @@ export function ActivityTimer({ secondsLeft, totalSeconds }: ActivityTimerProps)
 
   return (
     <div className={`activity-timer activity-timer--${urgency}`} aria-hidden="true">
-      <CountdownRing secondsLeft={secondsLeft} totalSeconds={totalSeconds} size={72} color={color} />
+      <CountdownRing secondsLeft={secondsLeft} totalSeconds={totalSeconds} size={104} color={color} />
     </div>
   );
 }

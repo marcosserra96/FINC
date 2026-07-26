@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import type { PointerEvent as ReactPointerEvent } from 'react';
 import { motion } from 'framer-motion';
 import { Icon } from '@/components/ui/Icon';
@@ -58,19 +58,6 @@ export function SortActivity({ activity, onComplete }: SortActivityProps) {
 
   const pending = items.filter((item) => !resolved[item.id]);
   const mistakes = items.filter((item) => resolved[item.id] && !resolved[item.id].correct);
-
-  // Com vários erros, a lista pode não caber inteira na tela — o aviso de
-  // "role para ver mais" só aparece quando isso realmente acontece, pra
-  // não confundir quem já está vendo tudo.
-  const reviewListRef = useRef<HTMLDivElement>(null);
-  const [hasMoreBelow, setHasMoreBelow] = useState(false);
-
-  useEffect(() => {
-    if (phase !== 'review') return;
-    const el = reviewListRef.current;
-    if (!el) return;
-    setHasMoreBelow(el.scrollHeight > el.clientHeight + 4);
-  }, [phase, mistakes.length]);
 
   const finish = () => {
     const correct = items.length - mistakes.length;
@@ -173,7 +160,7 @@ export function SortActivity({ activity, onComplete }: SortActivityProps) {
               <p className="sort-activity__review-subtitle">
                 {mistakes.length === 1 ? 'Você errou 1 hábito:' : `Você errou ${mistakes.length} hábitos:`}
               </p>
-              <div className="sort-activity__review-list" ref={reviewListRef}>
+              <div className="sort-activity__review-list">
                 {mistakes.map((item) => {
                   const correctLabel = item.category === 'eficiente' ? activity.categoryLabels.eficiente : activity.categoryLabels.desperdicio;
                   const chosenCategory = resolved[item.id]?.category;
@@ -199,11 +186,6 @@ export function SortActivity({ activity, onComplete }: SortActivityProps) {
                   );
                 })}
               </div>
-              {hasMoreBelow && (
-                <p className="sort-activity__review-more">
-                  <Icon name="chevronRight" size={16} strokeWidth={3} /> role para ver mais
-                </p>
-              )}
             </>
           )}
           <Button onPress={finish} icon={<Icon name="chevronRight" size={22} />}>

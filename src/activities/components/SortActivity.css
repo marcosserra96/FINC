@@ -218,26 +218,45 @@
 }
 
 /* Tela de revisão — substitui o pool/colunas quando os 8 hábitos já
-   foram classificados, antes de seguir pro resultado. */
+   foram classificados, antes de seguir pro resultado. Layout em duas
+   colunas (em vez de lista vertical com rolagem) pra aproveitar a
+   largura da tela e caber tudo sem precisar rolar. */
 .sort-activity__review {
-  width: 100%;
-  max-width: 620px;
+  /* Ocupa a largura da tela toda (inclusive a faixa de padding lateral da
+     ScreenShell), não só uma coluna central estreita — colunas mais
+     largas quebram menos linha de texto, o que economiza altura embaixo
+     sem precisar encolher fonte. */
+  width: calc(100% + var(--space-6) * 2);
+  margin-inline: calc(-1 * var(--space-6));
+  max-width: 1400px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-4);
+  gap: clamp(4px, 0.6vh, var(--space-4));
   text-align: center;
 }
 
+@media (max-width: 900px) {
+  .sort-activity__review {
+    width: calc(100% + var(--space-4) * 2);
+    margin-inline: calc(-1 * var(--space-4));
+  }
+}
+
 .sort-activity__review-title {
+  padding-inline: var(--space-3);
   font-family: var(--font-display);
-  font-size: var(--fs-h2);
+  /* Escala com a altura da tela (não um tamanho fixo), mas com teto baixo
+     de propósito — essa tela pode ter até 4 linhas de cards embaixo, então
+     "grande" aqui rouba o espaço que os cards precisam. Encolhe numa tela
+     baixa e não passa de um tamanho modesto numa tela alta. */
+  font-size: clamp(1rem, 2.4vh, 1.35rem);
   font-weight: 800;
 }
 
 .sort-activity__review-subtitle {
   color: var(--text-on-dark-muted);
-  margin-top: calc(-1 * var(--space-3));
+  margin-top: calc(-1 * var(--space-2));
 }
 
 .sort-activity__review-perfect {
@@ -261,31 +280,37 @@
 
 .sort-activity__review-list {
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-  /* Bem mais alto que antes (era 42vh) — a maioria das sessões erra
-     poucos hábitos e cabe inteira sem rolar; quando não cabe, o aviso
-     "role para ver mais" abaixo deixa claro que tem mais conteúdo. */
-  max-height: 58vh;
-  overflow-y: auto;
-  padding-right: 2px;
+  padding-inline: var(--space-3);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(4px, 0.6vh, var(--space-2));
+  /* "stretch" (não "start") pra cada card ocupar a altura toda da sua
+     linha, deixando os dois cards de uma linha com a mesma altura em vez
+     de um maior que o outro só porque o texto é mais comprido. */
+  align-items: stretch;
+}
+
+@media (max-width: 640px) {
+  .sort-activity__review-list {
+    grid-template-columns: 1fr;
+  }
 }
 
 .sort-activity__review-item {
   display: flex;
   align-items: flex-start;
-  gap: var(--space-2);
+  gap: clamp(4px, 0.6vh, var(--space-2));
   background: var(--surface-card);
   border-radius: var(--radius-md);
-  padding: var(--space-2) var(--space-3);
+  padding: clamp(3px, 0.6vh, var(--space-2)) clamp(8px, 1.6vh, var(--space-3));
   text-align: left;
   box-shadow: var(--shadow-sm);
+  height: 100%;
 }
 
 .sort-activity__review-icon {
-  width: 36px;
-  height: 36px;
+  width: clamp(22px, 2.6vh, 30px);
+  height: clamp(22px, 2.6vh, 30px);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -297,14 +322,20 @@
 .sort-activity__review-text strong {
   display: block;
   color: var(--text-on-light);
-  margin-bottom: var(--space-1);
+  font-size: clamp(0.82rem, 1.4vh, 0.98rem);
+  line-height: 1.2;
+  margin-bottom: clamp(1px, 0.4vh, var(--space-1));
+  /* Reserva sempre 2 linhas de altura, mesmo quando o nome do hábito
+     cabe numa linha só — assim os chips e a explicação começam na
+     mesma altura em todos os cards, alinhados entre si. */
+  min-height: calc(1.2em * 2);
 }
 
 .sort-activity__review-compare {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-1);
-  margin-bottom: var(--space-1);
+  gap: clamp(2px, 0.6vh, var(--space-1));
+  margin-bottom: clamp(1px, 0.4vh, var(--space-1));
 }
 
 .sort-activity__review-chip {
@@ -312,8 +343,8 @@
   align-items: center;
   gap: 4px;
   border-radius: var(--radius-full);
-  padding: 2px var(--space-2);
-  font-size: var(--fs-small);
+  padding: clamp(1px, 0.3vh, 2px) clamp(6px, 1vh, var(--space-2));
+  font-size: clamp(0.68rem, 1.2vh, 0.8rem);
   font-weight: 700;
 }
 
@@ -329,31 +360,16 @@
 
 .sort-activity__review-text p {
   color: var(--text-on-light-muted);
-  font-size: var(--fs-small);
-  line-height: 1.35;
+  font-size: clamp(0.7rem, 1.2vh, 0.85rem);
+  line-height: 1.2;
 }
 
-.sort-activity__review-more {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  color: var(--text-on-dark-muted);
-  font-size: var(--fs-small);
-  font-weight: 700;
-  margin-top: calc(-1 * var(--space-2));
-  animation: sortReviewMoreBounce 1.2s ease-in-out infinite;
+/* O botão nunca fica menor que o mínimo tocável acessível (48px), mas
+   também não volta a crescer até o tamanho padrão (64px) — com até 4
+   linhas de cards embaixo dele, um teto baixo aqui é o que garante que
+   sempre sobre espaço, em qualquer altura de tela. */
+.sort-activity__review .btn {
+  min-height: clamp(48px, 5vh, 58px);
+  font-size: clamp(0.95rem, 1.8vh, 1.1rem);
 }
 
-.sort-activity__review-more svg {
-  transform: rotate(90deg);
-}
-
-@keyframes sortReviewMoreBounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(3px); }
-}
-
-[data-reduced-motion='true'] .sort-activity__review-more {
-  animation: none;
-}
