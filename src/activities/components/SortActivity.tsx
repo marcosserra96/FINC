@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react';
+import { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import type { PointerEvent as ReactPointerEvent } from 'react';
 import { motion } from 'framer-motion';
 import { Icon } from '@/components/ui/Icon';
@@ -58,6 +58,28 @@ export function SortActivity({ activity, onComplete }: SortActivityProps) {
 
   const pending = items.filter((item) => !resolved[item.id]);
   const mistakes = items.filter((item) => resolved[item.id] && !resolved[item.id].correct);
+
+  // Com poucos erros, uma coluna só (centralizada) fica mais equilibrada
+  // que a grade de 2 colunas com uma vaga do lado sobrando. Tenta 1
+  // coluna primeiro e só troca pra 2 se isso realmente não couber sem
+  // precisar rolar — mais seguro que decidir só pela quantidade de itens,
+  // já que o espaço disponível muda com o tamanho da tela.
+  const reviewRef = useRef<HTMLDivElement>(null);
+  const [singleColumn, setSingleColumn] = useState(true);
+
+  useLayoutEffect(() => {
+    if (phase !== 'review' || mistakes.length === 0) return;
+    setSingleColumn(true);
+  }, [phase, mistakes.length]);
+
+  useLayoutEffect(() => {
+    if (phase !== 'review' || mistakes.length === 0 || !singleColumn) return;
+    const el = reviewRef.current;
+    if (!el) return;
+    if (el.scrollHeight > el.clientHeight + 2) {
+      setSingleColumn(false);
+    }
+  }, [phase, mistakes.length, singleColumn]);
 
   const finish = () => {
     const correct = items.length - mistakes.length;
@@ -146,8 +168,8 @@ export function SortActivity({ activity, onComplete }: SortActivityProps) {
 
   if (phase === 'review') {
     return (
-      <div className="sort-activity">
-        <div className="sort-activity__review">
+      <div className="sort-activity sort-activity--review">
+        <div className="sort-activity__review" ref={reviewRef}>
           {mistakes.length === 0 ? (
             <div className="sort-activity__review-perfect">
               <Icon name="star" size={40} />
@@ -160,7 +182,7 @@ export function SortActivity({ activity, onComplete }: SortActivityProps) {
               <p className="sort-activity__review-subtitle">
                 {mistakes.length === 1 ? 'Você errou 1 hábito:' : `Você errou ${mistakes.length} hábitos:`}
               </p>
-              <div className="sort-activity__review-list">
+              <div className={`sort-activity__review-list${singleColumn ? ' sort-activity__review-list--single' : ''}`}>
                 {mistakes.map((item) => {
                   const correctLabel = item.category === 'eficiente' ? activity.categoryLabels.eficiente : activity.categoryLabels.desperdicio;
                   const chosenCategory = resolved[item.id]?.category;

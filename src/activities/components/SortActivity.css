@@ -7,6 +7,20 @@
   gap: var(--space-3);
 }
 
+/* Na fase de revisão a grade de 2 colunas se beneficia de bem mais
+   largura que o pool/colunas do jogo (760px) — sem isso, o "sangramento"
+   lateral do `.sort-activity__review` fica preso ao teto do pai e não
+   sobra quase nada de largura extra em monitores largos. */
+.sort-activity--review {
+  max-width: 1800px;
+  /* Cresce pra preencher a altura toda disponível (ver
+     `.activity-runner:has(.sort-activity--review)`) — com poucos erros,
+     o conteúdo real é curto, e sem isso ele viraria um bloco pequeno
+     flutuando centralizado numa tela grande. */
+  flex: 1;
+  min-height: 0;
+}
+
 .sort-activity__hint {
   font-size: var(--fs-body-lg);
   font-weight: 700;
@@ -228,12 +242,25 @@
      sem precisar encolher fonte. */
   width: calc(100% + var(--space-6) * 2);
   margin-inline: calc(-1 * var(--space-6));
-  max-width: 1400px;
+  max-width: 1700px;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: clamp(4px, 0.6vh, var(--space-4));
   text-align: center;
+  /* Sem essa folga, o botão (empurrado até o fim via margin-top:auto)
+     encosta no logo institucional do rodapé — que fica fora desse fluxo,
+     ancorado direto na ScreenShell. */
+  padding-bottom: clamp(8px, 3vh, var(--space-6));
+}
+
+/* O botão fica ancorado perto do rodapé da área disponível em vez de
+   colado direto embaixo dos cards — com poucos erros (poucas linhas),
+   sem isso ele ficava "flutuando" logo abaixo do último card, com um
+   vão vazio enorme entre ele e o rodapé da tela. */
+.sort-activity__review > .btn {
+  margin-top: auto;
 }
 
 @media (max-width: 900px) {
@@ -294,6 +321,15 @@
   .sort-activity__review-list {
     grid-template-columns: 1fr;
   }
+}
+
+/* Com poucos erros, 1 coluna centralizada fica mais equilibrada que uma
+   grade de 2 colunas com uma vaga vazia do lado (ver `singleColumn` em
+   SortActivity.tsx — só usa 2 colunas quando 1 realmente não couber). */
+.sort-activity__review-list--single {
+  grid-template-columns: 1fr;
+  max-width: 640px;
+  margin-inline: auto;
 }
 
 .sort-activity__review-item {
